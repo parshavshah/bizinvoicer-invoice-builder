@@ -258,6 +258,118 @@
   </div>
 </div>
 
+<!-- Edit Firm Modal -->
+<div
+  class="modal fade"
+  id="editFirmModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editFirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editFirmModalLabel">Edit Firm</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editFirmForm" enctype="multipart/form-data">
+          <input type="hidden" id="edit-firmId" name="id">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="edit-firmName">Firm Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="edit-firmName" name="name" required maxlength="255" />
+              </div>
+              <div class="form-group">
+                <label for="edit-firmEmail">Email</label>
+                <input type="email" class="form-control" id="edit-firmEmail" name="email" maxlength="255" />
+              </div>
+              <div class="form-group">
+                <label for="edit-firmPhone">Phone</label>
+                <input type="tel" class="form-control" id="edit-firmPhone" name="phone" maxlength="50" />
+              </div>
+              <div class="form-group">
+                <label for="edit-firmWebsite">Website</label>
+                <input type="url" class="form-control" id="edit-firmWebsite" name="website" maxlength="255" />
+              </div>
+              <div class="form-group">
+                <label for="edit-firmTaxNumber">Tax Number</label>
+                <input type="text" class="form-control" id="edit-firmTaxNumber" name="taxNumber" maxlength="100" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="edit-firmAddress">Address</label>
+                <textarea class="form-control" id="edit-firmAddress" name="address" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="edit-firmCity">City</label>
+                <input type="text" class="form-control" id="edit-firmCity" name="city" maxlength="100" />
+              </div>
+              <div class="form-group">
+                <label for="edit-firmState">State</label>
+                <input type="text" class="form-control" id="edit-firmState" name="state" maxlength="100" />
+              </div>
+              <div class="form-group">
+                <label for="edit-firmPostalCode">Postal Code</label>
+                <input type="text" class="form-control" id="edit-firmPostalCode" name="postalCode" maxlength="20" />
+              </div>
+              <div class="form-group">
+                <label for="edit-firmCountry">Country</label>
+                <input type="text" class="form-control" id="edit-firmCountry" name="country" maxlength="100" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="edit-firmDefaultCurrency">Default Currency</label>
+                <select class="form-control" id="edit-firmDefaultCurrency" name="defaultCurrency">
+                  <option value="USD">USD - US Dollar</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="GBP">GBP - British Pound</option>
+                  <option value="INR">INR - Indian Rupee</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="edit-firmLogo">Logo</label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="edit-firmLogo" name="logo" accept="image/*">
+                  <label class="custom-file-label" for="edit-firmLogo">Choose file</label>
+                </div>
+                <small class="form-text text-muted">Recommended size: 200x200 pixels. Max file size: 2MB</small>
+                <div id="edit-currentLogo" class="mt-2" style="display: none;">
+                  <img src="" alt="Current Logo" class="img-thumbnail" style="max-height: 100px;">
+                  <button type="button" class="btn btn-sm btn-danger ml-2" id="removeLogoBtn">Remove Logo</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" id="updateFirmBtn">
+          Update Firm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   $(document).ready(function () {
     // Function to render a single firm card
@@ -278,7 +390,7 @@
                   }">
                     <i class="fas fa-eye mr-2"></i>View
                   </a>
-                  <a class="dropdown-item" href="/firms/${firm.id}/edit">
+                  <a class="dropdown-item edit-firm" href="#" data-firm-id="${firm.id}">
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
                   <div class="dropdown-divider"></div>
@@ -466,6 +578,105 @@
         });
       }
     };
+
+    // Function to show edit firm modal
+    function showEditFirmModal(firmId) {
+      $.ajax({
+        url: `/api/firms`,
+        method: "GET",
+        success: function (firms) {
+
+          let firm = firms.filter((e) => e.id == firmId)[0];
+          console.log(firm)
+
+
+          // Set firm ID
+          $("#edit-firmId").val(firm.id);
+          
+          // Basic Information
+          $("#edit-firmName").val(firm.name);
+          $("#edit-firmEmail").val(firm.email);
+          $("#edit-firmPhone").val(firm.phone);
+          $("#edit-firmWebsite").val(firm.website);
+          $("#edit-firmTaxNumber").val(firm.taxNumber);
+          
+          // Location Information
+          $("#edit-firmAddress").val(firm.address);
+          $("#edit-firmCity").val(firm.city);
+          $("#edit-firmState").val(firm.state);
+          $("#edit-firmPostalCode").val(firm.postalCode);
+          $("#edit-firmCountry").val(firm.country);
+          
+          // Currency
+          $("#edit-firmDefaultCurrency").val(firm.defaultCurrency || "USD");
+          
+          // Logo
+          const currentLogo = $("#edit-currentLogo");
+          if (firm.logoPath) {
+            currentLogo.find("img").attr("src", firm.logoPath);
+            currentLogo.show();
+          } else {
+            currentLogo.hide();
+          }
+          
+          // Reset file input
+          $("#edit-firmLogo").val("");
+          $(".custom-file-label").text("Choose file");
+          
+          // Show modal
+          $("#editFirmModal").modal("show");
+        },
+        error: function (xhr, status, error) {
+          alert("Error loading firm details: " + error);
+        },
+      });
+    }
+
+    // Handle Update Firm Form Submission
+    $("#updateFirmBtn").click(function () {
+      const formData = new FormData($("#editFirmForm")[0]);
+      const firmId = $("#edit-firmId").val();
+
+      $.ajax({
+        url: `/api/firms/${firmId}`,
+        method: "PUT",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          $("#editFirmModal").modal("hide");
+          loadFirms();
+          alert("Firm updated successfully");
+        },
+        error: function (xhr, status, error) {
+          alert("Error updating firm: " + error);
+        },
+      });
+    });
+
+    // Handle Remove Logo
+    $("#removeLogoBtn").click(function() {
+      const firmId = $("#edit-firmId").val();
+      
+      $.ajax({
+        url: `/api/firms/${firmId}/logo`,
+        method: "DELETE",
+        success: function(response) {
+          $("#edit-currentLogo").hide();
+          alert("Logo removed successfully");
+        },
+        error: function(xhr, status, error) {
+          alert("Error removing logo: " + error);
+        }
+      });
+    });
+
+    // Handle edit firm click
+    $(document).on("click", ".edit-firm", function (e) {
+      e.preventDefault();
+      const firmId = $(this).data("firm-id");
+      showEditFirmModal(firmId);
+    });
 
     // Load firms when page loads
     loadFirms();
