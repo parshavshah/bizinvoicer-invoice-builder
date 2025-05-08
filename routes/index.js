@@ -7,3 +7,5 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+// Main routes file to combine all route modules
