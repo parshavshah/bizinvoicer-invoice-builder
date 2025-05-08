@@ -26,6 +26,17 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"], // no inline scripts allowed
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  })
+);
+
 // Session configuration
 const sessionStore = new SequelizeStore({
   db: sequelize,
@@ -60,7 +71,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use("/api", indexRoutes);
+app.use("/", indexRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/firms", firmRoutes);
 app.use("/api/clients", clientRoutes);

@@ -1,8 +1,8 @@
-// User controller for handling user-related operations 
-const bcrypt = require('bcryptjs');
-const { validationResult } = require('express-validator');
-const { User } = require('../models');
-const { sendEmail } = require('../utils/emailService');
+// User controller for handling user-related operations
+const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
+const { User } = require("../models");
+const { sendEmail } = require("../utils/emailService");
 
 // Register a new user
 exports.register = async (req, res) => {
@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     // Hash password
@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
       email,
       password: hashedPassword,
       firstName,
-      lastName
+      lastName,
     });
 
     // Send welcome email
@@ -44,8 +44,8 @@ exports.register = async (req, res) => {
 
     await sendEmail({
       to: email,
-      subject: 'Welcome to InvoiceMate!',
-      html: welcomeEmailHtml
+      subject: "Welcome to InvoiceMate!",
+      html: welcomeEmailHtml,
     });
 
     // Set user session
@@ -53,21 +53,22 @@ exports.register = async (req, res) => {
       id: user.id,
       email: user.email,
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
     };
 
     res.status(201).json({
-      message: 'User registered successfully',
+      code: "USER_REGISTER_SUCCESS",
+      message: "User registered successfully",
       user: {
         id: user.id,
         email: user.email,
         firstName: user.firstName,
-        lastName: user.lastName
-      }
+        lastName: user.lastName,
+      },
     });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ message: 'Error registering user' });
+    console.error("Registration error:", error);
+    res.status(500).json({ message: "Error registering user" });
   }
 };
 
@@ -85,13 +86,13 @@ exports.login = async (req, res) => {
     // Find user
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // Verify password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // Set user session
@@ -99,21 +100,22 @@ exports.login = async (req, res) => {
       id: user.id,
       email: user.email,
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
     };
 
     res.json({
-      message: 'Login successful',
+      message: "Login successful",
+      code: "USER_LOGIN_SUCCESS",
       user: {
         id: user.id,
         email: user.email,
         firstName: user.firstName,
-        lastName: user.lastName
-      }
+        lastName: user.lastName,
+      },
     });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ message: 'Error logging in' });
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Error logging in" });
   }
 };
 
@@ -121,9 +123,9 @@ exports.login = async (req, res) => {
 exports.logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ message: 'Error logging out' });
+      return res.status(500).json({ message: "Error logging out" });
     }
-    res.clearCookie('connect.sid');
-    res.json({ message: 'Logged out successfully' });
+    res.clearCookie("connect.sid");
+    res.json({ message: "Logged out successfully" });
   });
-}; 
+};
