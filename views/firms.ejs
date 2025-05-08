@@ -68,46 +68,108 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="firmName">Firm Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="firmName" name="name" required maxlength="255" />
+                <label for="firmName"
+                  >Firm Name <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firmName"
+                  name="name"
+                  required
+                  maxlength="255"
+                />
               </div>
               <div class="form-group">
                 <label for="firmEmail">Email</label>
-                <input type="email" class="form-control" id="firmEmail" name="email" maxlength="255" />
+                <input
+                  type="email"
+                  class="form-control"
+                  id="firmEmail"
+                  name="email"
+                  maxlength="255"
+                />
               </div>
               <div class="form-group">
                 <label for="firmPhone">Phone</label>
-                <input type="tel" class="form-control" id="firmPhone" name="phone" maxlength="50" />
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="firmPhone"
+                  name="phone"
+                  maxlength="50"
+                />
               </div>
               <div class="form-group">
                 <label for="firmWebsite">Website</label>
-                <input type="url" class="form-control" id="firmWebsite" name="website" maxlength="255" />
+                <input
+                  type="url"
+                  class="form-control"
+                  id="firmWebsite"
+                  name="website"
+                  maxlength="255"
+                />
               </div>
               <div class="form-group">
                 <label for="firmTaxNumber">Tax Number</label>
-                <input type="text" class="form-control" id="firmTaxNumber" name="taxNumber" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firmTaxNumber"
+                  name="taxNumber"
+                  maxlength="100"
+                />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="firmAddress">Address</label>
-                <textarea class="form-control" id="firmAddress" name="address" rows="2"></textarea>
+                <textarea
+                  class="form-control"
+                  id="firmAddress"
+                  name="address"
+                  rows="2"
+                ></textarea>
               </div>
               <div class="form-group">
                 <label for="firmCity">City</label>
-                <input type="text" class="form-control" id="firmCity" name="city" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firmCity"
+                  name="city"
+                  maxlength="100"
+                />
               </div>
               <div class="form-group">
                 <label for="firmState">State</label>
-                <input type="text" class="form-control" id="firmState" name="state" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firmState"
+                  name="state"
+                  maxlength="100"
+                />
               </div>
               <div class="form-group">
                 <label for="firmPostalCode">Postal Code</label>
-                <input type="text" class="form-control" id="firmPostalCode" name="postalCode" maxlength="20" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firmPostalCode"
+                  name="postalCode"
+                  maxlength="20"
+                />
               </div>
               <div class="form-group">
                 <label for="firmCountry">Country</label>
-                <input type="text" class="form-control" id="firmCountry" name="country" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firmCountry"
+                  name="country"
+                  maxlength="100"
+                />
               </div>
             </div>
           </div>
@@ -115,7 +177,11 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="firmDefaultCurrency">Default Currency</label>
-                <select class="form-control" id="firmDefaultCurrency" name="defaultCurrency">
+                <select
+                  class="form-control"
+                  id="firmDefaultCurrency"
+                  name="defaultCurrency"
+                >
                   <option value="USD">USD - US Dollar</option>
                   <option value="EUR">EUR - Euro</option>
                   <option value="GBP">GBP - British Pound</option>
@@ -128,10 +194,20 @@
               <div class="form-group">
                 <label for="firmLogo">Logo</label>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="firmLogo" name="logo" accept="image/*">
-                  <label class="custom-file-label" for="firmLogo">Choose file</label>
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="firmLogo"
+                    name="logo"
+                    accept="image/*"
+                  />
+                  <label class="custom-file-label" for="firmLogo"
+                    >Choose file</label
+                  >
                 </div>
-                <small class="form-text text-muted">Recommended size: 200x200 pixels. Max file size: 2MB</small>
+                <small class="form-text text-muted"
+                  >Recommended size: 200x200 pixels. Max file size: 2MB</small
+                >
               </div>
             </div>
           </div>
@@ -282,50 +358,112 @@
       </div>
       <div class="modal-body">
         <form id="editFirmForm" enctype="multipart/form-data">
-          <input type="hidden" id="edit-firmId" name="id">
+          <input type="hidden" id="edit-firmId" name="id" />
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-firmName">Firm Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="edit-firmName" name="name" required maxlength="255" />
+                <label for="edit-firmName"
+                  >Firm Name <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-firmName"
+                  name="name"
+                  required
+                  maxlength="255"
+                />
               </div>
               <div class="form-group">
                 <label for="edit-firmEmail">Email</label>
-                <input type="email" class="form-control" id="edit-firmEmail" name="email" maxlength="255" />
+                <input
+                  type="email"
+                  class="form-control"
+                  id="edit-firmEmail"
+                  name="email"
+                  maxlength="255"
+                />
               </div>
               <div class="form-group">
                 <label for="edit-firmPhone">Phone</label>
-                <input type="tel" class="form-control" id="edit-firmPhone" name="phone" maxlength="50" />
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="edit-firmPhone"
+                  name="phone"
+                  maxlength="50"
+                />
               </div>
               <div class="form-group">
                 <label for="edit-firmWebsite">Website</label>
-                <input type="url" class="form-control" id="edit-firmWebsite" name="website" maxlength="255" />
+                <input
+                  type="url"
+                  class="form-control"
+                  id="edit-firmWebsite"
+                  name="website"
+                  maxlength="255"
+                />
               </div>
               <div class="form-group">
                 <label for="edit-firmTaxNumber">Tax Number</label>
-                <input type="text" class="form-control" id="edit-firmTaxNumber" name="taxNumber" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-firmTaxNumber"
+                  name="taxNumber"
+                  maxlength="100"
+                />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="edit-firmAddress">Address</label>
-                <textarea class="form-control" id="edit-firmAddress" name="address" rows="2"></textarea>
+                <textarea
+                  class="form-control"
+                  id="edit-firmAddress"
+                  name="address"
+                  rows="2"
+                ></textarea>
               </div>
               <div class="form-group">
                 <label for="edit-firmCity">City</label>
-                <input type="text" class="form-control" id="edit-firmCity" name="city" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-firmCity"
+                  name="city"
+                  maxlength="100"
+                />
               </div>
               <div class="form-group">
                 <label for="edit-firmState">State</label>
-                <input type="text" class="form-control" id="edit-firmState" name="state" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-firmState"
+                  name="state"
+                  maxlength="100"
+                />
               </div>
               <div class="form-group">
                 <label for="edit-firmPostalCode">Postal Code</label>
-                <input type="text" class="form-control" id="edit-firmPostalCode" name="postalCode" maxlength="20" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-firmPostalCode"
+                  name="postalCode"
+                  maxlength="20"
+                />
               </div>
               <div class="form-group">
                 <label for="edit-firmCountry">Country</label>
-                <input type="text" class="form-control" id="edit-firmCountry" name="country" maxlength="100" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-firmCountry"
+                  name="country"
+                  maxlength="100"
+                />
               </div>
             </div>
           </div>
@@ -333,7 +471,11 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="edit-firmDefaultCurrency">Default Currency</label>
-                <select class="form-control" id="edit-firmDefaultCurrency" name="defaultCurrency">
+                <select
+                  class="form-control"
+                  id="edit-firmDefaultCurrency"
+                  name="defaultCurrency"
+                >
                   <option value="USD">USD - US Dollar</option>
                   <option value="EUR">EUR - Euro</option>
                   <option value="GBP">GBP - British Pound</option>
@@ -345,13 +487,34 @@
               <div class="form-group">
                 <label for="edit-firmLogo">Logo</label>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="edit-firmLogo" name="logo" accept="image/*">
-                  <label class="custom-file-label" for="edit-firmLogo">Choose file</label>
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="edit-firmLogo"
+                    name="logo"
+                    accept="image/*"
+                  />
+                  <label class="custom-file-label" for="edit-firmLogo"
+                    >Choose file</label
+                  >
                 </div>
-                <small class="form-text text-muted">Recommended size: 200x200 pixels. Max file size: 2MB</small>
-                <div id="edit-currentLogo" class="mt-2" style="display: none;">
-                  <img src="" alt="Current Logo" class="img-thumbnail" style="max-height: 100px;">
-                  <button type="button" class="btn btn-sm btn-danger ml-2" id="removeLogoBtn">Remove Logo</button>
+                <small class="form-text text-muted"
+                  >Recommended size: 200x200 pixels. Max file size: 2MB</small
+                >
+                <div id="edit-currentLogo" class="mt-2" style="display: none">
+                  <img
+                    src=""
+                    alt="Current Logo"
+                    class="img-thumbnail"
+                    style="max-height: 100px"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger ml-2"
+                    id="removeLogoBtn"
+                  >
+                    Remove Logo
+                  </button>
                 </div>
               </div>
             </div>
@@ -390,7 +553,9 @@
                   }">
                     <i class="fas fa-eye mr-2"></i>View
                   </a>
-                  <a class="dropdown-item edit-firm" href="#" data-firm-id="${firm.id}">
+                  <a class="dropdown-item edit-firm" href="#" data-firm-id="${
+                    firm.id
+                  }">
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
                   <div class="dropdown-divider"></div>
@@ -450,7 +615,7 @@
         method: "GET",
         success: function (firms) {
           let firm = firms.filter((e) => e.id == firmId)[0];
-          console.log(firm)
+          console.log(firm);
           // Update modal content
           $("#modal-firmName").text(firm.name);
 
@@ -559,7 +724,9 @@
     // Update custom file input label
     $(".custom-file-input").on("change", function () {
       const fileName = $(this).val().split("\\").pop();
-      $(this).siblings(".custom-file-label").text(fileName || "Choose file");
+      $(this)
+        .siblings(".custom-file-label")
+        .text(fileName || "Choose file");
     });
 
     // Function to delete firm
@@ -585,31 +752,28 @@
         url: `/api/firms`,
         method: "GET",
         success: function (firms) {
-
           let firm = firms.filter((e) => e.id == firmId)[0];
-          console.log(firm)
-
 
           // Set firm ID
           $("#edit-firmId").val(firm.id);
-          
+
           // Basic Information
           $("#edit-firmName").val(firm.name);
           $("#edit-firmEmail").val(firm.email);
           $("#edit-firmPhone").val(firm.phone);
           $("#edit-firmWebsite").val(firm.website);
           $("#edit-firmTaxNumber").val(firm.taxNumber);
-          
+
           // Location Information
           $("#edit-firmAddress").val(firm.address);
           $("#edit-firmCity").val(firm.city);
           $("#edit-firmState").val(firm.state);
           $("#edit-firmPostalCode").val(firm.postalCode);
           $("#edit-firmCountry").val(firm.country);
-          
+
           // Currency
           $("#edit-firmDefaultCurrency").val(firm.defaultCurrency || "USD");
-          
+
           // Logo
           const currentLogo = $("#edit-currentLogo");
           if (firm.logoPath) {
@@ -618,11 +782,11 @@
           } else {
             currentLogo.hide();
           }
-          
+
           // Reset file input
           $("#edit-firmLogo").val("");
           $(".custom-file-label").text("Choose file");
-          
+
           // Show modal
           $("#editFirmModal").modal("show");
         },
@@ -655,19 +819,19 @@
     });
 
     // Handle Remove Logo
-    $("#removeLogoBtn").click(function() {
+    $("#removeLogoBtn").click(function () {
       const firmId = $("#edit-firmId").val();
-      
+
       $.ajax({
         url: `/api/firms/${firmId}/logo`,
         method: "DELETE",
-        success: function(response) {
+        success: function (response) {
           $("#edit-currentLogo").hide();
           alert("Logo removed successfully");
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           alert("Error removing logo: " + error);
-        }
+        },
       });
     });
 
