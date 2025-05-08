@@ -38,10 +38,11 @@ router.get("/firms", isAuthenticated, (req, res, next) => {
   res.render("firms");
 });
 
-// --
+// clients view
 router.get("/clients", isAuthenticated, (req, res, next) => {
   res.render("clients");
 });
+
 router.get("/products", isAuthenticated, (req, res, next) => {
   res.render("products");
 });

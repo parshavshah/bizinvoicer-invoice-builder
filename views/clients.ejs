@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Starter Page</h1>
+          <h1 class="m-0">Clients</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Starter Page</li>
+            <li class="breadcrumb-item active">Clients</li>
           </ol>
         </div>
       </div>
@@ -19,25 +19,722 @@
 
   <div class="content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
+      <!-- Add New Client Button -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#addClientModal"
+          >
+            <i class="fas fa-plus"></i> Add New Client
+          </button>
         </div>
+      </div>
+
+      <!-- Clients Grid -->
+      <div class="row" id="clients-container">
+        <!-- Clients will be rendered here -->
       </div>
     </div>
   </div>
 </div>
+
+<!-- Add Client Modal -->
+<div
+  class="modal fade"
+  id="addClientModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addClientModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addClientModalLabel">Add New Client</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addClientForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="clientName"
+                  >Client Name <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="clientName"
+                  name="name"
+                  required
+                  maxlength="255"
+                />
+              </div>
+              <div class="form-group">
+                <label for="clientContactPerson">Contact Person</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="clientContactPerson"
+                  name="contactPerson"
+                  maxlength="100"
+                />
+              </div>
+              <div class="form-group">
+                <label for="clientEmail">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="clientEmail"
+                  name="email"
+                  maxlength="255"
+                />
+              </div>
+              <div class="form-group">
+                <label for="clientPhone">Phone</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="clientPhone"
+                  name="phone"
+                  maxlength="50"
+                />
+              </div>
+              <div class="form-group">
+                <label for="clientTaxNumber">Tax Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="clientTaxNumber"
+                  name="taxNumber"
+                  maxlength="100"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="clientAddress">Address</label>
+                <textarea
+                  class="form-control"
+                  id="clientAddress"
+                  name="address"
+                  rows="2"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="clientCity">City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="clientCity"
+                  name="city"
+                  maxlength="100"
+                />
+              </div>
+              <div class="form-group">
+                <label for="clientState">State</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="clientState"
+                  name="state"
+                  maxlength="100"
+                />
+              </div>
+              <div class="form-group">
+                <label for="clientPostalCode">Postal Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="clientPostalCode"
+                  name="postalCode"
+                  maxlength="20"
+                />
+              </div>
+              <div class="form-group">
+                <label for="clientCountry">Country</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="clientCountry"
+                  name="country"
+                  maxlength="100"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="clientNotes">Notes</label>
+                <textarea
+                  class="form-control"
+                  id="clientNotes"
+                  name="notes"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" id="saveClientBtn">
+          Save Client
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Client Details Modal -->
+<div
+  class="modal fade"
+  id="viewClientModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewClientModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewClientModalLabel">Client Details</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="client-info">
+              <h4 id="modal-clientName" class="mb-3"></h4>
+              <div class="info-item mb-2">
+                <i class="fas fa-user mr-2"></i>
+                <span id="modal-clientContactPerson"></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="contact-info">
+              <h5 class="mb-3">Contact Information</h5>
+              <div class="info-item mb-2">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <span id="modal-clientAddress"></span>
+              </div>
+              <div class="info-item mb-2">
+                <i class="fas fa-phone mr-2"></i>
+                <span id="modal-clientPhone"></span>
+              </div>
+              <div class="info-item mb-2">
+                <i class="fas fa-envelope mr-2"></i>
+                <span id="modal-clientEmail"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="mb-3">Location Details</h5>
+            <div class="info-item mb-2">
+              <i class="fas fa-city mr-2"></i>
+              <span id="modal-clientCity"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-map mr-2"></i>
+              <span id="modal-clientState"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-mail-bulk mr-2"></i>
+              <span id="modal-clientPostalCode"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-flag mr-2"></i>
+              <span id="modal-clientCountry"></span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h5 class="mb-3">Additional Information</h5>
+            <div class="info-item mb-2">
+              <i class="fas fa-file-invoice mr-2"></i>
+              <span id="modal-clientTaxNumber"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-sticky-note mr-2"></i>
+              <span id="modal-clientNotes"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-calendar-alt mr-2"></i>
+              <span id="modal-clientCreatedAt"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <a href="#" id="modal-editClientBtn" class="btn btn-primary"
+          >Edit Client</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Client Modal -->
+<div
+  class="modal fade"
+  id="editClientModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editClientModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editClientModalLabel">Edit Client</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editClientForm">
+          <input type="hidden" id="edit-clientId" name="id" />
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="edit-clientName"
+                  >Client Name <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-clientName"
+                  name="name"
+                  required
+                  maxlength="255"
+                />
+              </div>
+              <div class="form-group">
+                <label for="edit-clientContactPerson">Contact Person</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-clientContactPerson"
+                  name="contactPerson"
+                  maxlength="100"
+                />
+              </div>
+              <div class="form-group">
+                <label for="edit-clientEmail">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="edit-clientEmail"
+                  name="email"
+                  maxlength="255"
+                />
+              </div>
+              <div class="form-group">
+                <label for="edit-clientPhone">Phone</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="edit-clientPhone"
+                  name="phone"
+                  maxlength="50"
+                />
+              </div>
+              <div class="form-group">
+                <label for="edit-clientTaxNumber">Tax Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-clientTaxNumber"
+                  name="taxNumber"
+                  maxlength="100"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="edit-clientAddress">Address</label>
+                <textarea
+                  class="form-control"
+                  id="edit-clientAddress"
+                  name="address"
+                  rows="2"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="edit-clientCity">City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-clientCity"
+                  name="city"
+                  maxlength="100"
+                />
+              </div>
+              <div class="form-group">
+                <label for="edit-clientState">State</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-clientState"
+                  name="state"
+                  maxlength="100"
+                />
+              </div>
+              <div class="form-group">
+                <label for="edit-clientPostalCode">Postal Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-clientPostalCode"
+                  name="postalCode"
+                  maxlength="20"
+                />
+              </div>
+              <div class="form-group">
+                <label for="edit-clientCountry">Country</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-clientCountry"
+                  name="country"
+                  maxlength="100"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="edit-clientNotes">Notes</label>
+                <textarea
+                  class="form-control"
+                  id="edit-clientNotes"
+                  name="notes"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" id="updateClientBtn">
+          Update Client
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Function to render a single client card
+    function renderClientCard(client) {
+      return `
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="card-title mb-0">${
+                client.name || "Unnamed Client"
+              }</h5>
+              <div class="dropdown">
+                <button class="btn btn-link text-dark p-0" type="button" data-toggle="dropdown">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item view-client-details" href="#" data-client-id="${
+                    client.id
+                  }">
+                    <i class="fas fa-eye mr-2"></i>View
+                  </a>
+                  <a class="dropdown-item edit-client" href="#" data-client-id="${
+                    client.id
+                  }">
+                    <i class="fas fa-edit mr-2"></i>Edit
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" href="#" onclick="deleteClient(${
+                    client.id
+                  })">
+                    <i class="fas fa-trash mr-2"></i>Delete
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="client-details">
+              ${
+                client.contactPerson
+                  ? `<p class="mb-1"><i class="fas fa-user mr-2"></i>${client.contactPerson}</p>`
+                  : ""
+              }
+              ${
+                client.address
+                  ? `<p class="mb-1"><i class="fas fa-map-marker-alt mr-2"></i>${client.address}</p>`
+                  : ""
+              }
+              ${
+                client.phone
+                  ? `<p class="mb-1"><i class="fas fa-phone mr-2"></i>${client.phone}</p>`
+                  : ""
+              }
+              ${
+                client.email
+                  ? `<p class="mb-1"><i class="fas fa-envelope mr-2"></i>${client.email}</p>`
+                  : ""
+              }
+            </div>
+          </div>
+          <div class="card-footer bg-transparent">
+            <button class="btn btn-primary btn-sm btn-block view-client-details" data-client-id="${
+              client.id
+            }">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    }
+
+    // Function to format date
+    function formatDate(dateString) {
+      if (!dateString) return "N/A";
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+
+    // Function to show client details in modal
+    function showClientDetails(clientId) {
+      $.ajax({
+        url: `/api/clients`,
+        method: "GET",
+        success: function (clients) {
+          let client = clients.filter((e) => e.id == clientId)[0];
+
+          // Update modal content
+          $("#modal-clientName").text(client.name);
+          $("#modal-clientContactPerson").text(client.contactPerson || "N/A");
+
+          // Contact Information
+          $("#modal-clientAddress").text(client.address || "N/A");
+          $("#modal-clientPhone").text(client.phone || "N/A");
+          $("#modal-clientEmail").text(client.email || "N/A");
+
+          // Location Details
+          $("#modal-clientCity").text(client.city || "N/A");
+          $("#modal-clientState").text(client.state || "N/A");
+          $("#modal-clientPostalCode").text(client.postalCode || "N/A");
+          $("#modal-clientCountry").text(client.country || "N/A");
+
+          // Additional Information
+          $("#modal-clientTaxNumber").text(client.taxNumber || "N/A");
+          $("#modal-clientNotes").text(client.notes || "N/A");
+          $("#modal-clientCreatedAt").text(formatDate(client.createdAt));
+
+          // Update edit button href
+          $("#modal-editClientBtn").attr("href", `/clients/${client.id}/edit`);
+
+          // Show modal
+          $("#viewClientModal").modal("show");
+        },
+        error: function (xhr, status, error) {
+          alert("Error loading client details: " + error);
+        },
+      });
+    }
+
+    // Function to show edit client modal
+    function showEditClientModal(clientId) {
+      $.ajax({
+        url: `/api/clients`,
+        method: "GET",
+        success: function (clients) {
+          let client = clients.filter((e) => e.id == clientId)[0];
+
+          // Set client ID
+          $("#edit-clientId").val(client.id);
+
+          // Basic Information
+          $("#edit-clientName").val(client.name);
+          $("#edit-clientContactPerson").val(client.contactPerson);
+          $("#edit-clientEmail").val(client.email);
+          $("#edit-clientPhone").val(client.phone);
+          $("#edit-clientTaxNumber").val(client.taxNumber);
+
+          // Location Information
+          $("#edit-clientAddress").val(client.address);
+          $("#edit-clientCity").val(client.city);
+          $("#edit-clientState").val(client.state);
+          $("#edit-clientPostalCode").val(client.postalCode);
+          $("#edit-clientCountry").val(client.country);
+
+          // Notes
+          $("#edit-clientNotes").val(client.notes);
+
+          // Show modal
+          $("#editClientModal").modal("show");
+        },
+        error: function (xhr, status, error) {
+          alert("Error loading client details: " + error);
+        },
+      });
+    }
+
+    // Handle view details click
+    $(document).on("click", ".view-client-details", function (e) {
+      e.preventDefault();
+      const clientId = $(this).data("client-id");
+      showClientDetails(clientId);
+    });
+
+    // Handle edit client click
+    $(document).on("click", ".edit-client", function (e) {
+      e.preventDefault();
+      const clientId = $(this).data("client-id");
+      showEditClientModal(clientId);
+    });
+
+    // Function to load clients
+    function loadClients() {
+      $.ajax({
+        url: "/api/clients",
+        method: "GET",
+        success: function (response) {
+          const clientsContainer = $("#clients-container");
+          clientsContainer.empty();
+
+          if (response && response.length > 0) {
+            response.forEach((client) => {
+              clientsContainer.append(renderClientCard(client));
+            });
+          } else {
+            clientsContainer.html(`
+            <div class="col-12">
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle mr-2"></i>No clients found. Click "Add New Client" to create one.
+              </div>
+            </div>
+          `);
+          }
+        },
+        error: function (xhr, status, error) {
+          $("#clients-container").html(`
+          <div class="col-12">
+            <div class="alert alert-danger">
+              <i class="fas fa-exclamation-circle mr-2"></i>Error loading clients: ${error}
+            </div>
+          </div>
+        `);
+        },
+      });
+    }
+
+    // Handle Add Client Form Submission
+    $("#saveClientBtn").click(function () {
+      const formData = new FormData($("#addClientForm")[0]);
+
+      console.log({ formData });
+
+      $.ajax({
+        url: "/api/clients",
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          $("#addClientModal").modal("hide");
+          $("#addClientForm")[0].reset();
+          loadClients();
+          alert("Client added successfully");
+        },
+        error: function (xhr, status, error) {
+          alert("Error adding client: " + error);
+        },
+      });
+    });
+
+    // Handle Update Client Form Submission
+    $("#updateClientBtn").click(function () {
+      const formData = new FormData($("#editClientForm")[0]);
+      const clientId = $("#edit-clientId").val();
+
+      $.ajax({
+        url: `/api/clients/${clientId}`,
+        method: "PUT",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          $("#editClientModal").modal("hide");
+          loadClients();
+          alert("Client updated successfully");
+        },
+        error: function (xhr, status, error) {
+          alert("Error updating client: " + error);
+        },
+      });
+    });
+
+    // Function to delete client
+    window.deleteClient = function (clientId) {
+      if (confirm("Are you sure you want to delete this client?")) {
+        $.ajax({
+          url: `/api/clients/${clientId}`,
+          method: "DELETE",
+          success: function (response) {
+            loadClients();
+            alert("Client deleted successfully");
+          },
+          error: function (xhr, status, error) {
+            alert("Error deleting client: " + error);
+          },
+        });
+      }
+    };
+
+    // Load clients when page loads
+    loadClients();
+  });
+</script>
 
 <%- include('partials/footer'); %>
