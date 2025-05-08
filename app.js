@@ -16,6 +16,7 @@ const firmRoutes = require("./routes/firmRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const productRoutes = require("./routes/productRoutes");
 const taxRoutes = require("./routes/taxRoutes");
+const invoiceRoutes = require("./routes/invoiceRoutes");
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use("/api/firms", firmRoutes);
 app.use("/api/clients", clientRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/taxes", taxRoutes);
+app.use("/api/invoices", invoiceRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {
