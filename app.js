@@ -13,6 +13,7 @@ const { sequelize } = require("./models");
 
 const userRoutes = require("./routes/userRoutes");
 const firmRoutes = require("./routes/firmRoutes");
+const clientRoutes = require("./routes/clientRoutes");
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/firms", firmRoutes);
+app.use("/api/clients", clientRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {
