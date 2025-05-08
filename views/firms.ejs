@@ -109,6 +109,115 @@
   </div>
 </div>
 
+<!-- View Firm Details Modal -->
+<div
+  class="modal fade"
+  id="viewFirmModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewFirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewFirmModalLabel">Firm Details</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="firm-logo mb-4 text-center">
+              <img
+                id="modal-firmLogo"
+                src=""
+                alt="Firm Logo"
+                class="img-fluid"
+                style="max-height: 150px; display: none"
+              />
+            </div>
+            <div class="firm-info">
+              <h4 id="modal-firmName" class="mb-3"></h4>
+              <p id="modal-firmDescription" class="text-muted"></p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="contact-info">
+              <h5 class="mb-3">Contact Information</h5>
+              <div class="info-item mb-2">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <span id="modal-firmAddress"></span>
+              </div>
+              <div class="info-item mb-2">
+                <i class="fas fa-phone mr-2"></i>
+                <span id="modal-firmPhone"></span>
+              </div>
+              <div class="info-item mb-2">
+                <i class="fas fa-envelope mr-2"></i>
+                <span id="modal-firmEmail"></span>
+              </div>
+              <div class="info-item mb-2">
+                <i class="fas fa-globe mr-2"></i>
+                <span id="modal-firmWebsite"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="mb-3">Location Details</h5>
+            <div class="info-item mb-2">
+              <i class="fas fa-city mr-2"></i>
+              <span id="modal-firmCity"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-map mr-2"></i>
+              <span id="modal-firmState"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-mail-bulk mr-2"></i>
+              <span id="modal-firmPostalCode"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-flag mr-2"></i>
+              <span id="modal-firmCountry"></span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h5 class="mb-3">Business Information</h5>
+            <div class="info-item mb-2">
+              <i class="fas fa-file-invoice mr-2"></i>
+              <span id="modal-firmTaxNumber"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-money-bill-wave mr-2"></i>
+              <span id="modal-firmCurrency"></span>
+            </div>
+            <div class="info-item mb-2">
+              <i class="fas fa-calendar-alt mr-2"></i>
+              <span id="modal-firmCreatedAt"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <a href="#" id="modal-editFirmBtn" class="btn btn-primary">Edit Firm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   $(document).ready(function () {
     // Function to render a single firm card
@@ -124,16 +233,20 @@
                   <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="/firms/${
+                  <a class="dropdown-item view-firm-details" href="#" data-firm-id="${
                     firm.id
-                  }"><i class="fas fa-eye mr-2"></i>View</a>
-                  <a class="dropdown-item" href="/firms/${
-                    firm.id
-                  }/edit"><i class="fas fa-edit mr-2"></i>Edit</a>
+                  }">
+                    <i class="fas fa-eye mr-2"></i>View
+                  </a>
+                  <a class="dropdown-item" href="/firms/${firm.id}/edit">
+                    <i class="fas fa-edit mr-2"></i>Edit
+                  </a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item text-danger" href="#" onclick="deleteFirm(${
                     firm.id
-                  })"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  })">
+                    <i class="fas fa-trash mr-2"></i>Delete
+                  </a>
                 </div>
               </div>
             </div>
@@ -159,14 +272,85 @@
             </div>
           </div>
           <div class="card-footer bg-transparent">
-            <a href="/firms/${
+            <button class="btn btn-primary btn-sm btn-block view-firm-details" data-firm-id="${
               firm.id
-            }" class="btn btn-primary btn-sm btn-block">View Details</a>
+            }">
+              View Details
+            </button>
           </div>
         </div>
       </div>
     `;
     }
+
+    // Function to format date
+    function formatDate(dateString) {
+      if (!dateString) return "N/A";
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+
+    // Function to show firm details in modal
+    function showFirmDetails(firmId) {
+      $.ajax({
+        url: `/api/firms`,
+        method: "GET",
+        success: function (firms) {
+          let firm = firms.filter((e) => e.id == firmId)[0];
+          console.log(firm)
+          // Update modal content
+          $("#modal-firmName").text(firm.name);
+          $("#modal-firmDescription").text(
+            firm.description || "No description available"
+          );
+
+          // Contact Information
+          $("#modal-firmAddress").text(firm.address || "N/A");
+          $("#modal-firmPhone").text(firm.phone || "N/A");
+          $("#modal-firmEmail").text(firm.email || "N/A");
+          $("#modal-firmWebsite").text(firm.website || "N/A");
+
+          // Location Details
+          $("#modal-firmCity").text(firm.city || "N/A");
+          $("#modal-firmState").text(firm.state || "N/A");
+          $("#modal-firmPostalCode").text(firm.postalCode || "N/A");
+          $("#modal-firmCountry").text(firm.country || "N/A");
+
+          // Business Information
+          $("#modal-firmTaxNumber").text(firm.taxNumber || "N/A");
+          $("#modal-firmCurrency").text(firm.defaultCurrency || "N/A");
+          $("#modal-firmCreatedAt").text(formatDate(firm.createdAt));
+
+          // Logo
+          const logoImg = $("#modal-firmLogo");
+          if (firm.logoPath) {
+            logoImg.attr("src", firm.logoPath).show();
+          } else {
+            logoImg.hide();
+          }
+
+          // Update edit button href
+          $("#modal-editFirmBtn").attr("href", `/firms/${firm.id}/edit`);
+
+          // Show modal
+          $("#viewFirmModal").modal("show");
+        },
+        error: function (xhr, status, error) {
+          alert("Error loading firm details: " + error);
+        },
+      });
+    }
+
+    // Handle view details click
+    $(document).on("click", ".view-firm-details", function (e) {
+      e.preventDefault();
+      const firmId = $(this).data("firm-id");
+      showFirmDetails(firmId);
+    });
 
     // Function to load firms
     function loadFirms() {
