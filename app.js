@@ -12,6 +12,7 @@ dotenv.config();
 const { sequelize } = require("./models");
 
 const userRoutes = require("./routes/userRoutes");
+const firmRoutes = require("./routes/firmRoutes");
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/firms", firmRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {
