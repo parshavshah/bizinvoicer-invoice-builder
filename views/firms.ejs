@@ -64,34 +64,74 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="addFirmForm">
-          <div class="form-group">
-            <label for="firmName">Firm Name</label>
-            <input type="text" class="form-control" id="firmName" required />
-          </div>
-          <div class="form-group">
-            <label for="firmDescription">Description</label>
-            <textarea
-              class="form-control"
-              id="firmDescription"
-              rows="3"
-            ></textarea>
-          </div>
-          <div class="form-group">
-            <label for="firmAddress">Address</label>
-            <textarea class="form-control" id="firmAddress" rows="2"></textarea>
-          </div>
+        <form id="addFirmForm" enctype="multipart/form-data">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label for="firmName">Firm Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="firmName" name="name" required maxlength="255" />
+              </div>
+              <div class="form-group">
+                <label for="firmEmail">Email</label>
+                <input type="email" class="form-control" id="firmEmail" name="email" maxlength="255" />
+              </div>
+              <div class="form-group">
                 <label for="firmPhone">Phone</label>
-                <input type="tel" class="form-control" id="firmPhone" />
+                <input type="tel" class="form-control" id="firmPhone" name="phone" maxlength="50" />
+              </div>
+              <div class="form-group">
+                <label for="firmWebsite">Website</label>
+                <input type="url" class="form-control" id="firmWebsite" name="website" maxlength="255" />
+              </div>
+              <div class="form-group">
+                <label for="firmTaxNumber">Tax Number</label>
+                <input type="text" class="form-control" id="firmTaxNumber" name="taxNumber" maxlength="100" />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="firmEmail">Email</label>
-                <input type="email" class="form-control" id="firmEmail" />
+                <label for="firmAddress">Address</label>
+                <textarea class="form-control" id="firmAddress" name="address" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="firmCity">City</label>
+                <input type="text" class="form-control" id="firmCity" name="city" maxlength="100" />
+              </div>
+              <div class="form-group">
+                <label for="firmState">State</label>
+                <input type="text" class="form-control" id="firmState" name="state" maxlength="100" />
+              </div>
+              <div class="form-group">
+                <label for="firmPostalCode">Postal Code</label>
+                <input type="text" class="form-control" id="firmPostalCode" name="postalCode" maxlength="20" />
+              </div>
+              <div class="form-group">
+                <label for="firmCountry">Country</label>
+                <input type="text" class="form-control" id="firmCountry" name="country" maxlength="100" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firmDefaultCurrency">Default Currency</label>
+                <select class="form-control" id="firmDefaultCurrency" name="defaultCurrency">
+                  <option value="USD">USD - US Dollar</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="GBP">GBP - British Pound</option>
+                  <option value="INR">INR - Indian Rupee</option>
+                  <!-- Add more currencies as needed -->
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firmLogo">Logo</label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="firmLogo" name="logo" accept="image/*">
+                  <label class="custom-file-label" for="firmLogo">Choose file</label>
+                </div>
+                <small class="form-text text-muted">Recommended size: 200x200 pixels. Max file size: 2MB</small>
               </div>
             </div>
           </div>
@@ -250,9 +290,6 @@
                 </div>
               </div>
             </div>
-            <p class="card-text text-muted">
-              ${firm.description || "No description available"}
-            </p>
             <div class="firm-details">
               ${
                 firm.address
@@ -304,9 +341,6 @@
           console.log(firm)
           // Update modal content
           $("#modal-firmName").text(firm.name);
-          $("#modal-firmDescription").text(
-            firm.description || "No description available"
-          );
 
           // Contact Information
           $("#modal-firmAddress").text(firm.address || "N/A");
@@ -389,21 +423,18 @@
 
     // Handle Add Firm Form Submission
     $("#saveFirmBtn").click(function () {
-      const formData = {
-        name: $("#firmName").val(),
-        description: $("#firmDescription").val(),
-        address: $("#firmAddress").val(),
-        phone: $("#firmPhone").val(),
-        email: $("#firmEmail").val(),
-      };
+      const formData = new FormData($("#addFirmForm")[0]);
 
       $.ajax({
         url: "/api/firms",
         method: "POST",
         data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
           $("#addFirmModal").modal("hide");
           $("#addFirmForm")[0].reset();
+          $(".custom-file-label").text("Choose file");
           loadFirms();
           alert("Firm added successfully");
         },
@@ -411,6 +442,12 @@
           alert("Error adding firm: " + error);
         },
       });
+    });
+
+    // Update custom file input label
+    $(".custom-file-input").on("change", function () {
+      const fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").text(fileName || "Choose file");
     });
 
     // Function to delete firm

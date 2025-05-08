@@ -4,7 +4,6 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const helmet = require("helmet");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 
@@ -22,20 +21,6 @@ const invoiceRoutes = require("./routes/invoiceRoutes");
 const indexRoutes = require("./routes/index");
 
 const app = express();
-
-// Security middleware
-app.use(helmet());
-
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"], // no inline scripts allowed
-      objectSrc: ["'none'"],
-      upgradeInsecureRequests: [],
-    },
-  })
-);
 
 // Session configuration
 const sessionStore = new SequelizeStore({
