@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) => {
-  class InvoiceItemTax extends sequelize.Model {}
+const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) => {
+  class InvoiceItemTax extends Model {}
 
   InvoiceItemTax.init({
     id: {
