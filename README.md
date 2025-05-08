@@ -2,7 +2,6 @@
 
 InvoiceMate is a powerful, user-friendly invoicing application designed to simplify billing and streamline financial workflows for freelancers, small businesses, and agencies. Built with modern web technologies, InvoiceMate helps you create, manage, and send professional invoices with ease — all from a secure, web-based platform.
 
-
 ## Database Tables and Relationships
 
 ### Users
@@ -87,25 +86,6 @@ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_products_user_id ON products(user_id);
-```
-
-### Client-based Custom Prices
-
-```sql
-CREATE TABLE client_product_prices (
-id INT AUTO_INCREMENT PRIMARY KEY,
-client_id INT NOT NULL,
-product_id INT NOT NULL,
-custom_price DECIMAL(15, 2) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
-UNIQUE KEY unique_client_product (client_id, product_id)
-);
-
-CREATE INDEX idx_client_product_prices_client_id ON client_product_prices(client_id);
-CREATE INDEX idx_client_product_prices_product_id ON client_product_prices(product_id);
 ```
 
 ### Taxes
@@ -211,28 +191,4 @@ FOREIGN KEY (tax_id) REFERENCES taxes(id) ON DELETE CASCADE
 
 CREATE INDEX idx_invoice_item_taxes_invoice_item_id ON invoice_item_taxes(invoice_item_id);
 CREATE INDEX idx_invoice_item_taxes_tax_id ON invoice_item_taxes(tax_id);
-```
-
-### Currencies
-
-```sql
-CREATE TABLE currencies (
-id INT AUTO_INCREMENT PRIMARY KEY,
-code VARCHAR(10) NOT NULL UNIQUE,
-name VARCHAR(100) NOT NULL,
-symbol VARCHAR(10) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Insert common currencies
-INSERT INTO currencies (code, name, symbol) VALUES
-('USD', 'US Dollar', '$'),
-('EUR', 'Euro', '€'),
-('GBP', 'British Pound', '£'),
-('INR', 'Indian Rupee', '₹'),
-('CAD', 'Canadian Dollar', 'CA$'),
-('AUD', 'Australian Dollar', 'A$'),
-('JPY', 'Japanese Yen', '¥'),
-('CNY', 'Chinese Yuan', '¥');
 ```
