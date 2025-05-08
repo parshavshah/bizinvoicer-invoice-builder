@@ -1,6 +1,9 @@
 {
-    "development": {
-      "dialect": "sqlite",
-      "storage": "database.sqlite3"
-    }
+  "development": {
+    "username": "root",
+    "password": "",
+    "database": "invoicemate",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
 }
