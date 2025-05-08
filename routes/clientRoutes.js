@@ -3,9 +3,8 @@ const express = require("express");
 const { body } = require("express-validator");
 const clientController = require("../controllers/clientController");
 const { isAuthenticated } = require("../middleware/auth");
-var multer = require("multer");
-
-var upload = multer();
+const multer = require("multer");
+const upload = multer();
 
 const router = express.Router();
 
