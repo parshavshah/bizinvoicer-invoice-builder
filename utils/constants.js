@@ -1,9 +1,9 @@
 const INVOICE_STATUS = {
-  draft: "draft",
-  sent: "sent",
-  paid: "paid",
-  overdue: "overdue",
-  cancelled: "cancelled",
+  draft: "Draft",
+  sent: "Sent",
+  paid: "Paid",
+  overdue: "Overdue",
+  cancelled: "Cancelled",
 };
 
 const CURRENCY = {
