@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Starter Page</h1>
+          <h1 class="m-0">Firms</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Starter Page</li>
+            <li class="breadcrumb-item active">Firms</li>
           </ol>
         </div>
       </div>
@@ -19,25 +19,236 @@
 
   <div class="content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
+      <!-- Add New Firm Button -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#addFirmModal"
+          >
+            <i class="fas fa-plus"></i> Add New Firm
+          </button>
         </div>
+      </div>
+
+      <!-- Firms Grid -->
+      <div class="row" id="firms-container">
+        <!-- Firms will be rendered here -->
       </div>
     </div>
   </div>
 </div>
+
+<!-- Add Firm Modal -->
+<div
+  class="modal fade"
+  id="addFirmModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addFirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addFirmModalLabel">Add New Firm</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addFirmForm">
+          <div class="form-group">
+            <label for="firmName">Firm Name</label>
+            <input type="text" class="form-control" id="firmName" required />
+          </div>
+          <div class="form-group">
+            <label for="firmDescription">Description</label>
+            <textarea
+              class="form-control"
+              id="firmDescription"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="firmAddress">Address</label>
+            <textarea class="form-control" id="firmAddress" rows="2"></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firmPhone">Phone</label>
+                <input type="tel" class="form-control" id="firmPhone" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firmEmail">Email</label>
+                <input type="email" class="form-control" id="firmEmail" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" id="saveFirmBtn">
+          Save Firm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Function to render a single firm card
+    function renderFirmCard(firm) {
+      return `
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="card-title mb-0">${firm.name || "Unnamed Firm"}</h5>
+              <div class="dropdown">
+                <button class="btn btn-link text-dark p-0" type="button" data-toggle="dropdown">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/firms/${
+                    firm.id
+                  }"><i class="fas fa-eye mr-2"></i>View</a>
+                  <a class="dropdown-item" href="/firms/${
+                    firm.id
+                  }/edit"><i class="fas fa-edit mr-2"></i>Edit</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" href="#" onclick="deleteFirm(${
+                    firm.id
+                  })"><i class="fas fa-trash mr-2"></i>Delete</a>
+                </div>
+              </div>
+            </div>
+            <p class="card-text text-muted">
+              ${firm.description || "No description available"}
+            </p>
+            <div class="firm-details">
+              ${
+                firm.address
+                  ? `<p class="mb-1"><i class="fas fa-map-marker-alt mr-2"></i>${firm.address}</p>`
+                  : ""
+              }
+              ${
+                firm.phone
+                  ? `<p class="mb-1"><i class="fas fa-phone mr-2"></i>${firm.phone}</p>`
+                  : ""
+              }
+              ${
+                firm.email
+                  ? `<p class="mb-1"><i class="fas fa-envelope mr-2"></i>${firm.email}</p>`
+                  : ""
+              }
+            </div>
+          </div>
+          <div class="card-footer bg-transparent">
+            <a href="/firms/${
+              firm.id
+            }" class="btn btn-primary btn-sm btn-block">View Details</a>
+          </div>
+        </div>
+      </div>
+    `;
+    }
+
+    // Function to load firms
+    function loadFirms() {
+      $.ajax({
+        url: "/api/firms",
+        method: "GET",
+        success: function (response) {
+          const firmsContainer = $("#firms-container");
+          firmsContainer.empty();
+
+          if (response && response.length > 0) {
+            response.forEach((firm) => {
+              firmsContainer.append(renderFirmCard(firm));
+            });
+          } else {
+            firmsContainer.html(`
+            <div class="col-12">
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle mr-2"></i>No firms found. Click "Add New Firm" to create one.
+              </div>
+            </div>
+          `);
+          }
+        },
+        error: function (xhr, status, error) {
+          $("#firms-container").html(`
+          <div class="col-12">
+            <div class="alert alert-danger">
+              <i class="fas fa-exclamation-circle mr-2"></i>Error loading firms: ${error}
+            </div>
+          </div>
+        `);
+        },
+      });
+    }
+
+    // Handle Add Firm Form Submission
+    $("#saveFirmBtn").click(function () {
+      const formData = {
+        name: $("#firmName").val(),
+        description: $("#firmDescription").val(),
+        address: $("#firmAddress").val(),
+        phone: $("#firmPhone").val(),
+        email: $("#firmEmail").val(),
+      };
+
+      $.ajax({
+        url: "/api/firms",
+        method: "POST",
+        data: formData,
+        success: function (response) {
+          $("#addFirmModal").modal("hide");
+          $("#addFirmForm")[0].reset();
+          loadFirms();
+          alert("Firm added successfully");
+        },
+        error: function (xhr, status, error) {
+          alert("Error adding firm: " + error);
+        },
+      });
+    });
+
+    // Function to delete firm
+    window.deleteFirm = function (firmId) {
+      if (confirm("Are you sure you want to delete this firm?")) {
+        $.ajax({
+          url: `/api/firms/${firmId}`,
+          method: "DELETE",
+          success: function (response) {
+            loadFirms();
+            alert("Firm deleted successfully");
+          },
+          error: function (xhr, status, error) {
+            alert("Error deleting firm: " + error);
+          },
+        });
+      }
+    };
+
+    // Load firms when page loads
+    loadFirms();
+  });
+</script>
 
 <%- include('partials/footer'); %>
