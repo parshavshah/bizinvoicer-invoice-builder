@@ -710,7 +710,15 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["clientId", "firmId", "invoiceNumber", "issueDate", "dueDate", "currency", "items"],
+                "required": [
+                  "clientId",
+                  "firmId",
+                  "invoiceNumber",
+                  "issueDate",
+                  "dueDate",
+                  "currency",
+                  "items"
+                ],
                 "properties": {
                   "clientId": {
                     "type": "integer"
@@ -834,7 +842,15 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["clientId", "firmId", "invoiceNumber", "issueDate", "dueDate", "currency", "items"],
+                "required": [
+                  "clientId",
+                  "firmId",
+                  "invoiceNumber",
+                  "issueDate",
+                  "dueDate",
+                  "currency",
+                  "items"
+                ],
                 "properties": {
                   "clientId": {
                     "type": "integer"
@@ -988,6 +1004,17 @@
           }
         }
       }
+    },
+    "/api/static-dropdown": {
+      "get": {
+        "tags": ["Static Dropdown"],
+        "summary": "Get static dropdown",
+        "responses": {
+          "200": {
+            "description": "Get static dropdown"
+          }
+        }
+      }
     }
   }
-} 
+}
