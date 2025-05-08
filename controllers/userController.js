@@ -126,6 +126,76 @@ exports.logout = (req, res) => {
       return res.status(500).json({ message: "Error logging out" });
     }
     res.clearCookie("connect.sid");
-    res.json({ message: "Logged out successfully" });
+    res.redirect("/login");
   });
+};
+
+// Get user profile
+exports.getProfile = async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const user = await User.findByPk(req.session.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      user: {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }
+    });
+  } catch (error) {
+    console.error("Get profile error:", error);
+    res.status(500).json({ message: "Error fetching profile" });
+  }
+};
+
+// Update user profile
+exports.updateProfile = async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { firstName, lastName } = req.body;
+    const user = await User.findByPk(req.session.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.update({
+      firstName,
+      lastName
+    });
+
+    // Update session
+    req.session.user = {
+      ...req.session.user,
+      firstName,
+      lastName
+    };
+
+    res.json({
+      message: "Profile updated successfully",
+      user: {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    res.status(500).json({ message: "Error updating profile" });
+  }
 };

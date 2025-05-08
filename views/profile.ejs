@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Starter Page</h1>
+          <h1 class="m-0">My Profile</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Starter Page</li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">My Profile</li>
           </ol>
         </div>
       </div>
@@ -20,18 +20,27 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-md-6">
           <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Profile Information</h3>
+            </div>
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
+              <form id="profileForm">
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" class="form-control" id="email" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" class="form-control" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+              </form>
             </div>
           </div>
         </div>
@@ -39,5 +48,52 @@
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Fetch current profile data
+  fetch('/api/users/profile')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('email').value = data.user.email;
+      document.getElementById('firstName').value = data.user.firstName;
+      document.getElementById('lastName').value = data.user.lastName;
+    })
+    .catch(error => {
+      console.error('Error fetching profile:', error);
+      alert('Error loading profile data');
+    });
+
+  // Handle form submission
+  document.getElementById('profileForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = {
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value
+    };
+
+    fetch('/api/users/profile', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message) {
+        alert('Profile updated successfully!');
+      } else {
+        throw new Error(data.message || 'Error updating profile');
+      }
+    })
+    .catch(error => {
+      console.error('Error updating profile:', error);
+      alert('Error updating profile');
+    });
+  });
+});
+</script>
 
 <%- include('partials/footer'); %>
