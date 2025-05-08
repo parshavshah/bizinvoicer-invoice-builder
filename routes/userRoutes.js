@@ -45,11 +45,28 @@ const profileValidation = [
     .withMessage('Last name is required')
 ];
 
+const changePasswordValidation = [
+  body('currentPassword')
+    .notEmpty()
+    .withMessage('Current password is required'),
+  body('newPassword')
+    .isLength({ min: 6 })
+    .withMessage('New password must be at least 6 characters long'),
+  body('confirmPassword')
+    .custom((value, { req }) => {
+      if (value !== req.body.newPassword) {
+        throw new Error('Passwords do not match');
+      }
+      return true;
+    })
+];
+
 // Routes
 router.post('/register', registerValidation, userController.register);
 router.post('/login', loginValidation, userController.login);
 router.get('/logout', userController.logout);
 router.get('/profile', userController.getProfile);
 router.put('/profile', profileValidation, userController.updateProfile);
+router.post('/change-password', changePasswordValidation, userController.changePassword);
 
 module.exports = router; 
