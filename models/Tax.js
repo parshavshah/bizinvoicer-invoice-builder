@@ -46,10 +46,6 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
 
   Tax.associate = (models) => {
     Tax.belongsTo(models.User, { foreignKey: 'userId' });
-    Tax.belongsToMany(models.Product, { 
-      through: models.ProductTax,
-      foreignKey: 'taxId'
-    });
     Tax.hasMany(models.InvoiceItemTax, { foreignKey: 'taxId' });
   };
 

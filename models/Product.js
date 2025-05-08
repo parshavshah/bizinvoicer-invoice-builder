@@ -55,10 +55,7 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
   Product.associate = (models) => {
     Product.belongsTo(models.User, { foreignKey: 'userId' });
     Product.hasMany(models.InvoiceItem, { foreignKey: 'productId' });
-    Product.belongsToMany(models.Tax, { 
-      through: models.ProductTax,
-      foreignKey: 'productId'
-    });
+    
   };
 
   return Product;
