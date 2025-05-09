@@ -48,11 +48,53 @@ router.get("/register", (req, res, next) => {
 });
 
 // dashboard view
-router.get("/dashboard", isAuthenticated, (req, res, next) => {
-  res.render("dashboard", {
-    user: req.session.user,
-    BASE_URL: process.env.BASE_URL,
-  });
+router.get("/dashboard", isAuthenticated, async (req, res, next) => {
+  try {
+    const [
+      firmCount,
+      clientCount,
+      productCount,
+      taxCount,
+      invoiceCount,
+      invoiceStatusCounts
+    ] = await Promise.all([
+      Firm.count({ where: { userId: req.session.user.id } }),
+      Client.count({ where: { userId: req.session.user.id } }),
+      Product.count({ where: { userId: req.session.user.id } }),
+      Tax.count({ where: { userId: req.session.user.id } }),
+      Invoice.count({ where: { userId: req.session.user.id } }),
+      Invoice.findAll({
+        where: { userId: req.session.user.id },
+        attributes: [
+          'status',
+          [sequelize.fn('COUNT', sequelize.col('id')), 'count']
+        ],
+        group: ['status']
+      })
+    ]);
+
+    // Transform invoice status counts into a more usable format
+    const statusCounts = {};
+    invoiceStatusCounts.forEach(item => {
+      statusCounts[item.status] = parseInt(item.get('count'));
+    });
+
+    res.render("dashboard", {
+      user: req.session.user,
+      BASE_URL: process.env.BASE_URL,
+      counts: {
+        firms: firmCount,
+        clients: clientCount,
+        products: productCount,
+        taxes: taxCount,
+        invoices: invoiceCount
+      },
+      invoiceStatusCounts: statusCounts,
+      INVOICE_STATUS
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // firms view
