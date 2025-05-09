@@ -49,8 +49,16 @@
                 <div class="col-sm-4">
                   <h6 class="mb-3">From:</h6>
                   <div>
-                    <strong><%= invoice.Firm.name %></strong>
+                    <img
+                      src="<%= invoice.Firm.logoPath %>"
+                      class="mb-2 img-fluid"
+                      style="max-width: 200px"
+                      alt="Firm Logo"
+                    />
                   </div>
+                  <% if (invoice.Firm.name) { %>
+                    <div><b><%= invoice.Firm.name %></b></div>
+                    <% } %>
                   <% if (invoice.Firm.address) { %>
                   <div><%= invoice.Firm.address %></div>
                   <% } %> <% if (invoice.Firm.city) { %>
@@ -212,18 +220,16 @@
     </div>
   </div>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
   $(document).ready(function () {
     $("#downloadPdf").click(function () {
       const element = document.getElementById("invoiceContent");
       const opt = {
-        margin: 0.3,
+        margin: 0,
         filename: "invoice-<%= invoice.invoiceNumber %>.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 5 },
+        jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
       };
 
       html2pdf().set(opt).from(element).save();
