@@ -392,6 +392,9 @@
     }
 
     function initializeItemEvents($item) {
+
+      calculateItemSubtotal($item)
+
       $item.find(".remove-item").click(function() {
         $item.remove();
         calculateTotals();

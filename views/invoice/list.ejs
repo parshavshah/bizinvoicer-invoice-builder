@@ -57,7 +57,76 @@
   </div>
 </div>
 
+<!-- model with invoice status -->
+<!-- Change Status Modal -->
+<div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changeStatusModalLabel">Change Invoice Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="changeStatusForm">
+          <input type="hidden" id="invoiceId" name="invoiceId">
+          <div class="form-group">
+            <label for="invoiceStatus">Status</label>
+            <select class="form-control" id="invoiceStatus" name="status">
+              <option value="draft">Draft</option>
+              <option value="sent">Sent</option>
+              <option value="paid">Paid</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="overdue">Overdue</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveStatusBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+
+  // Handle status change form submission
+  $("#saveStatusBtn").click(function() {
+    const invoiceId = $("#invoiceId").val();
+    const status = $("#invoiceStatus").val();
+
+    $.ajax({
+      url: `/api/invoices/${invoiceId}/status`,
+      method: "PATCH", 
+      data: {
+        status: status
+      },
+      success: function(response) {
+        // Close modal
+        $("#changeStatusModal").modal("hide");
+        
+        // Refresh table to show updated status
+        $("#invoiceTable").DataTable().ajax.reload();
+
+        // Show success message
+        alert("Invoice status updated successfully");
+      },
+      error: function(xhr, status, error) {
+        alert("Error updating invoice status: " + error);
+      }
+    });
+  });
+
+  $(document).on('click',".statusButton",function(e){
+    e.preventDefault();
+    console.log($(this).data('id'))
+    $("#invoiceId").val($(this).data('id'))
+    $("#changeStatusModal").modal("show");
+  })
+
   $(document).ready(function () {
     // Initialize DataTable
     const table = $("#invoiceTable").DataTable({
@@ -101,7 +170,7 @@
         },
         {
           data: "status",
-          render: function (data) {
+          render: function (data, type, row) {
             const statusClasses = {
               draft: "badge badge-secondary",
               sent: "badge badge-info",
@@ -109,7 +178,7 @@
               overdue: "badge badge-danger",
               cancelled: "badge badge-warning",
             };
-            return `<span class="${statusClasses[data]}">${
+            return `<span data-id="${row.id}" class="statusButton ${statusClasses[data]}">${
               data.charAt(0).toUpperCase() + data.slice(1)
             }</span>`;
           },
