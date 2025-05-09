@@ -376,7 +376,9 @@ exports.deleteInvoice = async (req, res) => {
       await InvoiceItemTax.destroy({
         where: {
           invoiceItemId: {
-            [Op.in]: invoice.InvoiceItems.map((item) => item.id),
+            [Op.in]: invoice.InvoiceItems
+              ? invoice.InvoiceItems.map((item) => item.id)
+              : [],
           },
         },
         transaction: t,
