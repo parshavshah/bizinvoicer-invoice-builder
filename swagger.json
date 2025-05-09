@@ -962,6 +962,25 @@
             "description": "Invoice deleted successfully"
           }
         }
+      },
+      "get": {
+        "tags": ["Invoices"],
+        "summary": "Get invoice by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get invoice by id"
+          }
+        }
       }
     },
     "/api/invoices/{id}/status": {

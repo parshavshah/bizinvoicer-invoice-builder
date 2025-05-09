@@ -106,6 +106,7 @@ const statusValidation = [
 // Routes
 router.post('/', isAuthenticated, invoiceValidation, invoiceController.createInvoice);
 router.get('/', isAuthenticated, invoiceController.getInvoices);
+router.get('/:id', isAuthenticated, invoiceController.getInvoiceById);
 router.put('/:id', isAuthenticated, invoiceValidation, invoiceController.updateInvoice);
 router.patch('/:id/status', isAuthenticated, statusValidation, invoiceController.updateInvoiceStatus);
 router.delete('/:id', isAuthenticated, invoiceController.deleteInvoice);

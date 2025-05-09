@@ -141,6 +141,31 @@ exports.createInvoice = async (req, res) => {
   }
 };
 
+// Get single invoices for the logged-in user
+exports.getInvoiceById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const invoice = await Invoice.findOne({
+      where: { id: id, userId: req.session.user.id },
+      include: [
+        {
+          model: InvoiceItem,
+          include: [InvoiceItemTax],
+        },
+        Client,
+        Firm,
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json(invoice);
+  } catch (error) {
+    console.error("Get invoice error:", error);
+    res.status(500).json({ message: "Error fetching invoice" });
+  }
+};
+
 // Get all invoices for the logged-in user
 exports.getInvoices = async (req, res) => {
   try {
