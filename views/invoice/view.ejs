@@ -1,0 +1,236 @@
+<%- include('../partials/header'); %> 
+<% const CURRENCY_ICON = CURRENCY[invoice.currency][2]; %>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Invoice #<%= invoice.invoiceNumber %></h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item">
+              <a href="/invoice/list">Invoices</a>
+            </li>
+            <li class="breadcrumb-item active">View Invoice</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title">Invoice Details</h3>
+                <div>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="downloadPdf"
+                  >
+                    <i class="fas fa-download"></i> Download PDF
+                  </button>
+                  <a href="/invoice/list" class="btn btn-default">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="invoiceContent">
+              <!-- Invoice Header -->
+              <div class="row mb-4">
+                <div class="col-sm-4">
+                  <h6 class="mb-3">From:</h6>
+                  <div>
+                    <strong><%= invoice.Firm.name %></strong>
+                  </div>
+                  <% if (invoice.Firm.address) { %>
+                  <div><%= invoice.Firm.address %></div>
+                  <% } %> <% if (invoice.Firm.city) { %>
+                  <div><%= invoice.Firm.city %></div>
+                  <% } %> <% if (invoice.Firm.state) { %>
+                  <div><%= invoice.Firm.state %></div>
+                  <% } %> <% if (invoice.Firm.postalCode) { %>
+                  <div><%= invoice.Firm.postalCode %></div>
+                  <% } %> <% if (invoice.Firm.country) { %>
+                  <div><%= invoice.Firm.country %></div>
+                  <% } %> <% if (invoice.Firm.phone) { %>
+                  <div>Phone: <%= invoice.Firm.phone %></div>
+                  <% } %> <% if (invoice.Firm.email) { %>
+                  <div>Email: <%= invoice.Firm.email %></div>
+                  <% } %> <% if (invoice.Firm.taxNumber) { %>
+                  <div>Tax Number: <%= invoice.Firm.taxNumber %></div>
+                  <% } %>
+                </div>
+
+                <div class="col-sm-4">
+                  <h6 class="mb-3">To:</h6>
+                  <div>
+                    <strong><%= invoice.Client.name %></strong>
+                  </div>
+                  <% if (invoice.Client.address) { %>
+                  <div><%= invoice.Client.address %></div>
+                  <% } %> <% if (invoice.Client.city) { %>
+                  <div><%= invoice.Client.city %></div>
+                  <% } %> <% if (invoice.Client.state) { %>
+                  <div><%= invoice.Client.state %></div>
+                  <% } %> <% if (invoice.Client.postalCode) { %>
+                  <div><%= invoice.Client.postalCode %></div>
+                  <% } %> <% if (invoice.Client.country) { %>
+                  <div><%= invoice.Client.country %></div>
+                  <% } %> <% if (invoice.Client.phone) { %>
+                  <div>Phone: <%= invoice.Client.phone %></div>
+                  <% } %> <% if (invoice.Client.email) { %>
+                  <div>Email: <%= invoice.Client.email %></div>
+                  <% } %> <% if (invoice.Client.taxNumber) { %>
+                  <div>Tax Number: <%= invoice.Client.taxNumber %></div>
+                  <% } %>
+                </div>
+
+                <div class="col-sm-4">
+                  <h6 class="mb-3"><b>Invoice Details:</b></h6>
+                  <div>
+                    Invoice Number:
+                    <strong><%= invoice.invoiceNumber %></strong>
+                  </div>
+                  <% if (invoice.reference) { %>
+                  <div>Reference: <%= invoice.reference %></div>
+                  <% } %>
+                  <div>
+                    Issue Date: <%= new
+                    Date(invoice.issueDate).toLocaleDateString() %>
+                  </div>
+                  <div>
+                    Due Date: <%= new Date(invoice.dueDate).toLocaleDateString()
+                    %>
+                  </div>
+                  <div>
+                    Status:
+                    <span
+                      class="badge badge-<%= getStatusBadgeClass(invoice.status) %>"
+                      ><%= invoice.status.charAt(0).toUpperCase() +
+                      invoice.status.slice(1) %></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Invoice Items -->
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Description</th>
+                      <th>Quantity</th>
+                      <th>Unit Price</th>
+                      <th>Discount</th>
+                      <th>Subtotal</th>
+                      <th>Taxes</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% invoice.InvoiceItems.forEach(function(item) { %>
+                    <tr>
+                      <td><%= item.description %></td>
+                      <td><%= item.quantity %></td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%=
+                        parseFloat(item.unitPrice).toFixed(2) %>
+                      </td>
+                      <td><%= item.discountPercent %>%</td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%=
+                        parseFloat(item.subtotal).toFixed(2) %>
+                      </td>
+                      <td>
+                        <% item.InvoiceItemTaxes.forEach(function(tax) { %>
+                        <div><%= tax.taxName %> (<%= tax.taxRate %>%)</div>
+                        <% }); %>
+                      </td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%= parseFloat(item.subtotal +
+                        item.InvoiceItemTaxes.reduce((sum, tax) => sum +
+                        parseFloat(tax.taxAmount), 0)).toFixed(2) %>
+                      </td>
+                    </tr>
+                    <% }); %>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="6" class="text-right">
+                        <strong>Subtotal:</strong>
+                      </td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%=
+                        parseFloat(invoice.subtotal).toFixed(2) %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" class="text-right">
+                        <strong>Tax Total:</strong>
+                      </td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%=
+                        parseFloat(invoice.taxTotal).toFixed(2) %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" class="text-right">
+                        <strong>Total:</strong>
+                      </td>
+                      <td>
+                        <strong
+                          ><%= CURRENCY_ICON %> <%=
+                          parseFloat(invoice.total).toFixed(2) %></strong
+                        >
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <% if (invoice.notes) { %>
+              <div class="row mt-4">
+                <div class="col-12">
+                  <h6><b>Notes:</b></h6>
+                  <p><%= invoice.notes %></p>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $("#downloadPdf").click(function () {
+      const element = document.getElementById("invoiceContent");
+      const opt = {
+        margin: 0.3,
+        filename: "invoice-<%= invoice.invoiceNumber %>.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      };
+
+      html2pdf().set(opt).from(element).save();
+    });
+  });
+</script>
+
+<%- include('../partials/footer'); %> <% function getStatusBadgeClass(status) {
+const classes = { draft: 'secondary', sent: 'info', paid: 'success', overdue:
+'danger', cancelled: 'warning' }; return classes[status] || 'secondary'; } %>
