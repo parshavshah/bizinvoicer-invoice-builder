@@ -99,8 +99,25 @@ router.get("/invoice/create", isAuthenticated, (req, res, next) => {
     BASE_URL: process.env.BASE_URL,
   });
 });
-router.get("/invoice/update/:id", isAuthenticated, (req, res, next) => {
+router.get("/invoice/update/:id", isAuthenticated, async (req, res, next) => {
+
+  const {id} = req.params;
+
+  const invoice = await Invoice.findOne({
+    where: { id: id, userId: req.session.user.id },
+    include: [
+      {
+        model: InvoiceItem,
+        include: [InvoiceItemTax],
+      },
+      Client,
+      Firm,
+    ],
+    order: [["createdAt", "DESC"]],
+  });
+
   res.render("invoice/update", {
+    invoice,
     user: req.session.user,
     BASE_URL: process.env.BASE_URL,
   });
