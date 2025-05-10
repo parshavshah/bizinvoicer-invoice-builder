@@ -58,11 +58,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(255),
         field: "logo_path",
       },
-      defaultCurrency: {
-        type: DataTypes.STRING(10),
-        defaultValue: "USD",
-        field: "default_currency",
-      },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,

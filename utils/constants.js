@@ -1,3 +1,13 @@
+const DATE_FORMATS = {
+  "MM/DD/YYYY": "MM/DD/YYYY",
+  "MM/DD/YYYY": "MM/DD/YYYY",
+  "DD/MM/YYYY": "DD/MM/YYYY",
+  "YYYY/MM/DD": "YYYY/MM/DD",
+  "DD-MM-YYYY": "DD-MM-YYYY",
+  "YYYY-MM-DD": "YYYY-MM-DD",
+  "MM-DD-YYYY": "MM-DD-YYYY",
+};
+
 const INVOICE_STATUS = {
   draft: "Draft",
   sent: "Sent",
@@ -17,7 +27,4 @@ const CURRENCY = {
   CNY: ["CNY", "Chinese Yuan", "¥"],
 };
 
-module.exports = {
-  INVOICE_STATUS,
-  CURRENCY,
-};
+module.exports = { DATE_FORMATS, INVOICE_STATUS, CURRENCY };

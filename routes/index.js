@@ -56,7 +56,7 @@ router.get("/dashboard", isAuthenticated, async (req, res, next) => {
       productCount,
       taxCount,
       invoiceCount,
-      invoiceStatusCounts
+      invoiceStatusCounts,
     ] = await Promise.all([
       Firm.count({ where: { userId: req.session.user.id } }),
       Client.count({ where: { userId: req.session.user.id } }),
@@ -66,17 +66,17 @@ router.get("/dashboard", isAuthenticated, async (req, res, next) => {
       Invoice.findAll({
         where: { userId: req.session.user.id },
         attributes: [
-          'status',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'count']
+          "status",
+          [sequelize.fn("COUNT", sequelize.col("id")), "count"],
         ],
-        group: ['status']
-      })
+        group: ["status"],
+      }),
     ]);
 
     // Transform invoice status counts into a more usable format
     const statusCounts = {};
-    invoiceStatusCounts.forEach(item => {
-      statusCounts[item.status] = parseInt(item.get('count'));
+    invoiceStatusCounts.forEach((item) => {
+      statusCounts[item.status] = parseInt(item.get("count"));
     });
 
     res.render("dashboard", {
@@ -87,10 +87,10 @@ router.get("/dashboard", isAuthenticated, async (req, res, next) => {
         clients: clientCount,
         products: productCount,
         taxes: taxCount,
-        invoices: invoiceCount
+        invoices: invoiceCount,
       },
       invoiceStatusCounts: statusCounts,
-      INVOICE_STATUS
+      INVOICE_STATUS,
     });
   } catch (error) {
     next(error);
@@ -142,8 +142,7 @@ router.get("/invoice/create", isAuthenticated, (req, res, next) => {
   });
 });
 router.get("/invoice/update/:id", isAuthenticated, async (req, res, next) => {
-
-  const {id} = req.params;
+  const { id } = req.params;
 
   const invoice = await Invoice.findOne({
     where: { id: id, userId: req.session.user.id },
@@ -165,8 +164,7 @@ router.get("/invoice/update/:id", isAuthenticated, async (req, res, next) => {
   });
 });
 router.get("/invoice/view/:id", isAuthenticated, async (req, res, next) => {
-
-  const {id} = req.params;
+  const { id } = req.params;
 
   const invoice = await Invoice.findOne({
     where: { id: id, userId: req.session.user.id },
@@ -183,7 +181,7 @@ router.get("/invoice/view/:id", isAuthenticated, async (req, res, next) => {
 
   res.render("invoice/view", {
     invoice: invoice,
-    CURRENCY : CURRENCY,
+    CURRENCY: CURRENCY,
     user: req.session.user,
     BASE_URL: process.env.BASE_URL,
   });
@@ -192,6 +190,14 @@ router.get("/invoice/view/:id", isAuthenticated, async (req, res, next) => {
 // user profile view
 router.get("/profile", isAuthenticated, (req, res, next) => {
   res.render("profile", {
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+});
+
+// settings view
+router.get("/setting", isAuthenticated, (req, res, next) => {
+  res.render("setting", {
     user: req.session.user,
     BASE_URL: process.env.BASE_URL,
   });

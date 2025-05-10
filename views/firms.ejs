@@ -20,7 +20,7 @@
   <div class="content">
     <div class="container-fluid">
       <!-- Add New Firm Button -->
-      <div class="row mb-4">
+      <div class="row mb-4 addNewFirm" >
         <div class="col-12">
           <button
             type="button"
@@ -174,22 +174,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="firmDefaultCurrency">Default Currency</label>
-                <select
-                  class="form-control"
-                  id="firmDefaultCurrency"
-                  name="defaultCurrency"
-                >
-                  <option value="USD">USD - US Dollar</option>
-                  <option value="EUR">EUR - Euro</option>
-                  <option value="GBP">GBP - British Pound</option>
-                  <option value="INR">INR - Indian Rupee</option>
-                  <!-- Add more currencies as needed -->
-                </select>
-              </div>
-            </div>
+            
             <div class="col-md-6">
               <div class="form-group">
                 <label for="firmLogo">Logo</label>
@@ -313,10 +298,7 @@
               <i class="fas fa-file-invoice mr-2"></i>
               <span id="modal-firmTaxNumber"></span>
             </div>
-            <div class="info-item mb-2">
-              <i class="fas fa-money-bill-wave mr-2"></i>
-              <span id="modal-firmCurrency"></span>
-            </div>
+            
             <div class="info-item mb-2">
               <i class="fas fa-calendar-alt mr-2"></i>
               <span id="modal-firmCreatedAt"></span>
@@ -469,21 +451,6 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-firmDefaultCurrency">Default Currency</label>
-                <select
-                  class="form-control"
-                  id="edit-firmDefaultCurrency"
-                  name="defaultCurrency"
-                >
-                  <option value="USD">USD - US Dollar</option>
-                  <option value="EUR">EUR - Euro</option>
-                  <option value="GBP">GBP - British Pound</option>
-                  <option value="INR">INR - Indian Rupee</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
                 <label for="edit-firmLogo">Logo</label>
                 <div class="custom-file">
                   <input
@@ -600,9 +567,9 @@
     function formatDate(dateString) {
       if (!dateString) return "N/A";
       const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
+      return date.toLocaleDateString("en-UK", {
         year: "numeric",
-        month: "long",
+        month: "numeric",
         day: "numeric",
       });
     }
@@ -632,7 +599,6 @@
 
           // Business Information
           $("#modal-firmTaxNumber").text(firm.taxNumber || "N/A");
-          $("#modal-firmCurrency").text(firm.defaultCurrency || "N/A");
           $("#modal-firmCreatedAt").text(formatDate(firm.createdAt));
 
           // Logo
@@ -770,8 +736,6 @@
           $("#edit-firmPostalCode").val(firm.postalCode);
           $("#edit-firmCountry").val(firm.country);
 
-          // Currency
-          $("#edit-firmDefaultCurrency").val(firm.defaultCurrency || "USD");
 
           // Logo
           const currentLogo = $("#edit-currentLogo");

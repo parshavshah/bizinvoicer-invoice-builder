@@ -1,0 +1,6 @@
+- add currency and number format in firm
+- add date format in firm
+- apply number format at all places
+- apply currency at all places
+- apply date format at all places
+- show proper error in sweetalert
