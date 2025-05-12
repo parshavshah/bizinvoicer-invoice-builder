@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      applicationName: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        field: "application_name",
+      },
       softwareLogo: {
         type: DataTypes.STRING(255),
         allowNull: false,

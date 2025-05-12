@@ -4,32 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>True Invoice</title>
+    <title><%= applicationName; %></title>
 
-    <base href="<%= BASE_URL %>/" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700&display=fallback"
-    />
-    <link
-      rel="stylesheet"
-      href="<%= BASE_URL %>/plugins/fontawesome-free/css/all.min.css"
-    />
-    <link rel="stylesheet" href="<%= BASE_URL %>/dist/css/adminlte.min.css" />
-    <link rel="stylesheet" href="<%= BASE_URL %>/css/custom.css" />
-    <script src="<%= BASE_URL %>/plugins/jquery/jquery.min.js"></script>
-    <script src="<%= BASE_URL %>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="<%= BASE_URL %>/dist/js/adminlte.min.js"></script>
-
-    <link rel="stylesheet" href="<%= BASE_URL %>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<%= BASE_URL %>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="<%= BASE_URL %>/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-
-    <script src="<%= BASE_URL %>/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="<%= BASE_URL %>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+    <%- include('./scripts'); %>
   </head>
   <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -131,6 +108,13 @@
                 <a href="/profile" class="nav-link">
                   <i class="nav-icon fas fa-user-circle text-secondary"></i>
                   <p>My Profile</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/setting" class="nav-link">
+                  <i class="nav-icon fas fa-user-circle text-secondary"></i>
+                  <p>Settings</p>
                 </a>
               </li>
 

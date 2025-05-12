@@ -18,6 +18,7 @@ const clientRoutes = require("./routes/clientRoutes");
 const productRoutes = require("./routes/productRoutes");
 const taxRoutes = require("./routes/taxRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
+const settingRoutes = require("./routes/settingRoutes");
 const indexRoutes = require("./routes/index");
 
 const app = express();
@@ -52,7 +53,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"), { maxAge: 500000 }));
 
 // Routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -63,6 +64,7 @@ app.use("/api/clients", clientRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/taxes", taxRoutes);
 app.use("/api/invoices", invoiceRoutes);
+app.use("/api/settings", settingRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {

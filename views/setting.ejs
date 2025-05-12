@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Setting</h1>
+          <h1 class="m-0">Settings</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active">Setting</li>
+            <li class="breadcrumb-item active">Settings</li>
           </ol>
         </div>
       </div>
@@ -26,30 +26,58 @@
               <h3 class="card-title">Setting Information</h3>
             </div>
             <div class="card-body">
-              <form id="profileForm">
+              <form id="settingForm">
+                <div class="form-group">
+                  <label for="applicationName">Application Name</label>
+                  <input type="text" class="form-control" name="applicationName" id="applicationName">
+                </div>
                 <div class="form-group">
                   <label for="dateFormat">Date Format</label>
-                  <select class="form-control" name="dateFormat" id="dateFormat">
-                    <option value="">Select Date Format</option>
+                  <select
+                    class="form-control"
+                    name="dateFormat"
+                    id="dateFormat"
+                  >
+                    <% for (const key in DATE_FORMATS) { %>
+                      <option value="<%= DATE_FORMATS[key] %>"><%= DATE_FORMATS[key] %></option>
+                    <% } %>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="numberFormat">Date Format</label>
-                  <select class="form-control" name="numberFormat" id="numberFormat">
-                    <option value="">Select Number Format</option>
+                  <label for="numberFormat">Number Format</label>
+                  <select
+                    class="form-control"
+                    name="numberFormat"
+                    id="numberFormat"
+                  >
+                    <% for (const key in NUMBER_FORMAT) { %>
+                      <option value="<%= key %>"><%= NUMBER_FORMAT[key] %></option>
+                    <% } %>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="currency">Date Format</label>
+                  <label for="currency">Currency</label>
                   <select class="form-control" name="currency" id="currency">
-                    <option value="">Select Currency Format</option>
+                    <% for (const key in CURRENCY) { %>
+                      <option value="<%= key %>"><%= CURRENCY[key].join(' - ') %></option>
+                    <% } %>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="currency">Software Logo</label>
-                  <input type="file" class="form-control" id="softwareLogo" name="softwareLogo">
+                  <label for="softwareLogo"
+                    >Software Logo (Size : 400px x 85px)</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="softwareLogo"
+                    name="softwareLogo"
+                  />
+                  <div id="currentLogo" class="mt-2"></div>
                 </div>
-                <button type="submit" class="btn btn-primary">Update Settings</button>
+                <button type="submit" class="btn btn-primary">
+                  Update Settings
+                </button>
               </form>
             </div>
           </div>
@@ -59,5 +87,52 @@
   </div>
 </div>
 
+<script>
+  $(document).ready(function () {
+    // Load current settings
+    $.get("/api/settings", function (response) {
+      if (response) {
+        $("#applicationName").val(response.applicationName);
+        $("#dateFormat").val(response.dateFormat);
+        $("#numberFormat").val(response.numberFormat);
+        $("#currency").val(response.currency);
+        if (response.softwareLogo) {
+          $("#currentLogo").html(
+            `<img src="${response.softwareLogo}" alt="Current Logo" style="max-width: 200px;">`
+          );
+        }
+      }
+    });
+
+    // Handle form submission
+    $("#settingForm").on("submit", function (e) {
+      e.preventDefault();
+
+      var formData = new FormData(this);
+
+      $.ajax({
+        url: "/api/settings",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          if (response.success) {
+            alert("Settings updated success");
+            // Update logo preview if new logo was uploaded
+            if (response.data.softwareLogo) {
+              $("#currentLogo").html(
+                `<img src="${response.data.softwareLogo}" alt="Current Logo" style="max-width: 200px;">`
+              );
+            }
+          }
+        },
+        error: function (xhr) {
+          alert(xhr.responseJSON?.error || "Error updating settings");
+        },
+      });
+    });
+  });
+</script>
 
 <%- include('partials/footer'); %>

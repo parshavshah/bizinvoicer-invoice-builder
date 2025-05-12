@@ -27,4 +27,10 @@ const CURRENCY = {
   CNY: ["CNY", "Chinese Yuan", "¥"],
 };
 
-module.exports = { DATE_FORMATS, INVOICE_STATUS, CURRENCY };
+const NUMBER_FORMAT = {
+  US: "1,234.56 (US)",
+  EU: "1.234,56 (EU)",
+  SPACE: "1 234.56 (Space)",
+};
+
+module.exports = {NUMBER_FORMAT, DATE_FORMATS, INVOICE_STATUS, CURRENCY };
