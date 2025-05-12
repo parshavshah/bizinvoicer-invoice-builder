@@ -29,7 +29,6 @@ exports.createInvoice = async (req, res) => {
       issueDate,
       dueDate,
       notes,
-      currency,
       items,
     } = req.body;
 
@@ -46,7 +45,6 @@ exports.createInvoice = async (req, res) => {
           issueDate,
           dueDate,
           notes,
-          currency,
           status: "draft",
           subtotal: 0,
           taxTotal: 0,
@@ -207,7 +205,6 @@ exports.updateInvoice = async (req, res) => {
       issueDate,
       dueDate,
       notes,
-      currency,
       items,
     } = req.body;
 
@@ -235,7 +232,6 @@ exports.updateInvoice = async (req, res) => {
           issueDate,
           dueDate,
           notes,
-          currency,
         },
         { transaction: t }
       );

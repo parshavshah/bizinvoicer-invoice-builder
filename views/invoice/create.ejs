@@ -121,22 +121,6 @@
                       />
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="currency"
-                        >Currency <span class="text-danger">*</span></label
-                      >
-                      <select
-                        disabled
-                        class="form-control"
-                        id="currency"
-                        name="currency"
-                        required
-                      >
-                        <option value="">Select Currency</option>
-                      </select>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -318,16 +302,10 @@
         firms = firmsData;
         products = productsData;
         taxes = taxesData;
-        currencies = Object.values(dropdownData.CURRENCY);
 
         // Populate dropdowns
         populateDropdown("#clientId", clients, "name");
         populateDropdown("#firmId", firms, "name");
-        populateDropdown(
-          "#currency",
-          currencies.map((c) => ({ id: c[0], name: c[0] + " - " + c[2] })),
-          "name"
-        );
 
         // Add first item
         addItem();
@@ -425,16 +403,6 @@
       $("#total").text((subtotal + taxTotal).toFixed(2));
     }
 
-    $(document).on("change", "#firmId", function (e) {
-      e.preventDefault();
-      console.log($(this).val(), "-sdf");
-      const firm = firms.filter((e) => {
-        return e.id == $(this).val();
-      });
-      console.log(firm[0].defaultCurrency);
-      $("#currency").val(firm[0].defaultCurrency)
-    });
-
     $("#addItem").click(function () {
       addItem();
     });
@@ -474,7 +442,6 @@
         issueDate: $("#issueDate").val(),
         dueDate: $("#dueDate").val(),
         notes: $("#notes").val(),
-        currency: $("#currency").val(),
         items: items,
       };
 

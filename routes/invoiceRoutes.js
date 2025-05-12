@@ -42,11 +42,6 @@ const invoiceValidation = [
   body('notes')
     .optional()
     .trim(),
-  body('currency')
-    .notEmpty()
-    .withMessage('Currency is required')
-    .isLength({ max: 10 })
-    .withMessage('Currency must be less than 10 characters'),
   body('items')
     .isArray()
     .withMessage('Items must be an array')

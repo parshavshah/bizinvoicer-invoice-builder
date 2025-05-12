@@ -175,7 +175,7 @@
         {
           data: "total",
           render: function (data, type, row) {
-            return `${row.currency} ${parseFloat(data).toFixed(2)}`;
+            return `<%= CURRENCY[currency][2] %> ${parseFloat(data).toFixed(2)}`;
           },
         },
         {

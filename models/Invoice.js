@@ -75,10 +75,6 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
       allowNull: false,
       defaultValue: 0.00
     },
-    currency: {
-      type: DataTypes.STRING(10),
-      allowNull: false
-    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,

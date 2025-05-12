@@ -254,6 +254,7 @@ router.get("/invoice/list", isAuthenticated, async (req, res, next) => {
     await getApplicationSettings();
 
   res.render("invoice/list", {
+    CURRENCY,
     applicationName,
     softwareLogo,
     currency,

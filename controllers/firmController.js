@@ -24,7 +24,6 @@ exports.createFirm = async (req, res) => {
       email,
       website,
       taxNumber,
-      defaultCurrency
     } = req.body;
 
     // Handle logo upload
@@ -46,7 +45,6 @@ exports.createFirm = async (req, res) => {
       website,
       taxNumber,
       logoPath,
-      defaultCurrency: defaultCurrency || 'USD'
     });
 
     res.status(201).json({
@@ -95,7 +93,6 @@ exports.updateFirm = async (req, res) => {
       email,
       website,
       taxNumber,
-      defaultCurrency
     } = req.body;
 
     // Find firm and check ownership
@@ -136,7 +133,6 @@ exports.updateFirm = async (req, res) => {
       website,
       taxNumber,
       logoPath,
-      defaultCurrency
     });
 
     res.json({
