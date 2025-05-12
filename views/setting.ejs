@@ -134,7 +134,11 @@
           }
         },
         error: function (xhr) {
-          alert(xhr.responseJSON?.error || "Error updating settings");
+          Swal.fire({
+            title: "Error!",
+            text: xhr.responseJSON?.error || "Error updating settings",
+            icon: "error",
+          });
         },
       });
     });

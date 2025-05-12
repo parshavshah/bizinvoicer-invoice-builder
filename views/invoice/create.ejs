@@ -488,9 +488,11 @@
         },
         error: function (xhr) {
           const errors = xhr.responseJSON?.errors || [];
-          alert(
-            "Error creating invoice: " + errors.map((e) => e.msg).join("\n")
-          );
+          Swal.fire({
+            title: "Error!",
+            text: "Error creating invoice: " + errors.map((e) => e.msg).join("\n"),
+            icon: "error",
+          });
         },
       });
     });

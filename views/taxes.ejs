@@ -354,7 +354,11 @@
           $("#viewTaxModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading tax details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading tax details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -379,7 +383,11 @@
           $("#editTaxModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading tax details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading tax details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -456,7 +464,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error adding tax: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error adding tax: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -484,7 +496,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error updating tax: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error updating tax: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -506,7 +522,11 @@
             });
           },
           error: function (xhr, status, error) {
-            alert("Error deleting tax: " + error);
+            Swal.fire({
+              title: "Error!",
+              text: "Error deleting tax: " + error,
+              icon: "error",
+            });
           },
         });
       }

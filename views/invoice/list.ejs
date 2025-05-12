@@ -121,7 +121,11 @@
         });
       },
       error: function(xhr, status, error) {
-        alert("Error updating invoice status: " + error);
+        Swal.fire({
+          title: "Error!",
+          text: "Error updating invoice status: " + error,
+          icon: "error",
+        });
       }
     });
   });
@@ -226,7 +230,11 @@
           $("#invoiceTable").DataTable().ajax.reload();
         },
         error: function (xhr, status, error) {
-          alert("Error deleting invoice: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error deleting invoice: " + error,
+            icon: "error",
+          });
         },
       });
     }

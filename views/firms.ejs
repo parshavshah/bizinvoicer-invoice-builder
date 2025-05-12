@@ -616,7 +616,11 @@
           $("#viewFirmModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading firm details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading firm details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -687,7 +691,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error adding firm: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error adding firm: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -717,7 +725,11 @@
             });
           },
           error: function (xhr, status, error) {
-            alert("Error deleting firm: " + error);
+            Swal.fire({
+              title: "Error!",
+              text: "Error deleting firm: " + error,
+              icon: "error",
+            });
           },
         });
       }
@@ -766,7 +778,11 @@
           $("#editFirmModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading firm details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading firm details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -794,7 +810,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error updating firm: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error updating firm: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -817,7 +837,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error removing logo: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error removing logo: " + error,
+            icon: "error",
+          });
         },
       });
     });

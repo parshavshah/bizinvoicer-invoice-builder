@@ -431,7 +431,11 @@
           $("#viewProductModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading product details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading product details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -458,7 +462,11 @@
           $("#editProductModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading product details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading product details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -535,7 +543,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error adding product: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error adding product: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -563,7 +575,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error updating product: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error updating product: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -585,7 +601,11 @@
             });
           },
           error: function (xhr, status, error) {
-            alert("Error deleting product: " + error);
+            Swal.fire({
+              title: "Error!",
+              text: "Error deleting product: " + error,
+              icon: "error",
+            });
           },
         });
       }

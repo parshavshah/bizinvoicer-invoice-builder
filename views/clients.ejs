@@ -575,7 +575,11 @@
           $("#viewClientModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading client details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading client details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -612,7 +616,11 @@
           $("#editClientModal").modal("show");
         },
         error: function (xhr, status, error) {
-          alert("Error loading client details: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error loading client details: " + error,
+            icon: "error",
+          });
         },
       });
     }
@@ -691,7 +699,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error adding client: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error adding client: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -719,7 +731,11 @@
           });
         },
         error: function (xhr, status, error) {
-          alert("Error updating client: " + error);
+          Swal.fire({
+            title: "Error!",
+            text: "Error updating client: " + error,
+            icon: "error",
+          });
         },
       });
     });
@@ -739,7 +755,11 @@
             })
           },
           error: function (xhr, status, error) {
-            alert("Error deleting client: " + error);
+            Swal.fire({
+              title: "Error!",
+              text: "Error deleting client: " + error,
+              icon: "error",
+            });
           },
         });
       }

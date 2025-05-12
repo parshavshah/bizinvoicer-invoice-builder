@@ -80,13 +80,19 @@
               if (response.code == "USER_LOGIN_SUCCESS") {
                 window.location.href = "/dashboard";
               } else {
-                alert("Something went wrong, please try again later");
+                Swal.fire({
+                  title: "Error!",
+                  text: "Something went wrong, please try again later",
+                  icon: "error",
+                });
               }
             },
             error: function (xhr, status, error) {
-              alert(
-                "Registration failed: " + (xhr.responseJSON?.message || error)
-              );
+              Swal.fire({
+                title: "Error!",
+                text:"Registration failed: " + (xhr.responseJSON?.message || error),
+                icon: "error",
+              });
             },
           });
         });

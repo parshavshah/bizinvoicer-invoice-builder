@@ -517,7 +517,11 @@
         },
         error: function(xhr) {
           const errors = xhr.responseJSON?.errors || [];
-          alert("Error updating invoice: " + errors.map(e => e.msg).join("\n"));
+          Swal.fire({
+            title: "Error!",
+            text: "Error updating invoice: " + errors.map(e => e.msg).join("\n"),
+            icon: "error",
+          });
         }
       });
     });
