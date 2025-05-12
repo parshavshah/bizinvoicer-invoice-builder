@@ -526,7 +526,13 @@
           $("#addProductModal").modal("hide");
           $("#addProductForm")[0].reset();
           loadProducts();
-          alert("Product added successfully");
+          Swal.fire({
+            title: "Success!",
+            text: "Product added successfully",
+            icon: "success",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (xhr, status, error) {
           alert("Error adding product: " + error);
@@ -548,7 +554,13 @@
         success: function (response) {
           $("#editProductModal").modal("hide");
           loadProducts();
-          alert("Product updated successfully");
+          Swal.fire({
+            title: "Success!",
+            text: "Product updated successfully",
+            icon: "success",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (xhr, status, error) {
           alert("Error updating product: " + error);
@@ -564,7 +576,13 @@
           method: "DELETE",
           success: function (response) {
             loadProducts();
-            alert("Product deleted successfully");
+            Swal.fire({
+              title: "Success!",
+              text: "Product deleted successfully",
+              icon: "success",
+            }).then(() => {
+              location.reload();
+            });
           },
           error: function (xhr, status, error) {
             alert("Error deleting product: " + error);

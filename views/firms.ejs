@@ -678,7 +678,13 @@
           $("#addFirmForm")[0].reset();
           $(".custom-file-label").text("Choose file");
           loadFirms();
-          alert("Firm added successfully");
+          Swal.fire({
+            title: "Success!",
+            text: "Firm added successfully",
+            icon: "success",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (xhr, status, error) {
           alert("Error adding firm: " + error);
@@ -702,7 +708,13 @@
           method: "DELETE",
           success: function (response) {
             loadFirms();
-            alert("Firm deleted successfully");
+            Swal.fire({
+              title: "Success!",
+              text: "Firm deleted successfully",
+              icon: "success",
+            }).then(() => {
+              location.reload();
+            });
           },
           error: function (xhr, status, error) {
             alert("Error deleting firm: " + error);
@@ -773,7 +785,13 @@
         success: function (response) {
           $("#editFirmModal").modal("hide");
           loadFirms();
-          alert("Firm updated successfully");
+          Swal.fire({
+            title: "Success!",
+            text: "Firm updated successfully",
+            icon: "success",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (xhr, status, error) {
           alert("Error updating firm: " + error);
@@ -790,7 +808,13 @@
         method: "DELETE",
         success: function (response) {
           $("#edit-currentLogo").hide();
-          alert("Logo removed successfully");
+          Swal.fire({
+            title: "Success!",
+            text: "Logo removed successfully",
+            icon: "success",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (xhr, status, error) {
           alert("Error removing logo: " + error);

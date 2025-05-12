@@ -118,7 +118,13 @@
         contentType: false,
         success: function (response) {
           if (response.success) {
-            alert("Settings updated success");
+            Swal.fire({
+              title: "Success!",
+              text: "Settings updated success!",
+              icon: "success",
+            }).then(() => {
+              location.reload();
+            });
             // Update logo preview if new logo was uploaded
             if (response.data.softwareLogo) {
               $("#currentLogo").html(

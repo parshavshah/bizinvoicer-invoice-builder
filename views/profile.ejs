@@ -83,7 +83,13 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.json())
     .then(data => {
       if (data.message) {
-        alert('Profile updated successfully!');
+        Swal.fire({
+          title: "Success!",
+          text: "Profile updated successfully!",
+          icon: "success",
+        }).then(() => {
+          location.reload();
+        });
       } else {
         throw new Error(data.message || 'Error updating profile');
       }

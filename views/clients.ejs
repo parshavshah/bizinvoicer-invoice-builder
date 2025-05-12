@@ -682,7 +682,13 @@
           $("#addClientModal").modal("hide");
           $("#addClientForm")[0].reset();
           loadClients();
-          alert("Client added successfully");
+          Swal.fire({
+            title: "Success!",
+            text: "Client added successfully",
+            icon: "success",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (xhr, status, error) {
           alert("Error adding client: " + error);
@@ -704,7 +710,13 @@
         success: function (response) {
           $("#editClientModal").modal("hide");
           loadClients();
-          alert("Client updated successfully");
+          Swal.fire({
+            title: "Success!",
+            text: "Client updated successfully",
+            icon: "success",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (xhr, status, error) {
           alert("Error updating client: " + error);
@@ -720,7 +732,11 @@
           method: "DELETE",
           success: function (response) {
             loadClients();
-            alert("Client deleted successfully");
+            Swal.fire({
+              title: "Success!",
+              text: "Client deleted successfully",
+              icon: "success",
+            })
           },
           error: function (xhr, status, error) {
             alert("Error deleting client: " + error);

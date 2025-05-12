@@ -112,7 +112,13 @@
         $("#invoiceTable").DataTable().ajax.reload();
 
         // Show success message
-        alert("Invoice status updated successfully");
+        Swal.fire({
+          title: "Success!",
+          text: "Invoice status updated successfully",
+          icon: "success",
+        }).then(() => {
+          location.reload();
+        });
       },
       error: function(xhr, status, error) {
         alert("Error updating invoice status: " + error);
