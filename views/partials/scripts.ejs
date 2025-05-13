@@ -33,3 +33,75 @@
 <script src="<%= BASE_URL %>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<%= BASE_URL %>/plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="<%= BASE_URL %>/dist/js/adminlte.min.js"></script>
+
+
+<script>
+  const formatDate = function (dateString) {
+    const formatType = "<%= dateFormat; %>";
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid date string");
+    }
+
+    const padZero = (num) => num.toString().padStart(2, "0");
+
+    const day = padZero(date.getDate());
+    const month = padZero(date.getMonth() + 1); // Months are zero-indexed
+    const year = date.getFullYear();
+
+    switch (formatType) {
+      case "MM/DD/YYYY":
+        return `${month}/${day}/${year}`;
+      case "DD/MM/YYYY":
+        return `${day}/${month}/${year}`;
+      case "YYYY/MM/DD":
+        return `${year}/${month}/${day}`;
+      case "DD-MM-YYYY":
+        return `${day}-${month}-${year}`;
+      case "YYYY-MM-DD":
+        return `${year}-${month}-${day}`;
+      case "MM-DD-YYYY":
+        return `${month}-${day}-${year}`;
+      default:
+        throw new Error("Unsupported format type");
+    }
+  }
+
+  
+</script>
+
+<%
+  formatDate = function (dateString) {
+    const formatType = dateFormat;
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid date string");
+    }
+
+    const padZero = (num) => num.toString().padStart(2, "0");
+
+    const day = padZero(date.getDate());
+    const month = padZero(date.getMonth() + 1); // Months are zero-indexed
+    const year = date.getFullYear();
+
+    switch (formatType) {
+      case "MM/DD/YYYY":
+        return `${month}/${day}/${year}`;
+      case "DD/MM/YYYY":
+        return `${day}/${month}/${year}`;
+      case "YYYY/MM/DD":
+        return `${year}/${month}/${day}`;
+      case "DD-MM-YYYY":
+        return `${day}-${month}-${year}`;
+      case "YYYY-MM-DD":
+        return `${year}-${month}-${day}`;
+      case "MM-DD-YYYY":
+        return `${month}-${day}-${year}`;
+      default:
+        throw new Error("Unsupported format type");
+    }
+  }
+
+%>

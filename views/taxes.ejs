@@ -454,9 +454,18 @@
           });
         },
         error: function (xhr, status, error) {
+          let message = error;
+          if(xhr.status==400){
+            console.log(xhr.responseJSON.errors)
+            if(xhr.responseJSON.errors && xhr.responseJSON.errors.length > 0){
+              message = xhr.responseJSON.errors.map(e=>{
+                return e.msg;
+              });
+            }
+          }
           Swal.fire({
             title: "Error!",
-            text: "Error adding tax: " + error,
+            text: "Error adding tax: " + message,
             icon: "error",
           });
         },

@@ -203,7 +203,7 @@
 <template id="itemTemplate">
   <div class="item-row border-bottom pb-3 pt-3">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="form-group">
           <label>Product/Service</label>
           <select class="form-control product-select" required>
@@ -211,10 +211,16 @@
           </select>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control name" required />
+        </div>
+      </div>
+      <div class="col-md-5">
         <div class="form-group">
           <label>Description</label>
-          <input type="text" class="form-control description" required />
+          <textarea class="form-control description" required></textarea>
         </div>
       </div>
     </div>
@@ -355,6 +361,7 @@
         const productId = $(this).val();
         const product = products.find((p) => p.id === parseInt(productId));
         if (product) {
+          $item.find(".name").val(product.name);
           $item.find(".description").val(product.description);
           $item.find(".unit-price").val(product.regularPrice);
           calculateItemSubtotal($item);
@@ -426,6 +433,7 @@
 
         items.push({
           productId: parseInt($item.find(".product-select").val()),
+          name: $item.find(".name").val(),
           description: $item.find(".description").val(),
           quantity: parseFloat($item.find(".quantity").val()),
           unitPrice: parseFloat($item.find(".unit-price").val()),

@@ -32,6 +32,8 @@ exports.createInvoice = async (req, res) => {
       items,
     } = req.body;
 
+    console.log(items)
+
     // Start transaction
     const result = await sequelize.transaction(async (t) => {
       // Create invoice
@@ -61,6 +63,7 @@ exports.createInvoice = async (req, res) => {
         const {
           productId,
           description,
+          name,
           quantity,
           unitPrice,
           discountPercent,
@@ -76,6 +79,7 @@ exports.createInvoice = async (req, res) => {
           {
             invoiceId: invoice.id,
             productId,
+            name,
             description,
             quantity,
             unitPrice,
@@ -259,6 +263,7 @@ exports.updateInvoice = async (req, res) => {
         const {
           productId,
           description,
+          name,
           quantity,
           unitPrice,
           discountPercent,
@@ -274,6 +279,7 @@ exports.updateInvoice = async (req, res) => {
           {
             invoiceId: invoice.id,
             productId,
+            name,
             description,
             quantity,
             unitPrice,
