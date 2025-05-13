@@ -46,29 +46,39 @@
             <div class="card-body" id="invoiceContent">
               <!-- Invoice Header -->
               <div class="row mb-4">
-                <div class="col-sm-4">
-                  <h6 class="mb-3">From:</h6>
-                  <div>
+                <div class="col-sm-8 bg-light">
                     <img
                       src="<%= invoice.Firm.logoPath %>"
-                      class="mb-2 img-fluid"
+                      class="mb-2 mt-3 img-fluid"
                       style="max-width: 200px"
                       alt="Firm Logo"
                     />
-                  </div>
+                </div>
+                <div class="col-sm-4 bg-primary text-center ">
+                  <h1 class="mt-2">INVOICE</h1>
+                </div>
+                
+                <div class="mt-4 col-12">
+
+                </div>
+
+                <div class="col-sm-4">
+                  <h6 class="mb-3"><b>From:</b></h6>
+                  
                   <% if (invoice.Firm.name) { %>
                     <div><b><%= invoice.Firm.name %></b></div>
                     <% } %>
-                  <% if (invoice.Firm.address) { %>
-                  <div><%= invoice.Firm.address %></div>
-                  <% } %> <% if (invoice.Firm.city) { %>
-                  <div><%= invoice.Firm.city %></div>
-                  <% } %> <% if (invoice.Firm.state) { %>
-                  <div><%= invoice.Firm.state %></div>
-                  <% } %> <% if (invoice.Firm.postalCode) { %>
-                  <div><%= invoice.Firm.postalCode %></div>
-                  <% } %> <% if (invoice.Firm.country) { %>
-                  <div><%= invoice.Firm.country %></div>
+
+                  <% const fullAddress = [
+                    invoice.Firm.address,
+                    invoice.Firm.city,invoice.Firm.state,
+                    invoice.Firm.postalCode,
+                    invoice.Firm.country,
+                  ].filter(e => e).join(", "); %>
+
+
+                  <% if (fullAddress) { %>
+                  <div><%= fullAddress %>.</div>
                   <% } %> <% if (invoice.Firm.phone) { %>
                   <div>Phone: <%= invoice.Firm.phone %></div>
                   <% } %> <% if (invoice.Firm.email) { %>
@@ -79,20 +89,18 @@
                 </div>
 
                 <div class="col-sm-4">
-                  <h6 class="mb-3">To:</h6>
+                  <h6 class="mb-3"><b>To:</b></h6>
                   <div>
                     <strong><%= invoice.Client.name %></strong>
                   </div>
-                  <% if (invoice.Client.address) { %>
-                  <div><%= invoice.Client.address %></div>
-                  <% } %> <% if (invoice.Client.city) { %>
-                  <div><%= invoice.Client.city %></div>
-                  <% } %> <% if (invoice.Client.state) { %>
-                  <div><%= invoice.Client.state %></div>
-                  <% } %> <% if (invoice.Client.postalCode) { %>
-                  <div><%= invoice.Client.postalCode %></div>
-                  <% } %> <% if (invoice.Client.country) { %>
-                  <div><%= invoice.Client.country %></div>
+                  <% const clientFullAddress = [
+                    invoice.Client.address,
+                    invoice.Client.city,invoice.Client.state,
+                    invoice.Client.postalCode,
+                    invoice.Client.country,
+                  ].filter(e => e).join(", "); %>
+                  <% if (clientFullAddress) { %>
+                  <div><%= clientFullAddress %>.</div>
                   <% } %> <% if (invoice.Client.phone) { %>
                   <div>Phone: <%= invoice.Client.phone %></div>
                   <% } %> <% if (invoice.Client.email) { %>
@@ -206,10 +214,13 @@
               </div>
 
               <% if (invoice.notes) { %>
-              <div class="row mt-4">
+              <div class="row mt-2">
                 <div class="col-12">
                   <h6><b>Notes:</b></h6>
                   <p><%= invoice.notes %></p>
+                </div>
+                <div class="col-12 mt-4 text-center text-sm">
+                  <p>This is a computer-generated invoice and does not require a signature</p>
                 </div>
               </div>
               <% } %>
