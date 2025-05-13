@@ -486,9 +486,8 @@
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item text-danger" href="#" onclick="deleteClient(${
-                    client.id
-                  })">
+                  <a class="dropdown-item text-danger delete-client" href="#" 
+                  data-id="${client.id}">
                     <i class="fas fa-trash mr-2"></i>Delete
                   </a>
                 </div>
@@ -741,29 +740,41 @@
     });
 
     // Function to delete client
-    window.deleteClient = function (clientId) {
-      if (confirm("Are you sure you want to delete this client?")) {
-        $.ajax({
-          url: `/api/clients/${clientId}`,
-          method: "DELETE",
-          success: function (response) {
-            loadClients();
-            Swal.fire({
-              title: "Success!",
-              text: "Client deleted successfully",
-              icon: "success",
-            })
-          },
-          error: function (xhr, status, error) {
-            Swal.fire({
-              title: "Error!",
-              text: "Error deleting client: " + error,
-              icon: "error",
-            });
-          },
-        });
-      }
-    };
+    $(document).on("click", ".delete-client", function (e) {
+      e.preventDefault();
+      let clientId = $(this).data("id");
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/api/clients/${clientId}`,
+            method: "DELETE",
+            success: function (response) {
+              loadClients();
+              Swal.fire({
+                title: "Success!",
+                text: "Client deleted successfully",
+                icon: "success",
+              });
+            },
+            error: function (xhr, status, error) {
+              Swal.fire({
+                title: "Error!",
+                text: "Error deleting client: " + error,
+                icon: "error",
+              });
+            },
+          });
+        }
+      });
+    });
 
     // Load clients when page loads
     loadClients();
