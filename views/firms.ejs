@@ -559,16 +559,6 @@
     `;
     }
 
-    // Function to format date
-    function formatDate(dateString) {
-      if (!dateString) return "N/A";
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-UK", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-      });
-    }
 
     // Function to show firm details in modal
     function showFirmDetails(firmId) {

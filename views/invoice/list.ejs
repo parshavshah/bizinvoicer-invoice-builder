@@ -163,13 +163,13 @@
         {
           data: "issueDate",
           render: function (data) {
-            return new Date(data).toLocaleDateString();
+            return formatDate(data);
           },
         },
         {
           data: "dueDate",
           render: function (data) {
-            return new Date(data).toLocaleDateString();
+            return formatDate(data);
           },
         },
         {

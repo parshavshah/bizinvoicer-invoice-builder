@@ -32,8 +32,8 @@
 
       <!-- Main Sidebar Container -->
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="#" style="font-size: 30px;" class="brand-link">
-          <img src="uploads/logo.png" class="img-fluid" alt="">
+        <a href="#" style="font-size: 30px" class="brand-link">
+          <img src="uploads/logo.png" class="img-fluid" alt="" />
         </a>
 
         <!-- Sidebar -->
@@ -48,7 +48,9 @@
               />
             </div>
             <div class="info">
-              <a href="#" class="d-block"><%= [user.firstName,user.lastName].join(" "); %></a>
+              <a href="#" class="d-block"
+                ><%= [user.firstName,user.lastName].join(" "); %></a
+              >
             </div>
           </div>
 
@@ -137,3 +139,75 @@
         </div>
         <!-- /.sidebar -->
       </aside>
+
+      <script>
+        const formatDate = function (dateString) {
+          const formatType = "<%= dateFormat; %>";
+          const date = new Date(dateString);
+
+          if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string");
+          }
+
+          const padZero = (num) => num.toString().padStart(2, "0");
+
+          const day = padZero(date.getDate());
+          const month = padZero(date.getMonth() + 1); // Months are zero-indexed
+          const year = date.getFullYear();
+
+          switch (formatType) {
+            case "MM/DD/YYYY":
+              return `${month}/${day}/${year}`;
+            case "DD/MM/YYYY":
+              return `${day}/${month}/${year}`;
+            case "YYYY/MM/DD":
+              return `${year}/${month}/${day}`;
+            case "DD-MM-YYYY":
+              return `${day}-${month}-${year}`;
+            case "YYYY-MM-DD":
+              return `${year}-${month}-${day}`;
+            case "MM-DD-YYYY":
+              return `${month}-${day}-${year}`;
+            default:
+              throw new Error("Unsupported format type");
+          }
+        }
+
+        
+      </script>
+
+      <%
+        formatDate = function (dateString) {
+          const formatType = dateFormat;
+          const date = new Date(dateString);
+
+          if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string");
+          }
+
+          const padZero = (num) => num.toString().padStart(2, "0");
+
+          const day = padZero(date.getDate());
+          const month = padZero(date.getMonth() + 1); // Months are zero-indexed
+          const year = date.getFullYear();
+
+          switch (formatType) {
+            case "MM/DD/YYYY":
+              return `${month}/${day}/${year}`;
+            case "DD/MM/YYYY":
+              return `${day}/${month}/${year}`;
+            case "YYYY/MM/DD":
+              return `${year}/${month}/${day}`;
+            case "DD-MM-YYYY":
+              return `${day}-${month}-${year}`;
+            case "YYYY-MM-DD":
+              return `${year}-${month}-${day}`;
+            case "MM-DD-YYYY":
+              return `${month}-${day}-${year}`;
+            default:
+              throw new Error("Unsupported format type");
+          }
+        }
+
+      %>
+   

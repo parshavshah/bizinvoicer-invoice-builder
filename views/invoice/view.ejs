@@ -116,24 +116,11 @@
                     Invoice Number:
                     <strong><%= invoice.invoiceNumber %></strong>
                   </div>
-                  <% if (invoice.reference) { %>
-                  <div>Reference: <%= invoice.reference %></div>
-                  <% } %>
                   <div>
-                    Issue Date: <%= new
-                    Date(invoice.issueDate).toLocaleDateString() %>
+                    Issue Date: <b><%= formatDate(invoice.issueDate) %></b>
                   </div>
                   <div>
-                    Due Date: <%= new Date(invoice.dueDate).toLocaleDateString()
-                    %>
-                  </div>
-                  <div>
-                    Status:
-                    <span
-                      class="badge badge-<%= getStatusBadgeClass(invoice.status) %>"
-                      ><%= invoice.status.charAt(0).toUpperCase() +
-                      invoice.status.slice(1) %></span
-                    >
+                    Due Date: <b><%= formatDate(invoice.dueDate) %></b>
                   </div>
                 </div>
               </div>

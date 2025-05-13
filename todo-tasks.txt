@@ -1,3 +1,6 @@
+- show date on setting format
+- set date on setting format (all date input)
+
 - add currency and number format in firm
 - add date format in firm
 - apply number format at all places
