@@ -1,0 +1,396 @@
+<%- include('partials/header'); %>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Users</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Users</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <!-- Add New User Button -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#addUserModal"
+          >
+            <i class="fas fa-plus"></i> Add New User
+          </button>
+        </div>
+      </div>
+
+      <!-- Users Grid -->
+      <div class="row" id="users-container">
+        <!-- Users will be rendered here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<div
+  class="modal fade"
+  id="addUserModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addUserModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addUserForm">
+          <div class="form-group">
+            <label for="userEmail">Email <span class="text-danger">*</span></label>
+            <input
+              type="email"
+              class="form-control"
+              id="userEmail"
+              name="email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="userPassword">Password <span class="text-danger">*</span></label>
+            <input
+              type="password"
+              class="form-control"
+              id="userPassword"
+              name="password"
+              required
+              minlength="6"
+            />
+          </div>
+          <div class="form-group">
+            <label for="userFirstName">First Name <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="userFirstName"
+              name="firstName"
+              required
+              maxlength="100"
+            />
+          </div>
+          <div class="form-group">
+            <label for="userLastName">Last Name <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="userLastName"
+              name="lastName"
+              required
+              maxlength="100"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" id="saveUserBtn">
+          Save User
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div
+  class="modal fade"
+  id="editUserModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editUserModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editUserForm">
+          <input type="hidden" id="edit-userId" name="id" />
+          <div class="form-group">
+            <label for="edit-userEmail">Email <span class="text-danger">*</span></label>
+            <input
+              type="email"
+              class="form-control"
+              id="edit-userEmail"
+              name="email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-userFirstName">First Name <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="edit-userFirstName"
+              name="firstName"
+              required
+              maxlength="100"
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-userLastName">Last Name <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="edit-userLastName"
+              name="lastName"
+              required
+              maxlength="100"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" id="updateUserBtn">
+          Update User
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Function to render user card
+    function renderUserCard(user) {
+      return `
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
+              <p class="card-text">
+                <i class="fas fa-envelope mr-2"></i>${user.email}
+              </p>
+              <p class="card-text">
+                <small class="text-muted">
+                  <i class="fas fa-calendar-alt mr-2"></i>Created: ${new Date(user.createdAt).toLocaleDateString()}
+                </small>
+              </p>
+            </div>
+            <div class="card-footer bg-transparent">
+              <button class="btn btn-primary btn-sm mr-2 edit-user" data-id="${user.id}">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-danger btn-sm delete-user" data-id="${user.id}">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Function to load users
+    function loadUsers() {
+      $.ajax({
+        url: '/api/users',
+        method: 'GET',
+        success: function (response) {
+          const usersContainer = $('#users-container');
+          usersContainer.empty();
+
+          if (response && response.length > 0) {
+            response.forEach((user) => {
+              usersContainer.append(renderUserCard(user));
+            });
+          } else {
+            usersContainer.html(`
+              <div class="col-12">
+                <div class="alert alert-info">
+                  <i class="fas fa-info-circle mr-2"></i>No users found. Click "Add New User" to create one.
+                </div>
+              </div>
+            `);
+          }
+        },
+        error: function (xhr, status, error) {
+          $('#users-container').html(`
+            <div class="col-12">
+              <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle mr-2"></i>Error loading users: ${error}
+              </div>
+            </div>
+          `);
+        },
+      });
+    }
+
+    // Handle Add User Form Submission
+    $('#saveUserBtn').click(function () {
+      const formData = new FormData($('#addUserForm')[0]);
+
+      $.ajax({
+        url: '/api/users',
+        method: 'POST',
+        data: Object.fromEntries(formData),
+        success: function (response) {
+          $('#addUserModal').modal('hide');
+          $('#addUserForm')[0].reset();
+          loadUsers();
+          Swal.fire({
+            title: 'Success!',
+            text: 'User added successfully',
+            icon: 'success',
+          });
+        },
+        error: function (xhr, status, error) {
+          let message = error;
+          if (xhr.status === 400) {
+            if (xhr.responseJSON.errors && xhr.responseJSON.errors.length > 0) {
+              message = xhr.responseJSON.errors.map(e => e.msg).join('\n');
+            }
+          }
+          Swal.fire({
+            title: 'Error!',
+            text: 'Error adding user: ' + message,
+            icon: 'error',
+          });
+        },
+      });
+    });
+
+    // Handle Edit User Click
+    $(document).on('click', '.edit-user', function () {
+      const userId = $(this).data('id');
+      
+      $.ajax({
+        url: `/api/users/${userId}`,
+        method: 'GET',
+        success: function (user) {
+          $('#edit-userId').val(user.id);
+          $('#edit-userEmail').val(user.email);
+          $('#edit-userFirstName').val(user.firstName);
+          $('#edit-userLastName').val(user.lastName);
+          $('#editUserModal').modal('show');
+        },
+        error: function (xhr, status, error) {
+          Swal.fire({
+            title: 'Error!',
+            text: 'Error loading user details: ' + error,
+            icon: 'error',
+          });
+        },
+      });
+    });
+
+    // Handle Update User Form Submission
+    $('#updateUserBtn').click(function () {
+      const formData = new FormData($('#editUserForm')[0]);
+      const userId = $('#edit-userId').val();
+
+      $.ajax({
+        url: `/api/users/${userId}`,
+        method: 'PUT',
+        data: Object.fromEntries(formData),
+        success: function (response) {
+          $('#editUserModal').modal('hide');
+          loadUsers();
+          Swal.fire({
+            title: 'Success!',
+            text: 'User updated successfully',
+            icon: 'success',
+          });
+        },
+        error: function (xhr, status, error) {
+          let message = error;
+          if (xhr.status === 400) {
+            if (xhr.responseJSON.errors && xhr.responseJSON.errors.length > 0) {
+              message = xhr.responseJSON.errors.map(e => e.msg).join('\n');
+            }
+          }
+          Swal.fire({
+            title: 'Error!',
+            text: 'Error updating user: ' + message,
+            icon: 'error',
+          });
+        },
+      });
+    });
+
+    // Handle Delete User Click
+    $(document).on('click', '.delete-user', function () {
+      const userId = $(this).data('id');
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/api/users/${userId}`,
+            method: 'DELETE',
+            success: function (response) {
+              loadUsers();
+              Swal.fire({
+                title: 'Success!',
+                text: 'User deleted successfully',
+                icon: 'success',
+              });
+            },
+            error: function (xhr, status, error) {
+              Swal.fire({
+                title: 'Error!',
+                text: 'Error deleting user: ' + error,
+                icon: 'error',
+              });
+            },
+          });
+        }
+      });
+    });
+
+    // Load users on page load
+    loadUsers();
+  });
+</script>
+
+<%- include('partials/footer'); %> 

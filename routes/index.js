@@ -39,6 +39,7 @@ router.get("/firms", isAuthenticated, (req, res) => getResourceView(req, res, "f
 router.get("/clients", isAuthenticated, (req, res) => getResourceView(req, res, "clients"));
 router.get("/products", isAuthenticated, (req, res) => getResourceView(req, res, "products"));
 router.get("/taxes", isAuthenticated, (req, res) => getResourceView(req, res, "taxes"));
+router.get("/users", isAuthenticated, (req, res) => getResourceView(req, res, "users"));
 
 // Invoice routes
 router.get("/invoice/list", isAuthenticated, getInvoiceList);

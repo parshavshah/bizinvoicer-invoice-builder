@@ -1,7 +1,7 @@
 // User routes for handling user-related endpoints 
 const express = require('express');
 const { body } = require('express-validator');
-const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -62,11 +62,11 @@ const changePasswordValidation = [
 ];
 
 // Routes
-router.post('/register', registerValidation, userController.register);
-router.post('/login', loginValidation, userController.login);
-router.get('/logout', userController.logout);
-router.get('/profile', userController.getProfile);
-router.put('/profile', profileValidation, userController.updateProfile);
-router.post('/change-password', changePasswordValidation, userController.changePassword);
+router.post('/register', registerValidation, authController.register);
+router.post('/login', loginValidation, authController.login);
+router.get('/logout', authController.logout);
+router.get('/profile', authController.getProfile);
+router.put('/profile', profileValidation, authController.updateProfile);
+router.post('/change-password', changePasswordValidation, authController.changePassword);
 
 module.exports = router; 
