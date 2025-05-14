@@ -61,7 +61,7 @@ const PERMISSIONS = [
   },
   {
     name: "USER",
-    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST"],
   },
 ];
 

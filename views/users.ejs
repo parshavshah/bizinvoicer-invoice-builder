@@ -19,6 +19,7 @@
 
   <div class="content">
     <div class="container-fluid">
+      <% if(permissions[`${user.role}_USER_CREATE`]){ %>
       <!-- Add New User Button -->
       <div class="row mb-4">
         <div class="col-12">
@@ -32,6 +33,7 @@
           </button>
         </div>
       </div>
+      <% } %>
 
       <!-- Users Grid -->
       <div class="row" id="users-container">
@@ -239,12 +241,16 @@
               </p>
             </div>
             <div class="card-footer bg-transparent">
+              <% if(permissions[`${user.role}_USER_UPDATE`]){ %>
               <button class="btn btn-primary btn-sm mr-2 edit-user" data-id="${user.id}">
                 <i class="fas fa-edit"></i> Edit
               </button>
+              <% } %>
+              <% if(permissions[`${user.role}_USER_DELETE`]){ %>
               <button class="btn btn-danger btn-sm delete-user" data-id="${user.id}">
                 <i class="fas fa-trash"></i> Delete
               </button>
+              <% } %>
             </div>
           </div>
         </div>
