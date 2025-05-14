@@ -39,12 +39,30 @@ const NUMBER_FORMAT = {
 };
 
 const PERMISSIONS = [
-  { name: "CLIENT", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
-  { name: "FIRM", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
-  { name: "INVOICE", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
-  { name: "PRODUCT", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
-  { name: "TAX", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
-  { name: "USER", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
+  {
+    name: "CLIENT",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "FIRM",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "INVOICE",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "PRODUCT",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "TAX",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "USER",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
 ];
 
 module.exports = {

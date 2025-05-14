@@ -1,3 +1,4 @@
+const { raw } = require("mysql2");
 const {
   Invoice,
   InvoiceItem,
@@ -22,7 +23,20 @@ const {
 
 // Helper function to get application settings
 const getApplicationSettings = async () => {
-  const setting = await Setting.findOne();
+  let setting = await Setting.findOne({ raw: true });
+  const dbRolePermission = await RolePermission.findAll({ raw: true });
+  const permissions = {};
+  dbRolePermission.forEach((rp) => {
+    permissions[`${rp.role}_${rp.module}_${rp.action}`] =
+      rp.allowed == "yes" ? true : false;
+  });
+
+  setting = {
+    ...{ permissions },
+    ...{ PERMISSIONS: PERMISSIONS },
+    ...setting,
+  };
+  console.log(setting);
   return setting;
 };
 
@@ -187,10 +201,17 @@ const getDashboard = async (req, res, next) => {
 
 // Resource views (Firms, Clients, Products, Taxes)
 const getResourceView = async (req, res, view) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   res.render(view, {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -204,10 +225,11 @@ const getResourceView = async (req, res, view) => {
 
 // Invoice views
 const getInvoiceList = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
+  const { applicationName, softwareLogo, currency, numberFormat, dateFormat, permissions } =
     await getApplicationSettings();
 
   res.render("invoice/list", {
+    permissions,
     CURRENCY,
     applicationName,
     softwareLogo,
@@ -347,24 +369,16 @@ const setUserPermissions = async (req, res) => {
     await getApplicationSettings();
 
   const dbRolePermission = await RolePermission.findAll({ raw: true });
-
   const existingRolePermissions = {};
-
   dbRolePermission.forEach((rp) => {
-
-    if(!existingRolePermissions[rp.role]){
-      existingRolePermissions[rp.role] = {}
+    if (!existingRolePermissions[rp.role]) {
+      existingRolePermissions[rp.role] = {};
     }
-
-    if(!existingRolePermissions[rp.role][rp.module]){
-      existingRolePermissions[rp.role][rp.module] = {}
+    if (!existingRolePermissions[rp.role][rp.module]) {
+      existingRolePermissions[rp.role][rp.module] = {};
     }
-
     existingRolePermissions[rp.role][rp.module][rp.action] = rp.allowed;
   });
-
-  console.log(existingRolePermissions);
-
 
   let permissions = PERMISSIONS;
 

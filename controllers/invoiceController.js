@@ -383,8 +383,6 @@ exports.updateInvoiceStatus = async (req, res) => {
 exports.deleteInvoice = async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Find invoice and check ownership
     const invoice = await Invoice.findOne({
       where: {
         id,
