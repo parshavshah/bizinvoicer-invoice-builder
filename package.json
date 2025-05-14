@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "preinstall": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "start": "nodemon ./bin/www"
   },
   "dependencies": {

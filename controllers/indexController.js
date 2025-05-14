@@ -8,6 +8,7 @@ const {
   Firm,
   Product,
   Tax,
+  User,
   sequelize,
 } = require("../models");
 
@@ -125,6 +126,13 @@ const getLogin = async (req, res) => {
 const getRegister = async (req, res) => {
   if (req.session.user) {
     return res.redirect("/dashboard");
+  }
+
+  // Check if any user exists
+  const userCount = await User.count();
+  if (userCount > 0) {
+    // If users exist, redirect to login
+    return res.redirect("/login?syssetup=done");
   }
 
   const {

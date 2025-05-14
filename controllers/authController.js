@@ -2,10 +2,18 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const { User } = require("../models");
+const { USER_ROLES } = require("../utils/constants");
 
 // Register a new user
 exports.register = async (req, res) => {
   try {
+    // Check if any user exists
+    const userCount = await User.count();
+    if (userCount > 0) {
+      // If users exist, redirect to login
+      return res.redirect("/login");
+    }
+
     // Validate request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -14,7 +22,7 @@ exports.register = async (req, res) => {
 
     const { email, password, firstName, lastName } = req.body;
 
-    // Check if user already exists
+    // Check if user already exists (should not happen, but for safety)
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -24,12 +32,13 @@ exports.register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
+    // Create user with ADMIN role
     const user = await User.create({
       email,
       password: hashedPassword,
       firstName,
       lastName,
+      role: USER_ROLES.ADMIN,
     });
 
     // Set user session
@@ -37,6 +46,7 @@ exports.register = async (req, res) => {
       id: user.id,
       email: user.email,
       firstName: user.firstName,
+      role: user.role,
       lastName: user.lastName,
     };
 
@@ -132,8 +142,8 @@ exports.getProfile = async (req, res) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error("Get profile error:", error);
@@ -162,14 +172,14 @@ exports.updateProfile = async (req, res) => {
 
     await user.update({
       firstName,
-      lastName
+      lastName,
     });
 
     // Update session
     req.session.user = {
       ...req.session.user,
       firstName,
-      lastName
+      lastName,
     };
 
     res.json({
@@ -177,8 +187,8 @@ exports.updateProfile = async (req, res) => {
       user: {
         email: user.email,
         firstName: user.firstName,
-        lastName: user.lastName
-      }
+        lastName: user.lastName,
+      },
     });
   } catch (error) {
     console.error("Update profile error:", error);
@@ -219,7 +229,7 @@ exports.changePassword = async (req, res) => {
     await user.update({ password: hashedPassword });
 
     res.json({
-      message: "Password updated successfully"
+      message: "Password updated successfully",
     });
   } catch (error) {
     console.error("Change password error:", error);
