@@ -1,8 +1,8 @@
-// Firm controller for handling company/firm-related operations 
-const { validationResult } = require('express-validator');
-const { Firm, Invoice } = require('../models');
-const fs = require('fs');
-const path = require('path');
+// Firm controller for handling company/firm-related operations
+const { validationResult } = require("express-validator");
+const { Firm, Invoice } = require("../models");
+const fs = require("fs");
+const path = require("path");
 
 // Create a new firm
 exports.createFirm = async (req, res) => {
@@ -33,7 +33,6 @@ exports.createFirm = async (req, res) => {
     }
 
     const firm = await Firm.create({
-      userId: req.session.user.id,
       name,
       address,
       city,
@@ -48,12 +47,12 @@ exports.createFirm = async (req, res) => {
     });
 
     res.status(201).json({
-      message: 'Firm created successfully',
-      firm
+      message: "Firm created successfully",
+      firm,
     });
   } catch (error) {
-    console.error('Create firm error:', error);
-    res.status(500).json({ message: 'Error creating firm' });
+    console.error("Create firm error:", error);
+    res.status(500).json({ message: "Error creating firm" });
   }
 };
 
@@ -61,14 +60,14 @@ exports.createFirm = async (req, res) => {
 exports.getFirms = async (req, res) => {
   try {
     const firms = await Firm.findAll({
-      where: { userId: req.session.user.id },
-      order: [['createdAt', 'DESC']]
+      where: {},
+      order: [["createdAt", "DESC"]],
     });
 
     res.json(firms);
   } catch (error) {
-    console.error('Get firms error:', error);
-    res.status(500).json({ message: 'Error fetching firms' });
+    console.error("Get firms error:", error);
+    res.status(500).json({ message: "Error fetching firms" });
   }
 };
 
@@ -99,12 +98,11 @@ exports.updateFirm = async (req, res) => {
     const firm = await Firm.findOne({
       where: {
         id,
-        userId: req.session.user.id
-      }
+      },
     });
 
     if (!firm) {
-      return res.status(404).json({ message: 'Firm not found' });
+      return res.status(404).json({ message: "Firm not found" });
     }
 
     // Handle logo upload
@@ -112,7 +110,7 @@ exports.updateFirm = async (req, res) => {
     if (req.file) {
       // Delete old logo if exists
       if (firm.logoPath) {
-        const oldLogoPath = path.join(__dirname, '../public', firm.logoPath);
+        const oldLogoPath = path.join(__dirname, "../public", firm.logoPath);
         if (fs.existsSync(oldLogoPath)) {
           fs.unlinkSync(oldLogoPath);
         }
@@ -136,12 +134,12 @@ exports.updateFirm = async (req, res) => {
     });
 
     res.json({
-      message: 'Firm updated successfully',
-      firm
+      message: "Firm updated successfully",
+      firm,
     });
   } catch (error) {
-    console.error('Update firm error:', error);
-    res.status(500).json({ message: 'Error updating firm' });
+    console.error("Update firm error:", error);
+    res.status(500).json({ message: "Error updating firm" });
   }
 };
 
@@ -154,28 +152,27 @@ exports.deleteFirm = async (req, res) => {
     const firm = await Firm.findOne({
       where: {
         id,
-        userId: req.session.user.id
-      }
+      },
     });
 
     if (!firm) {
-      return res.status(404).json({ message: 'Firm not found' });
+      return res.status(404).json({ message: "Firm not found" });
     }
 
     // Check if firm has any invoices
     const invoiceCount = await Invoice.count({
-      where: { firmId: id }
+      where: { firmId: id },
     });
 
     if (invoiceCount > 0) {
       return res.status(400).json({
-        message: 'Cannot delete firm with existing invoices'
+        message: "Cannot delete firm with existing invoices",
       });
     }
 
     // Delete logo file if exists
     if (firm.logoPath) {
-      const logoPath = path.join(__dirname, '../public', firm.logoPath);
+      const logoPath = path.join(__dirname, "../public", firm.logoPath);
       if (fs.existsSync(logoPath)) {
         fs.unlinkSync(logoPath);
       }
@@ -184,9 +181,9 @@ exports.deleteFirm = async (req, res) => {
     // Delete firm
     await firm.destroy();
 
-    res.json({ message: 'Firm deleted successfully' });
+    res.json({ message: "Firm deleted successfully" });
   } catch (error) {
-    console.error('Delete firm error:', error);
-    res.status(500).json({ message: 'Error deleting firm' });
+    console.error("Delete firm error:", error);
+    res.status(500).json({ message: "Error deleting firm" });
   }
-}; 
+};

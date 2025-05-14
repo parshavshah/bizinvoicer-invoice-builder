@@ -7,15 +7,6 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'user_id',
-      references: {
-        model: 'users',
-        key: 'id'
-      }
-    },
     name: {
       type: DataTypes.STRING(255),
       allowNull: false
@@ -53,7 +44,6 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
   });
 
   Product.associate = (models) => {
-    Product.belongsTo(models.User, { foreignKey: 'userId' });
     Product.hasMany(models.InvoiceItem, { foreignKey: 'productId' });
     
   };

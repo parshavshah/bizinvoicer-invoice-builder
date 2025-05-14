@@ -1,5 +1,5 @@
-const { validationResult } = require('express-validator');
-const { Tax } = require('../models');
+const { validationResult } = require("express-validator");
+const { Tax } = require("../models");
 
 // Create a new tax
 exports.createTax = async (req, res) => {
@@ -13,19 +13,18 @@ exports.createTax = async (req, res) => {
     const { name, rate, description } = req.body;
 
     const tax = await Tax.create({
-      userId: req.session.user.id,
       name,
       rate,
-      description
+      description,
     });
 
     res.status(201).json({
-      message: 'Tax created successfully',
-      tax
+      message: "Tax created successfully",
+      tax,
     });
   } catch (error) {
-    console.error('Create tax error:', error);
-    res.status(500).json({ message: 'Error creating tax' });
+    console.error("Create tax error:", error);
+    res.status(500).json({ message: "Error creating tax" });
   }
 };
 
@@ -33,14 +32,14 @@ exports.createTax = async (req, res) => {
 exports.getTaxes = async (req, res) => {
   try {
     const taxes = await Tax.findAll({
-      where: { userId: req.session.user.id },
-      order: [['createdAt', 'DESC']]
+      where: {},
+      order: [["createdAt", "DESC"]],
     });
 
     res.json(taxes);
   } catch (error) {
-    console.error('Get taxes error:', error);
-    res.status(500).json({ message: 'Error fetching taxes' });
+    console.error("Get taxes error:", error);
+    res.status(500).json({ message: "Error fetching taxes" });
   }
 };
 
@@ -60,28 +59,27 @@ exports.updateTax = async (req, res) => {
     const tax = await Tax.findOne({
       where: {
         id,
-        userId: req.session.user.id
-      }
+      },
     });
 
     if (!tax) {
-      return res.status(404).json({ message: 'Tax not found' });
+      return res.status(404).json({ message: "Tax not found" });
     }
 
     // Update tax
     await tax.update({
       name,
       rate,
-      description
+      description,
     });
 
     res.json({
-      message: 'Tax updated successfully',
-      tax
+      message: "Tax updated successfully",
+      tax,
     });
   } catch (error) {
-    console.error('Update tax error:', error);
-    res.status(500).json({ message: 'Error updating tax' });
+    console.error("Update tax error:", error);
+    res.status(500).json({ message: "Error updating tax" });
   }
 };
 
@@ -94,20 +92,19 @@ exports.deleteTax = async (req, res) => {
     const tax = await Tax.findOne({
       where: {
         id,
-        userId: req.session.user.id
-      }
+      },
     });
 
     if (!tax) {
-      return res.status(404).json({ message: 'Tax not found' });
+      return res.status(404).json({ message: "Tax not found" });
     }
 
     // Delete tax
     await tax.destroy();
 
-    res.json({ message: 'Tax deleted successfully' });
+    res.json({ message: "Tax deleted successfully" });
   } catch (error) {
-    console.error('Delete tax error:', error);
-    res.status(500).json({ message: 'Error deleting tax' });
+    console.error("Delete tax error:", error);
+    res.status(500).json({ message: "Error deleting tax" });
   }
-}; 
+};

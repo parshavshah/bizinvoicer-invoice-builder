@@ -108,6 +108,18 @@
               maxlength="100"
             />
           </div>
+          <div class="form-group">
+            <label for="userRole">User Role</label>
+            <select
+              class="form-control"
+              name="role"
+              id="userRole"
+            >
+              <% for (const key in USER_ROLES) { %>
+                <option value="<%= key %>"><%= USER_ROLES[key] %></option>
+              <% } %>
+            </select>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -150,6 +162,7 @@
           <div class="form-group">
             <label for="edit-userEmail">Email <span class="text-danger">*</span></label>
             <input
+              readonly
               type="email"
               class="form-control"
               id="edit-userEmail"
@@ -179,6 +192,18 @@
               maxlength="100"
             />
           </div>
+          <div class="form-group">
+            <label for="edit-userRole">User Role</label>
+            <select
+              class="form-control"
+              name="role"
+              id="edit-userRole"
+            >
+              <% for (const key in USER_ROLES) { %>
+                <option value="<%= key %>"><%= USER_ROLES[key] %></option>
+              <% } %>
+            </select>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -207,7 +232,7 @@
               </p>
               <p class="card-text">
                 <small class="text-muted">
-                  <i class="fas fa-calendar-alt mr-2"></i>Created: ${new Date(user.createdAt).toLocaleDateString()}
+                  <i class="fas fa-calendar-alt mr-2"></i>Created: ${formatDate(user.createdAt)}
                 </small>
               </p>
             </div>
@@ -305,6 +330,7 @@
           $('#edit-userEmail').val(user.email);
           $('#edit-userFirstName').val(user.firstName);
           $('#edit-userLastName').val(user.lastName);
+          $('#edit-userRole').val(user.role);
           $('#editUserModal').modal('show');
         },
         error: function (xhr, status, error) {

@@ -15,6 +15,7 @@ const {
   CURRENCY,
   DATE_FORMATS,
   NUMBER_FORMAT,
+  USER_ROLES,
 } = require("../utils/constants");
 
 // Helper function to get application settings
@@ -115,13 +116,13 @@ const getDashboard = async (req, res, next) => {
       invoiceCount,
       invoiceStatusCounts,
     ] = await Promise.all([
-      Firm.count({ where: { userId: req.session.user.id } }),
-      Client.count({ where: { userId: req.session.user.id } }),
-      Product.count({ where: { userId: req.session.user.id } }),
-      Tax.count({ where: { userId: req.session.user.id } }),
-      Invoice.count({ where: { userId: req.session.user.id } }),
+      Firm.count({ where: {} }),
+      Client.count({ where: {} }),
+      Product.count({ where: {} }),
+      Tax.count({ where: {} }),
+      Invoice.count({ where: {} }),
       Invoice.findAll({
-        where: { userId: req.session.user.id },
+        where: {},
         attributes: [
           "status",
           [sequelize.fn("COUNT", sequelize.col("id")), "count"],
@@ -177,6 +178,7 @@ const getResourceView = async (req, res, view) => {
     currency,
     numberFormat,
     dateFormat,
+    USER_ROLES,
     user: req.session.user,
     BASE_URL: process.env.BASE_URL,
   });
@@ -221,7 +223,7 @@ const getInvoiceUpdate = async (req, res) => {
   const { id } = req.params;
 
   const invoice = await Invoice.findOne({
-    where: { id: id, userId: req.session.user.id },
+    where: { id: id },
     include: [
       {
         model: InvoiceItem,
@@ -252,7 +254,7 @@ const getInvoiceView = async (req, res) => {
     await getApplicationSettings();
 
   const invoice = await Invoice.findOne({
-    where: { id: id, userId: req.session.user.id },
+    where: { id: id },
     include: [
       {
         model: InvoiceItem,
