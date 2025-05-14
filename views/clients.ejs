@@ -20,6 +20,7 @@
   <div class="content">
     <div class="container-fluid">
       <!-- Add New Client Button -->
+      <% if(permissions[`${user.role}_CLIENT_CREATE`]){ %>
       <div class="row mb-4">
         <div class="col-12">
           <button
@@ -32,6 +33,7 @@
           </button>
         </div>
       </div>
+      <% } %>
 
       <!-- Clients Grid -->
       <div class="row" id="clients-container">

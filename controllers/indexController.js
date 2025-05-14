@@ -1,4 +1,3 @@
-const { raw } = require("mysql2");
 const {
   Invoice,
   InvoiceItem,
@@ -42,10 +41,17 @@ const getApplicationSettings = async () => {
 
 // Settings view
 const getSettings = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   res.render("setting", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -69,10 +75,17 @@ const getStaticDropdown = (req, res) => {
 
 // Home/Index view
 const getHome = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   res.render("index", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -87,10 +100,17 @@ const getLogin = async (req, res) => {
     return res.redirect("/dashboard");
   }
 
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   res.render("login", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -107,10 +127,17 @@ const getRegister = async (req, res) => {
     return res.redirect("/dashboard");
   }
 
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   res.render("register", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -172,9 +199,11 @@ const getDashboard = async (req, res, next) => {
       currency,
       numberFormat,
       dateFormat,
+      permissions,
     } = await getApplicationSettings();
 
     res.render("dashboard", {
+      permissions,
       user: req.session.user,
       applicationName,
       softwareLogo,
@@ -225,8 +254,14 @@ const getResourceView = async (req, res, view) => {
 
 // Invoice views
 const getInvoiceList = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat, permissions } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   res.render("invoice/list", {
     permissions,
@@ -242,10 +277,17 @@ const getInvoiceList = async (req, res) => {
 };
 
 const getInvoiceCreate = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   res.render("invoice/create", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -257,8 +299,14 @@ const getInvoiceCreate = async (req, res) => {
 };
 
 const getInvoiceUpdate = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   const { id } = req.params;
 
@@ -276,6 +324,7 @@ const getInvoiceUpdate = async (req, res) => {
   });
 
   res.render("invoice/update", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -290,8 +339,14 @@ const getInvoiceUpdate = async (req, res) => {
 const getInvoiceView = async (req, res) => {
   const { id } = req.params;
 
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
 
   const invoice = await Invoice.findOne({
     where: { id: id },
@@ -307,6 +362,7 @@ const getInvoiceView = async (req, res) => {
   });
 
   res.render("invoice/view", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -321,10 +377,17 @@ const getInvoiceView = async (req, res) => {
 
 // User profile views
 const getProfile = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
 
   res.render("profile", {
+    permissions,
     applicationName,
     softwareLogo,
     currency,
@@ -336,11 +399,18 @@ const getProfile = async (req, res) => {
 };
 
 const getChangePassword = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
 
   res.render("change-password", {
     applicationName,
+    permissions,
     softwareLogo,
     currency,
     numberFormat,
@@ -351,10 +421,17 @@ const getChangePassword = async (req, res) => {
 };
 
 const getForgotPassword = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
   res.render("dashboard", {
     applicationName,
+    permissions,
     softwareLogo,
     currency,
     numberFormat,
@@ -365,8 +442,14 @@ const getForgotPassword = async (req, res) => {
 };
 
 const setUserPermissions = async (req, res) => {
-  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
-    await getApplicationSettings();
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
 
   const dbRolePermission = await RolePermission.findAll({ raw: true });
   const existingRolePermissions = {};
@@ -380,10 +463,9 @@ const setUserPermissions = async (req, res) => {
     existingRolePermissions[rp.role][rp.module][rp.action] = rp.allowed;
   });
 
-  let permissions = PERMISSIONS;
-
   res.render("permissions", {
     existingRolePermissions,
+    PERMISSIONS,
     permissions,
     roles: Object.values(USER_ROLES),
     applicationName,
