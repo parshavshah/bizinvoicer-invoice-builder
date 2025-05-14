@@ -19,6 +19,7 @@
 
   <div class="content">
     <div class="container-fluid">
+      <% if(permissions[`${user.role}_TAX_CREATE`]){ %>
       <!-- Add New Tax Button -->
       <div class="row mb-4">
         <div class="col-12">
@@ -32,6 +33,7 @@
           </button>
         </div>
       </div>
+      <% } %>
 
       <!-- Taxes Grid -->
       <div class="row" id="taxes-container">
@@ -293,17 +295,23 @@
                   <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu">
+                  <% if(permissions[`${user.role}_TAX_VIEW_SINGLE`]){ %>
                   <a class="dropdown-item view-tax-details" href="#" data-tax-id="${tax.id}">
                     <i class="fas fa-eye mr-2"></i>View
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_TAX_UPDATE`]){ %>
                   <a class="dropdown-item edit-tax" href="#" data-tax-id="${tax.id}">
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_TAX_DELETE`]){ %>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item delete-tax text-danger" href="#" 
                   data-id="${tax.id}">
                     <i class="fas fa-trash mr-2"></i>Delete
                   </a>
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -313,9 +321,11 @@
             </div>
           </div>
           <div class="card-footer bg-transparent">
+            <% if(permissions[`${user.role}_TAX_VIEW_SINGLE`]){ %>
             <button class="btn btn-primary btn-sm btn-block view-tax-details" data-tax-id="${tax.id}">
               View Details
             </button>
+            <% } %>
           </div>
         </div>
       </div>
