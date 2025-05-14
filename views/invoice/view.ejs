@@ -154,13 +154,12 @@
                       </td>
                       <td><%= item.quantity %></td>
                       <td>
-                        <%= CURRENCY_ICON %> <%=
-                        parseFloat(item.unitPrice).toFixed(2) %>
+                        <%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(item.unitPrice), numberFormat)  %>
                       </td>
                       <td><%= item.discountPercent %>%</td>
                       <td>
                         <%= CURRENCY_ICON %> <%=
-                        parseFloat(item.subtotal).toFixed(2) %>
+                        formatNumberFn(parseFloat(item.subtotal), numberFormat) %>
                       </td>
                       <td>
                         <% item.InvoiceItemTaxes.forEach(function(tax) { %>
@@ -168,9 +167,9 @@
                         <% }); %>
                       </td>
                       <td>
-                        <%= CURRENCY_ICON %> <%= parseFloat(item.subtotal +
+                        <%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(item.subtotal +
                         item.InvoiceItemTaxes.reduce((sum, tax) => sum +
-                        parseFloat(tax.taxAmount), 0)).toFixed(2) %>
+                        parseFloat(tax.taxAmount), 0)),numberFormat);  %>
                       </td>
                     </tr>
                     <% }); %>
@@ -182,7 +181,7 @@
                       </td>
                       <td>
                         <%= CURRENCY_ICON %> <%=
-                        parseFloat(invoice.subtotal).toFixed(2) %>
+                        formatNumberFn(parseFloat(invoice.subtotal),numberFormat) %>
                       </td>
                     </tr>
                     <tr>
@@ -191,7 +190,7 @@
                       </td>
                       <td>
                         <%= CURRENCY_ICON %> <%=
-                        parseFloat(invoice.taxTotal).toFixed(2) %>
+                        formatNumberFn(parseFloat(invoice.taxTotal),numberFormat) %>
                       </td>
                     </tr>
                     <tr>
@@ -201,7 +200,7 @@
                       <th>
                         <strong
                           ><%= CURRENCY_ICON %> <%=
-                          parseFloat(invoice.total).toFixed(2) %></strong
+                          formatNumberFn(parseFloat(invoice.total),numberFormat) %></strong
                         >
                       </th>
                     </tr>
@@ -209,17 +208,19 @@
                 </table>
               </div>
 
-              <% if (invoice.notes) { %>
+              
               <div class="row mt-2">
+                <% if (invoice.notes) { %>
                 <div class="col-12">
                   <h6><b>Notes:</b></h6>
                   <p><%= invoice.notes %></p>
                 </div>
+                <% } %>
                 <div class="col-12 mt-4 text-center text-sm">
                   <p>This is a computer-generated invoice and does not require a signature</p>
                 </div>
               </div>
-              <% } %>
+              
             </div>
           </div>
         </div>

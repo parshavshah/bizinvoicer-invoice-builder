@@ -158,7 +158,7 @@
                             let symbol = (CURRENCY && CURRENCY[currency] && CURRENCY[currency][2]) ? CURRENCY[currency][2] : '$';
                             let amount = invoiceStatusAmounts && invoiceStatusAmounts[key] ? invoiceStatusAmounts[key] : 0;
                           %>
-                          <%= symbol %><%= amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+                          <%= symbol %><%= formatNumberFn(amount,numberFormat) %>
                         </span>
                       </div>
                     </div>

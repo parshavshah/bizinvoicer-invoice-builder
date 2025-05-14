@@ -68,6 +68,34 @@
     }
   }
 
+
+  function formatNumberFn(value, format) {
+    if (typeof value !== "number") {
+      throw new Error("First argument must be a number.");
+    }
+
+    let options;
+
+    switch (format) {
+      case "US":
+        options = { style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2 };
+        return new Intl.NumberFormat("en-US", options).format(value);
+
+      case "EU":
+        options = { style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2 };
+        return new Intl.NumberFormat("de-DE", options).format(value);
+
+      case "SPACE":
+        // Manually format with space as thousand separator and period as decimal
+        const parts = value.toFixed(2).split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        return parts.join(".");
+
+      default:
+        throw new Error("Unsupported format type.");
+    }
+  }
+
   
 </script>
 
@@ -101,6 +129,33 @@
         return `${month}-${day}-${year}`;
       default:
         throw new Error("Unsupported format type");
+    }
+  }
+
+  formatNumberFn = function (value, format) {
+    if (typeof value !== "number") {
+      throw new Error("First argument must be a number.");
+    }
+
+    let options;
+
+    switch (format) {
+      case "US":
+        options = { style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2 };
+        return new Intl.NumberFormat("en-US", options).format(value);
+
+      case "EU":
+        options = { style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2 };
+        return new Intl.NumberFormat("de-DE", options).format(value);
+
+      case "SPACE":
+        // Manually format with space as thousand separator and period as decimal
+        const parts = value.toFixed(2).split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        return parts.join(".");
+
+      default:
+        throw new Error("Unsupported format type.");
     }
   }
 
