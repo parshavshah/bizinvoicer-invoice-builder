@@ -122,6 +122,53 @@
           </div>
         </div>
       </div>
+
+      <!-- Status-wise Invoice Amounts Row -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-money-bill-wave mr-1"></i>
+                Invoice Amounts by Status
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <% Object.entries(INVOICE_STATUS).forEach(([key, value]) => { %>
+                  <div class="col-md-3">
+                    <div class="info-box">
+                      <span class="info-box-icon bg-<%= 
+                        key === 'draft' ? 'secondary' :
+                        key === 'sent' ? 'primary' :
+                        key === 'paid' ? 'success' :
+                        key === 'overdue' ? 'danger' :
+                        key === 'cancelled' ? 'warning' : 'info'
+                      %>"><i class="fas fa-<%= 
+                        key === 'draft' ? 'file' :
+                        key === 'sent' ? 'paper-plane' :
+                        key === 'paid' ? 'check-circle' :
+                        key === 'overdue' ? 'exclamation-circle' :
+                        key === 'cancelled' ? 'ban' : 'file-invoice'
+                      %>"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text"><%= value %> Amount</span>
+                        <span class="info-box-number">
+                          <% 
+                            let symbol = (CURRENCY && CURRENCY[currency] && CURRENCY[currency][2]) ? CURRENCY[currency][2] : '$';
+                            let amount = invoiceStatusAmounts && invoiceStatusAmounts[key] ? invoiceStatusAmounts[key] : 0;
+                          %>
+                          <%= symbol %><%= amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

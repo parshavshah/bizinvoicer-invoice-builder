@@ -115,6 +115,7 @@ const getDashboard = async (req, res, next) => {
       taxCount,
       invoiceCount,
       invoiceStatusCounts,
+      invoiceStatusAmountsRaw
     ] = await Promise.all([
       Firm.count({ where: {} }),
       Client.count({ where: {} }),
@@ -129,11 +130,24 @@ const getDashboard = async (req, res, next) => {
         ],
         group: ["status"],
       }),
+      Invoice.findAll({
+        where: {},
+        attributes: [
+          "status",
+          [sequelize.fn("SUM", sequelize.col("total")), "amount"],
+        ],
+        group: ["status"],
+      })
     ]);
 
     const statusCounts = {};
     invoiceStatusCounts.forEach((item) => {
       statusCounts[item.status] = parseInt(item.get("count"));
+    });
+
+    const statusAmounts = {};
+    invoiceStatusAmountsRaw.forEach((item) => {
+      statusAmounts[item.status] = parseFloat(item.get("amount")) || 0;
     });
 
     const {
@@ -160,7 +174,9 @@ const getDashboard = async (req, res, next) => {
         invoices: invoiceCount,
       },
       invoiceStatusCounts: statusCounts,
+      invoiceStatusAmounts: statusAmounts,
       INVOICE_STATUS,
+      CURRENCY,
     });
   } catch (error) {
     next(error);
