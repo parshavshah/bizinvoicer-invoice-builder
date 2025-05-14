@@ -1,0 +1,130 @@
+<%- include('partials/header'); %>
+
+<script>
+  $(document).on("click", ".permissionAction", function (e) {
+    e.preventDefault();
+    const role = $(this).data("role");
+    const action = $(this).data("action");
+    const module = $(this).data("module");
+    const allowed = $(this).data("allowed");
+    console.log({ role, action, module, allowed });
+
+    $.ajax({
+      url: `/api/settings/permissions`,
+      method: "PUT",
+      data: { role, action, module, allowed },
+      success: function (response) {
+        Swal.fire({
+          title: "Success!",
+          text: "Permisssion updated successfully",
+          icon: "success",
+        }).then(() => {
+          location.reload();
+        });
+      },
+      error: function (xhr, status, error) {
+        Swal.fire({
+          title: "Error!",
+          text: "Error updating permission: " + error,
+          icon: "error",
+        });
+      },
+    });
+  });
+</script>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Dashboard</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <!-- Status-wise Invoice Amounts Row -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-money-bill-wave mr-1"></i>
+                Invoice Amounts by Status
+              </h3>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Permission</th>
+                    <th>Action</th>
+                    <% roles.forEach(function(role) { %>
+                    <th><%= role %></th>
+                    <% }); %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% permissions.forEach(function(perm) { var permName =
+                  perm.name; perm.actions.forEach(function(action, actionIdx) {
+                  %>
+                  <tr>
+                    <% if (actionIdx === 0) { %>
+                    <td rowspan="<%= perm.actions.length %>">
+                      <%= permName %>
+                    </td>
+                    <% } %>
+                    <td><%= action %></td>
+                    <% roles.forEach(function(role) { %>
+                    <td style="text-align: center">
+                      <% if(existingRolePermissions[role] &&
+                      existingRolePermissions[role][permName] &&
+                      existingRolePermissions[role][permName][action] &&
+                      existingRolePermissions[role][permName][action] == 'yes') {
+                      %>
+                      <a
+                        href="#"
+                        class="btn btn-xs btn-success permissionAction"
+                        data-action="<%= action %>"
+                        data-role="<%= role %>"
+                        data-module="<%= permName %>"
+                        data-allowed="no"
+                        >Allowed</a
+                      >
+
+                      <% } else { %>
+                      <a
+                        href="#"
+                        class="btn btn-xs btn-danger permissionAction"
+                        data-action="<%= action %>"
+                        data-role="<%= role %>"
+                        data-module="<%= permName %>"
+                        data-allowed="yes"
+                        >Not Allowed</a
+                      >
+                      <% } %>
+                    </td>
+                    <% }); %>
+                  </tr>
+                  <% }); }); %>
+                </tbody>
+              </table>
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer'); %>

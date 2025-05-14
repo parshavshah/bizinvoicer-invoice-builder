@@ -2,7 +2,6 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const { User } = require("../models");
-const { sendEmail } = require("../utils/emailService");
 
 // Register a new user
 exports.register = async (req, res) => {
@@ -31,21 +30,6 @@ exports.register = async (req, res) => {
       password: hashedPassword,
       firstName,
       lastName,
-    });
-
-    // Send welcome email
-    const welcomeEmailHtml = `
-      <h1>Welcome to InvoiceMate!</h1>
-      <p>Dear ${firstName},</p>
-      <p>Thank you for registering with InvoiceMate. We're excited to have you on board!</p>
-      <p>You can now start creating and managing your invoices with ease.</p>
-      <p>Best regards,<br>The InvoiceMate Team</p>
-    `;
-
-    await sendEmail({
-      to: email,
-      subject: "Welcome to InvoiceMate!",
-      html: welcomeEmailHtml,
     });
 
     // Set user session

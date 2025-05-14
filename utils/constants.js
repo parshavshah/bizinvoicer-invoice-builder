@@ -38,10 +38,20 @@ const NUMBER_FORMAT = {
   SPACE: "1 234.56 (Space)",
 };
 
+const PERMISSIONS = [
+  { name: "CLIENT", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
+  { name: "FIRM", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
+  { name: "INVOICE", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
+  { name: "PRODUCT", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
+  { name: "TAX", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
+  { name: "USER", actions: ["CREATE", "UPDATE", "DELETE", "VIEW"] },
+];
+
 module.exports = {
   USER_ROLES,
   NUMBER_FORMAT,
   DATE_FORMATS,
   INVOICE_STATUS,
   CURRENCY,
+  PERMISSIONS,
 };

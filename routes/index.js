@@ -16,6 +16,7 @@ const {
   getInvoiceView,
   getProfile,
   getChangePassword,
+  setUserPermissions,
   getForgotPassword,
 } = require("../controllers/indexController");
 
@@ -35,11 +36,21 @@ router.get("/register", getRegister);
 router.get("/dashboard", isAuthenticated, getDashboard);
 
 // Resource routes
-router.get("/firms", isAuthenticated, (req, res) => getResourceView(req, res, "firms"));
-router.get("/clients", isAuthenticated, (req, res) => getResourceView(req, res, "clients"));
-router.get("/products", isAuthenticated, (req, res) => getResourceView(req, res, "products"));
-router.get("/taxes", isAuthenticated, (req, res) => getResourceView(req, res, "taxes"));
-router.get("/users", isAuthenticated, (req, res) => getResourceView(req, res, "users"));
+router.get("/firms", isAuthenticated, (req, res) =>
+  getResourceView(req, res, "firms")
+);
+router.get("/clients", isAuthenticated, (req, res) =>
+  getResourceView(req, res, "clients")
+);
+router.get("/products", isAuthenticated, (req, res) =>
+  getResourceView(req, res, "products")
+);
+router.get("/taxes", isAuthenticated, (req, res) =>
+  getResourceView(req, res, "taxes")
+);
+router.get("/users", isAuthenticated, (req, res) =>
+  getResourceView(req, res, "users")
+);
 
 // Invoice routes
 router.get("/invoice/list", isAuthenticated, getInvoiceList);
@@ -51,5 +62,6 @@ router.get("/invoice/view/:id", isAuthenticated, getInvoiceView);
 router.get("/profile", isAuthenticated, getProfile);
 router.get("/change-password", isAuthenticated, getChangePassword);
 router.get("/forgot-password", isAuthenticated, getForgotPassword);
+router.get("/user-permissions", isAuthenticated, setUserPermissions);
 
 module.exports = router;

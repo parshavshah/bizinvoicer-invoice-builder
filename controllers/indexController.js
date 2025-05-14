@@ -3,6 +3,7 @@ const {
   InvoiceItem,
   Setting,
   InvoiceItemTax,
+  RolePermission,
   Client,
   Firm,
   Product,
@@ -16,6 +17,7 @@ const {
   DATE_FORMATS,
   NUMBER_FORMAT,
   USER_ROLES,
+  PERMISSIONS,
 } = require("../utils/constants");
 
 // Helper function to get application settings
@@ -115,7 +117,7 @@ const getDashboard = async (req, res, next) => {
       taxCount,
       invoiceCount,
       invoiceStatusCounts,
-      invoiceStatusAmountsRaw
+      invoiceStatusAmountsRaw,
     ] = await Promise.all([
       Firm.count({ where: {} }),
       Client.count({ where: {} }),
@@ -137,7 +139,7 @@ const getDashboard = async (req, res, next) => {
           [sequelize.fn("SUM", sequelize.col("total")), "amount"],
         ],
         group: ["status"],
-      })
+      }),
     ]);
 
     const statusCounts = {};
@@ -340,6 +342,46 @@ const getForgotPassword = async (req, res) => {
   });
 };
 
+const setUserPermissions = async (req, res) => {
+  const { applicationName, softwareLogo, currency, numberFormat, dateFormat } =
+    await getApplicationSettings();
+
+  const dbRolePermission = await RolePermission.findAll({ raw: true });
+
+  const existingRolePermissions = {};
+
+  dbRolePermission.forEach((rp) => {
+
+    if(!existingRolePermissions[rp.role]){
+      existingRolePermissions[rp.role] = {}
+    }
+
+    if(!existingRolePermissions[rp.role][rp.module]){
+      existingRolePermissions[rp.role][rp.module] = {}
+    }
+
+    existingRolePermissions[rp.role][rp.module][rp.action] = rp.allowed;
+  });
+
+  console.log(existingRolePermissions);
+
+
+  let permissions = PERMISSIONS;
+
+  res.render("permissions", {
+    existingRolePermissions,
+    permissions,
+    roles: Object.values(USER_ROLES),
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
 module.exports = {
   getSettings,
   getStaticDropdown,
@@ -355,4 +397,5 @@ module.exports = {
   getProfile,
   getChangePassword,
   getForgotPassword,
+  setUserPermissions,
 };
