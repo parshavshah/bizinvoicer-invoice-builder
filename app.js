@@ -12,7 +12,7 @@ dotenv.config();
 
 const { sequelize } = require("./models");
 
-const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 const firmRoutes = require("./routes/firmRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -58,7 +58,7 @@ app.use(express.static(path.join(__dirname, "public"), { maxAge: 500000 }));
 // Routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", indexRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/users", authRoutes);
 app.use("/api/firms", firmRoutes);
 app.use("/api/clients", clientRoutes);
 app.use("/api/products", productRoutes);
