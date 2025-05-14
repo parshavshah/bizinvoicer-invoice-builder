@@ -19,6 +19,7 @@
 
   <div class="content">
     <div class="container-fluid">
+      <% if(permissions[`${user.role}_PRODUCT_CREATE`]){ %>
       <!-- Add New Product Button -->
       <div class="row mb-4">
         <div class="col-12">
@@ -32,7 +33,7 @@
           </button>
         </div>
       </div>
-
+      <% } %>
       <!-- Products Grid -->
       <div class="row" id="products-container">
         <!-- Products will be rendered here -->
@@ -335,22 +336,28 @@
                   <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu">
+                  <% if(permissions[`${user.role}_PRODUCT_VIEW_SINGLE`]){ %>
                   <a class="dropdown-item view-product-details" href="#" data-product-id="${
                     product.id
                   }">
                     <i class="fas fa-eye mr-2"></i>View
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_PRODUCT_UPDATE`]){ %>
                   <a class="dropdown-item edit-product" href="#" data-product-id="${
                     product.id
                   }">
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_PRODUCT_DELETE`]){ %>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item text-danger delete-product" 
                   data-id="${product.id}"
                   href="#">
                     <i class="fas fa-trash mr-2"></i>Delete
                   </a>
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -377,11 +384,13 @@
             </div>
           </div>
           <div class="card-footer bg-transparent">
+            <% if(permissions[`${user.role}_PRODUCT_VIEW_SINGLE`]){ %>
             <button class="btn btn-primary btn-sm btn-block view-product-details" data-product-id="${
               product.id
             }">
               View Details
             </button>
+            <% } %>
           </div>
         </div>
       </div>
