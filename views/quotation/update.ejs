@@ -1,0 +1,497 @@
+<%- include('../partials/header'); %>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Update Quotation</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item">
+              <a href="/quotation/list">Quotations</a>
+            </li>
+            <li class="breadcrumb-item active">Update Quotation</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <form id="quotationForm">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Quotation Details</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="firmId"
+                        >Firm <span class="text-danger">*</span></label
+                      >
+                      <select
+                        class="form-control"
+                        id="firmId"
+                        name="firmId"
+                        required
+                      >
+                        <option value="">Select Firm</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="clientId"
+                        >Client <span class="text-danger">*</span></label
+                      >
+                      <select
+                        class="form-control"
+                        id="clientId"
+                        name="clientId"
+                        required
+                      >
+                        <option value="">Select Client</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="quotationNumber"
+                        >Quotation Number
+                        <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="quotationNumber"
+                        name="quotationNumber"
+                        required
+                        maxlength="50"
+                        value="<%= quotation.quotationNumber %>"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="issueDate"
+                        >Issue Date <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="issueDate"
+                        name="issueDate"
+                        required
+                        value="<%= quotation.issueDate %>"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="dueDate"
+                        >Due Date <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="dueDate"
+                        name="dueDate"
+                        required
+                        value="<%= quotation.dueDate %>"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Quotation Items</h3>
+                <div class="card-tools">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    id="addItem"
+                  >
+                    <i class="fas fa-plus"></i> Add Item
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="itemsContainer">
+                  <!-- Items will be added here dynamically -->
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="notes">Notes</label>
+                      <textarea
+                        class="form-control"
+                        id="notes"
+                        name="notes"
+                        rows="3"
+                      >
+<%= quotation.notes || '' %></textarea
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <tr>
+                          <th>Subtotal:</th>
+                          <td class="text-right" id="subtotal">0.00</td>
+                        </tr>
+                        <tr>
+                          <th>Tax Total:</th>
+                          <td class="text-right" id="taxTotal">0.00</td>
+                        </tr>
+                        <tr>
+                          <th>Total:</th>
+                          <td class="text-right" id="total">0.00</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">
+                  Update Quotation
+                </button>
+                <a href="/quotation/list" class="btn btn-default">Cancel</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Item Template -->
+<template id="itemTemplate">
+  <div class="item-row border-bottom pb-3 pt-3">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Product/Service</label>
+          <select class="form-control product-select" required>
+            <option value="">Select Product</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control name" required />
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="form-group">
+          <label>Description</label>
+          <textarea  class="form-control description" ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Quantity</label>
+          <input
+            type="number"
+            class="form-control quantity"
+            min="0"
+            step="0.01"
+            required
+          />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Unit Price</label>
+          <input
+            type="number"
+            class="form-control unit-price"
+            min="0"
+            step="0.01"
+            required
+          />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Discount %</label>
+          <input
+            type="number"
+            class="form-control discount"
+            min="0"
+            max="100"
+            step="0.01"
+            value="0"
+          />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Taxes</label>
+          <select class="form-control taxes" multiple>
+            <!-- Taxes will be populated dynamically -->
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Subtotal</label>
+          <input type="text" class="form-control item-subtotal" readonly />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-danger btn-sm remove-item">
+          <i class="fas fa-trash"></i> Remove
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  $(document).ready(function() {
+    let clients = [];
+    let firms = [];
+    let products = [];
+    let taxes = [];
+    let currencies = [];
+
+    // Load initial data
+    Promise.all([
+      $.get("/api/clients"),
+      $.get("/api/firms"),
+      $.get("/api/products"),
+      $.get("/api/taxes"),
+      $.get("/static-dropdown")
+    ]).then(([clientsData, firmsData, productsData, taxesData, dropdownData]) => {
+      clients = clientsData;
+      firms = firmsData;
+      products = productsData;
+      taxes = taxesData;
+
+      // Populate dropdowns
+      populateDropdown("#clientId", clients, "name");
+      populateDropdown("#firmId", firms, "name");
+
+      // Set initial values
+      $("#clientId").val("<%= quotation.clientId %>");
+      $("#firmId").val("<%= quotation.firmId %>");
+
+      // Add existing items
+      <% quotation.QuotationItems.forEach(function(item) { %>
+        addItem({
+          productId: "<%= item.productId %>",
+          description: `<%= item.description %>`,
+          name: "<%= item.name %>",
+          quantity: "<%= item.quantity %>",
+          unitPrice: "<%= item.unitPrice %>",
+          discountPercent: "<%= item.discountPercent %>",
+          taxes: <%- JSON.stringify(item.QuotationItemTaxes.map(tax => tax.taxId)) %>
+        });
+      <% }); %>
+
+      calculateTotals();
+
+    });
+
+    function populateDropdown(selector, data, labelField) {
+      const $select = $(selector);
+      data.forEach(item => {
+        $select.append(`<option value="${item.id}">${item[labelField]}</option>`);
+      });
+    }
+
+    function addItem(existingItem = null) {
+      const template = document.getElementById("itemTemplate");
+      const clone = template.content.cloneNode(true);
+
+      // Populate product dropdown
+      const $productSelect = $(clone).find(".product-select");
+      products.forEach(product => {
+        $productSelect.append(`<option value="${product.id}">${product.name}</option>`);
+      });
+
+      // Populate taxes dropdown
+      const $taxesSelect = $(clone).find(".taxes");
+      taxes.forEach(tax => {
+        $taxesSelect.append(`<option value="${tax.id}" data-rate="${tax.rate}">${tax.name} (${tax.rate}%)</option>`);
+      });
+
+      // Set existing values if provided
+      if (existingItem) {
+        $productSelect.val(existingItem.productId);
+        $(clone).find(".name").val(existingItem.name);
+        $(clone).find(".description").val(existingItem.description);
+        $(clone).find(".quantity").val(existingItem.quantity);
+        $(clone).find(".unit-price").val(existingItem.unitPrice);
+        $(clone).find(".discount").val(existingItem.discountPercent);
+        $taxesSelect.val(existingItem.taxes);
+      }
+
+      $("#itemsContainer").append(clone);
+      initializeItemEvents($("#itemsContainer .item-row").last());
+
+
+    }
+
+    function initializeItemEvents($item) {
+
+      calculateItemSubtotal($item)
+
+      $item.find(".remove-item").click(function() {
+        $item.remove();
+        calculateTotals();
+      });
+
+      $item.find(".product-select").change(function() {
+        const productId = $(this).val();
+        const product = products.find(p => p.id === parseInt(productId));
+        if (product) {
+          $item.find(".name").val(product.name);
+          $item.find(".description").val(product.description);
+          $item.find(".unit-price").val(product.regularPrice);
+          calculateItemSubtotal($item);
+        }
+      });
+
+      $item.find(".quantity, .unit-price, .discount").on("input", function() {
+        calculateItemSubtotal($item);
+      });
+
+      $item.find(".taxes").change(function() {
+        calculateItemSubtotal($item);
+      });
+    }
+
+    function calculateItemSubtotal($item) {
+      const quantity = parseFloat($item.find(".quantity").val()) || 0;
+      const unitPrice = parseFloat($item.find(".unit-price").val()) || 0;
+      const discount = parseFloat($item.find(".discount").val()) || 0;
+
+      const subtotal = quantity * unitPrice * (1 - discount / 100);
+      $item.find(".item-subtotal").val(subtotal.toFixed(2));
+
+      calculateTotals();
+    }
+
+    function calculateTotals() {
+
+      console.log("Here")
+
+      let subtotal = 0;
+      let taxTotal = 0;
+
+      $(".item-row").each(function() {
+        const $item = $(this);
+        const itemSubtotal = parseFloat($item.find(".item-subtotal").val()) || 0;
+        subtotal += itemSubtotal;
+
+        // Calculate taxes
+        $item.find(".taxes option:selected").each(function() {
+          const taxRate = parseFloat($(this).data("rate")) || 0;
+          taxTotal += itemSubtotal * (taxRate / 100);
+        });
+      });
+
+      console.log(subtotal)
+
+      $("#subtotal").text(formatNumberFn(subtotal,"<%= numberFormat%>"));
+      $("#taxTotal").text(formatNumberFn(taxTotal,"<%= numberFormat%>"));
+      $("#total").text(formatNumberFn(subtotal + taxTotal,"<%= numberFormat%>"));
+    }
+
+    $("#addItem").click(function() {
+      addItem();
+    });
+
+    $("#quotationForm").submit(function(e) {
+      e.preventDefault();
+
+      const items = [];
+      $(".item-row").each(function() {
+        const $item = $(this);
+        const selectedTaxes = [];
+
+        $item.find(".taxes option:selected").each(function() {
+          const $option = $(this);
+          selectedTaxes.push({
+            taxId: parseInt($option.val()),
+            taxName: $option.text().split(" (")[0],
+            taxRate: parseFloat($option.data("rate"))
+          });
+        });
+
+        items.push({
+          productId: parseInt($item.find(".product-select").val()),
+          name: $item.find(".name").val(),
+          description: $item.find(".description").val(),
+          quantity: parseFloat($item.find(".quantity").val()),
+          unitPrice: parseFloat($item.find(".unit-price").val()),
+          discountPercent: parseFloat($item.find(".discount").val()) || 0,
+          taxes: selectedTaxes
+        });
+      });
+
+      const quotationData = {
+        clientId: parseInt($("#clientId").val()),
+        firmId: parseInt($("#firmId").val()),
+        quotationNumber: $("#quotationNumber").val(),
+        issueDate: $("#issueDate").val(),
+        dueDate: $("#dueDate").val(),
+        notes: $("#notes").val(),
+        items: items
+      };
+
+      $.ajax({
+        url: "/api/quotations/<%= quotation.id %>",
+        method: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(quotationData),
+        success: function(response) {
+          window.location.href = "/quotation/list";
+        },
+        error: function(xhr) {
+          const errors = xhr.responseJSON?.errors || [];
+          Swal.fire({
+            title: "Error!",
+            text: "Error updating quotation: " + errors.map(e => e.msg).join("\n"),
+            icon: "error",
+          });
+        }
+      });
+    });
+  });
+</script>
+
+<%- include('../partials/footer'); %> 

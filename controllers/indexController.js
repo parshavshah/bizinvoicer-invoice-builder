@@ -3,6 +3,9 @@ const {
   InvoiceItem,
   Setting,
   InvoiceItemTax,
+  QuotationItem,
+  QuotationItemTax,
+  Quotation,
   RolePermission,
   Client,
   Firm,
@@ -260,6 +263,232 @@ const getResourceView = async (req, res, view) => {
   });
 };
 
+// Quotation views
+const getQuotationList = async (req, res) => {
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
+
+  res.render("quotation/list", {
+    permissions,
+    CURRENCY,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
+const getQuotationCreate = async (req, res) => {
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
+
+  res.render("quotation/create", {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
+const getQuotationUpdate = async (req, res) => {
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
+
+  const { id } = req.params;
+
+  const quotation = await Quotation.findOne({
+    where: { id: id },
+    include: [
+      {
+        model: QuotationItem,
+        include: [QuotationItemTax],
+      },
+      Client,
+      Firm,
+    ],
+    order: [["createdAt", "DESC"]],
+  });
+
+  res.render("quotation/update", {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    quotation,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
+const getQuotationView = async (req, res) => {
+  const { id } = req.params;
+
+  const {
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    permissions,
+  } = await getApplicationSettings();
+
+  const quotation = await Quotation.findOne({
+    where: { id: id },
+    include: [
+      {
+        model: QuotationItem,
+        include: [QuotationItemTax],
+      },
+      Client,
+      Firm,
+    ],
+    order: [["createdAt", "DESC"]],
+  });
+
+  res.render("quotation/view", {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    quotation: quotation,
+    CURRENCY: CURRENCY,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
+// User profile views
+const getProfile = async (req, res) => {
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
+
+  res.render("profile", {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
+const getChangePassword = async (req, res) => {
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
+
+  res.render("change-password", {
+    applicationName,
+    permissions,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
+const getForgotPassword = async (req, res) => {
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
+  res.render("dashboard", {
+    applicationName,
+    permissions,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
+const setUserPermissions = async (req, res) => {
+  const {
+    permissions,
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+  } = await getApplicationSettings();
+
+  const dbRolePermission = await RolePermission.findAll({ raw: true });
+  const existingRolePermissions = {};
+  dbRolePermission.forEach((rp) => {
+    if (!existingRolePermissions[rp.role]) {
+      existingRolePermissions[rp.role] = {};
+    }
+    if (!existingRolePermissions[rp.role][rp.module]) {
+      existingRolePermissions[rp.role][rp.module] = {};
+    }
+    existingRolePermissions[rp.role][rp.module][rp.action] = rp.allowed;
+  });
+
+  res.render("permissions", {
+    existingRolePermissions,
+    PERMISSIONS,
+    permissions,
+    roles: Object.values(USER_ROLES),
+    applicationName,
+    softwareLogo,
+    currency,
+    numberFormat,
+    dateFormat,
+    user: req.session.user,
+    BASE_URL: process.env.BASE_URL,
+  });
+};
+
 // Invoice views
 const getInvoiceList = async (req, res) => {
   const {
@@ -383,109 +612,6 @@ const getInvoiceView = async (req, res) => {
   });
 };
 
-// User profile views
-const getProfile = async (req, res) => {
-  const {
-    permissions,
-    applicationName,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-  } = await getApplicationSettings();
-
-  res.render("profile", {
-    permissions,
-    applicationName,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-    user: req.session.user,
-    BASE_URL: process.env.BASE_URL,
-  });
-};
-
-const getChangePassword = async (req, res) => {
-  const {
-    permissions,
-    applicationName,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-  } = await getApplicationSettings();
-
-  res.render("change-password", {
-    applicationName,
-    permissions,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-    user: req.session.user,
-    BASE_URL: process.env.BASE_URL,
-  });
-};
-
-const getForgotPassword = async (req, res) => {
-  const {
-    permissions,
-    applicationName,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-  } = await getApplicationSettings();
-  res.render("dashboard", {
-    applicationName,
-    permissions,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-    user: req.session.user,
-    BASE_URL: process.env.BASE_URL,
-  });
-};
-
-const setUserPermissions = async (req, res) => {
-  const {
-    permissions,
-    applicationName,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-  } = await getApplicationSettings();
-
-  const dbRolePermission = await RolePermission.findAll({ raw: true });
-  const existingRolePermissions = {};
-  dbRolePermission.forEach((rp) => {
-    if (!existingRolePermissions[rp.role]) {
-      existingRolePermissions[rp.role] = {};
-    }
-    if (!existingRolePermissions[rp.role][rp.module]) {
-      existingRolePermissions[rp.role][rp.module] = {};
-    }
-    existingRolePermissions[rp.role][rp.module][rp.action] = rp.allowed;
-  });
-
-  res.render("permissions", {
-    existingRolePermissions,
-    PERMISSIONS,
-    permissions,
-    roles: Object.values(USER_ROLES),
-    applicationName,
-    softwareLogo,
-    currency,
-    numberFormat,
-    dateFormat,
-    user: req.session.user,
-    BASE_URL: process.env.BASE_URL,
-  });
-};
-
 module.exports = {
   getSettings,
   getStaticDropdown,
@@ -502,4 +628,8 @@ module.exports = {
   getChangePassword,
   getForgotPassword,
   setUserPermissions,
+  getQuotationCreate,
+  getQuotationList,
+  getQuotationUpdate,
+  getQuotationView,
 };

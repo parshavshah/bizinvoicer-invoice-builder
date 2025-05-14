@@ -1,0 +1,245 @@
+<%- include('../partials/header'); %> 
+<% const CURRENCY_ICON = CURRENCY[currency][2]; %>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Quotation #<%= quotation.quotationNumber %></h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item">
+              <a href="/quotation/list">Quotations</a>
+            </li>
+            <li class="breadcrumb-item active">View Quotation</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title">Quotation Details</h3>
+                <div>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="downloadPdf"
+                  >
+                    <i class="fas fa-download"></i> Download PDF
+                  </button>
+                  <a href="/quotation/list" class="btn btn-default">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" id="quotationContent">
+              <!-- Quotation Header -->
+              <div class="row mb-4">
+                <div class="col-sm-4 radius-2 bg-light">
+                    <img
+                      src="<%= quotation.Firm.logoPath %>"
+                      class="mb-2 mt-3 img-fluid"
+                      style="max-width: 200px"
+                      alt="Firm Logo"
+                    />
+                </div>
+                <div class="col-sm-8  bg-primary text-center ">
+                  <h1 class="mt-2">QUOTATION</h1>
+                </div>
+                
+                <div class="mt-4 col-12">
+
+                </div>
+
+                <div class="col-sm-4">
+                  <h6 class="mb-3"><b>From:</b></h6>
+                  
+                  <% if (quotation.Firm.name) { %>
+                    <div><b><%= quotation.Firm.name %></b></div>
+                    <% } %>
+
+                  <% const fullAddress = [
+                    quotation.Firm.address,
+                    quotation.Firm.city,quotation.Firm.state,
+                    quotation.Firm.postalCode,
+                    quotation.Firm.country,
+                  ].filter(e => e).join(", "); %>
+
+
+                  <% if (fullAddress) { %>
+                  <div><%= fullAddress %>.</div>
+                  <% } %> <% if (quotation.Firm.phone) { %>
+                  <div>Phone: <%= quotation.Firm.phone %></div>
+                  <% } %> <% if (quotation.Firm.email) { %>
+                  <div>Email: <%= quotation.Firm.email %></div>
+                  <% } %> <% if (quotation.Firm.taxNumber) { %>
+                  <div>Tax Number: <%= quotation.Firm.taxNumber %></div>
+                  <% } %>
+                </div>
+
+                <div class="col-sm-4">
+                  <h6 class="mb-3"><b>To:</b></h6>
+                  <div>
+                    <strong><%= quotation.Client.name %></strong>
+                  </div>
+                  <% const clientFullAddress = [
+                    quotation.Client.address,
+                    quotation.Client.city,quotation.Client.state,
+                    quotation.Client.postalCode,
+                    quotation.Client.country,
+                  ].filter(e => e).join(", "); %>
+                  <% if (clientFullAddress) { %>
+                  <div><%= clientFullAddress %>.</div>
+                  <% } %> <% if (quotation.Client.phone) { %>
+                  <div>Phone: <%= quotation.Client.phone %></div>
+                  <% } %> <% if (quotation.Client.email) { %>
+                  <div>Email: <%= quotation.Client.email %></div>
+                  <% } %> <% if (quotation.Client.taxNumber) { %>
+                  <div>Tax Number: <%= quotation.Client.taxNumber %></div>
+                  <% } %>
+                </div>
+
+                <div class="col-sm-4">
+                  <h6 class="mb-3"><b>Quotation Details:</b></h6>
+                  <div>
+                    Quotation Number:
+                    <strong><%= quotation.quotationNumber %></strong>
+                  </div>
+                  <div>
+                    Issue Date: <b><%= formatDate(quotation.issueDate) %></b>
+                  </div>
+                  <div>
+                    Due Date: <b><%= formatDate(quotation.dueDate) %></b>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quotation Items -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Description</th>
+                      <th>Quantity</th>
+                      <th>Unit Price</th>
+                      <th>Discount</th>
+                      <th>Subtotal</th>
+                      <th>Taxes</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% quotation.QuotationItems.forEach(function(item) { %>
+                    <tr>
+                      <td>
+                        
+                        <%= item.name %>
+                        <br>
+                        <small class="text-muted">
+                          <%- item.description.replaceAll("\n","<br/>") %>
+                        </small>
+                      
+                      
+                      </td>
+                      <td><%= item.quantity %></td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(item.unitPrice), numberFormat)  %>
+                      </td>
+                      <td><%= item.discountPercent %>%</td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(item.subtotal), numberFormat) %>
+                      </td>
+                      <td>
+                        <% item.QuotationItemTaxes.forEach(function(tax) { %>
+                        <div><%= tax.taxName %> (<%= tax.taxRate %>%)</div>
+                        <% }); %>
+                      </td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(item.subtotal +
+                        item.QuotationItemTaxes.reduce((sum, tax) => sum +
+                        parseFloat(tax.taxAmount), 0)),numberFormat);  %>
+                      </td>
+                    </tr>
+                    <% }); %>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="6" class="text-right">
+                        <strong>Subtotal:</strong>
+                      </td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(quotation.subtotal),numberFormat) %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" class="text-right">
+                        <strong>Tax Total:</strong>
+                      </td>
+                      <td>
+                        <%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(quotation.taxTotal),numberFormat) %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th colspan="6" class="text-right">
+                        <strong>Total:</strong>
+                      </th>
+                      <th>
+                        <strong
+                          ><%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(quotation.total),numberFormat) %></strong
+                        >
+                      </th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <div class="row mt-2">
+                <% if (quotation.notes) { %>
+                <div class="col-12">
+                  <h6><b>Notes:</b></h6>
+                  <p><%= quotation.notes %></p>
+                </div>
+                <% } %>
+                <div class="col-12 mt-4 text-center text-sm">
+                  <p>This is a computer-generated quotation and does not require a signature</p>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#downloadPdf").click(function () {
+      const element = document.getElementById("quotationContent");
+      const opt = {
+        margin: 0,
+        filename: "quotation-<%= quotation.quotationNumber %>.pdf",
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 5 },
+        jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+      };
+
+      html2pdf().set(opt).from(element).save();
+    });
+  });
+</script>
+
+<%- include('../partials/footer'); %> <% function getStatusBadgeClass(status) {
+const classes = { draft: 'secondary', sent: 'info', accepted: 'success', rejected:
+'danger', cancelled: 'warning' }; return classes[status] || 'secondary'; } %> 

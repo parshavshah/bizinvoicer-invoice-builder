@@ -18,6 +18,10 @@ const {
   getChangePassword,
   setUserPermissions,
   getForgotPassword,
+  getQuotationCreate,
+  getQuotationList,
+  getQuotationUpdate,
+  getQuotationView,
 } = require("../controllers/indexController");
 
 // Settings route
@@ -57,6 +61,12 @@ router.get("/invoice/list", isAuthenticated, getInvoiceList);
 router.get("/invoice/create", isAuthenticated, getInvoiceCreate);
 router.get("/invoice/update/:id", isAuthenticated, getInvoiceUpdate);
 router.get("/invoice/view/:id", isAuthenticated, getInvoiceView);
+
+// Quoutation routes
+router.get("/quotation/list", isAuthenticated, getQuotationList);
+router.get("/quotation/create", isAuthenticated, getQuotationCreate);
+router.get("/quotation/update/:id", isAuthenticated, getQuotationUpdate);
+router.get("/quotation/view/:id", isAuthenticated, getQuotationView);
 
 // User profile routes
 router.get("/profile", isAuthenticated, getProfile);

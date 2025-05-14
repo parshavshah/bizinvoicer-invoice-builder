@@ -52,6 +52,10 @@ const PERMISSIONS = [
     actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
   },
   {
+    name: "QUOTATION",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
     name: "PRODUCT",
     actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
   },

@@ -87,6 +87,15 @@
             </li>
             <% } %>
 
+            <% if(permissions[`${user.role}_QUOTATION_LIST`]){ %>
+            <li class="nav-item">
+              <a href="/quotation/list" class="nav-link">
+                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                <p>Quotations</p>
+              </a>
+            </li>
+            <% } %>
+
             <% if(permissions[`${user.role}_INVOICE_LIST`]){ %>
             <li class="nav-item">
               <a href="/invoice/list" class="nav-link">

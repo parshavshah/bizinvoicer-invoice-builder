@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "",
-    "database": "invoicemate2",
+    "database": "invoicemate",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
