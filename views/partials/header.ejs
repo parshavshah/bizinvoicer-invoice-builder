@@ -49,7 +49,7 @@
             </div>
             <div class="info">
               <a href="#" class="d-block"
-                ><%= [user.firstName,user.lastName].join(" "); %></a
+                ><%= [user.firstName,user.lastName].join(" "); %> (<%= user.role %>)</a
               >
             </div>
           </div>
@@ -107,18 +107,21 @@
               </li>
 
               <li class="nav-item">
+                <a href="/users" class="nav-link">
+                  <i class="nav-icon fas fa-user text-info"></i>
+                  <p>Users</p>
+                </a>
+              </li>
+              
+
+              <li class="nav-item">
                 <a href="/profile" class="nav-link">
                   <i class="nav-icon fas fa-user-circle text-secondary"></i>
                   <p>My Profile</p>
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="/users" class="nav-link">
-                  <i class="nav-icon fas fa-user text-info"></i>
-                  <p>Users</p>
-                </a>
-              </li>
+             
 
               <li class="nav-item">
                 <a href="/setting" class="nav-link">

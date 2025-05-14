@@ -101,6 +101,7 @@ exports.login = async (req, res) => {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      role: user.role,
     };
 
     res.json({
@@ -146,7 +147,8 @@ exports.getProfile = async (req, res) => {
       user: {
         email: user.email,
         firstName: user.firstName,
-        lastName: user.lastName
+        lastName: user.lastName,
+        role: user.role
       }
     });
   } catch (error) {
