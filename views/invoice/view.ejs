@@ -142,7 +142,16 @@
                   <tbody>
                     <% invoice.InvoiceItems.forEach(function(item) { %>
                     <tr>
-                      <td><%= item.description %></td>
+                      <td>
+                        
+                        <%= item.name %>
+                        <br>
+                        <small class="text-muted">
+                          <%- item.description.replaceAll("\n","<br/>") %>
+                        </small>
+                      
+                      
+                      </td>
                       <td><%= item.quantity %></td>
                       <td>
                         <%= CURRENCY_ICON %> <%=

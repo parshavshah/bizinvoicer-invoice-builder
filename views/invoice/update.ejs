@@ -327,7 +327,7 @@
       <% invoice.InvoiceItems.forEach(function(item) { %>
         addItem({
           productId: "<%= item.productId %>",
-          description: "<%= item.description %>",
+          description: `<%= item.description %>`,
           name: "<%= item.name %>",
           quantity: "<%= item.quantity %>",
           unitPrice: "<%= item.unitPrice %>",
