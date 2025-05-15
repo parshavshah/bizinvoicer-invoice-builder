@@ -4,8 +4,6 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -58,7 +56,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public"), { maxAge: 500000 }));
 
 // Routes
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", indexRoutes);
 app.use("/api/users", authRoutes);
 app.use("/api/firms", firmRoutes);

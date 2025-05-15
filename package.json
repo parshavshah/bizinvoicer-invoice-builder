@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "start": "nodemon ./bin/www"
+    "database-init": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "start:dev": "nodemon ./bin/www",
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -20,9 +21,7 @@
     "http-errors": "~1.6.3",
     "multer": "^1.4.5-lts.2",
     "mysql2": "^3.14.1",
-    "nodemailer": "^7.0.2",
-    "sequelize": "^6.37.7",
-    "swagger-ui-express": "^5.0.1"
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "morgan": "^1.10.0",
