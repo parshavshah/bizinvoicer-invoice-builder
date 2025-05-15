@@ -254,6 +254,7 @@ const getResourceView = async (req, res, view) => {
     permissions,
     applicationName,
     softwareLogo,
+    CURRENCY,
     currency,
     numberFormat,
     dateFormat,

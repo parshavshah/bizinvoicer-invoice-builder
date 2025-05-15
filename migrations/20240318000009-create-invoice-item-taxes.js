@@ -11,20 +11,12 @@ module.exports = {
       invoice_item_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'invoice_items',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+       
       },
       tax_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'taxes',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+       
       },
       tax_name: {
         type: Sequelize.STRING(100),
@@ -44,8 +36,6 @@ module.exports = {
       }
     });
 
-    await queryInterface.addIndex('invoice_item_taxes', ['invoice_item_id']);
-    await queryInterface.addIndex('invoice_item_taxes', ['tax_id']);
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -1,4 +1,5 @@
 <%- include('partials/header'); %>
+<% const CURRENCY_ICON = CURRENCY[currency][2]; %>
 
 <div class="content-wrapper">
   <div class="content-header">
@@ -109,7 +110,7 @@
                 >
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text"><%= CURRENCY_ICON %></span>
                   </div>
                   <input
                     type="number"
@@ -183,7 +184,7 @@
                 <span id="modal-productUnit"></span>
               </div>
               <div class="info-item mb-2">
-                <i class="fas fa-dollar-sign mr-2"></i>
+                <i class="fas fa-money-bill-alt mr-2"></i>
                 <span id="modal-productRegularPrice"></span>
               </div>
             </div>
@@ -279,7 +280,7 @@
                 >
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text"><%= CURRENCY_ICON %></span>
                   </div>
                   <input
                     type="number"
@@ -372,7 +373,7 @@
                   ? `<p class="mb-1"><i class="fas fa-box mr-2"></i>${product.unit}</p>`
                   : ""
               }
-              <p class="mb-1"><i class="fas fa-dollar-sign mr-2"></i>${product.regularPrice}</p>
+              <p class="mb-1"><i class="fas fa-money-bill-alt mr-2"></i>${product.regularPrice}</p>
               ${
                 product.description
                   ? `<p class="mb-1 text-muted">${product.description.substring(
@@ -618,6 +619,9 @@
               });
             },
             error: function (xhr, status, error) {
+              if(xhr.responseJSON.message){
+                error = xhr.responseJSON.message;
+              }
               Swal.fire({
                 title: "Error!",
                 text: "Error deleting product: " + error,

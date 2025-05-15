@@ -1,0 +1,88 @@
+#!/usr/bin/env node
+
+const { sequelize } = require('../models');
+const fs = require('fs').promises;
+const path = require('path');
+
+// Sleep function to create delay
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Function to delete all records from all tables
+async function deleteAllRecords() {
+  try {
+    // Get all models
+    const models = Object.values(sequelize.models);
+    
+    // Delete records from each model
+    for (const model of models) {
+      await model.destroy({ where: {}, force: true });
+      console.log(`Deleted all records from ${model.name}`);
+    }
+    
+    console.log('Successfully deleted all records from all tables');
+  } catch (error) {
+    console.error('Error deleting records:', error);
+    throw error;
+  }
+}
+
+// Function to execute SQL file
+async function executeSqlFile(sqlFilePath) {
+  try {
+    const sqlContent = await fs.readFile(sqlFilePath, 'utf8');
+    await sequelize.query(sqlContent);
+    console.log(`Successfully executed SQL file: ${sqlFilePath}`);
+  } catch (error) {
+    console.error('Error executing SQL file:', error);
+    throw error;
+  }
+}
+
+// Function to get all SQL files from directory
+async function getSqlFiles(directoryPath) {
+  try {
+    const files = await fs.readdir(directoryPath);
+    return files
+      .filter(file => file.toLowerCase().endsWith('.sql'))
+      .map(file => path.join(directoryPath, file))
+      .sort(); // Sort files to ensure consistent execution order
+  } catch (error) {
+    console.error('Error reading directory:', error);
+    throw error;
+  }
+}
+
+// Main function to run the process
+async function runProcess() {
+  try {
+    // Delete all records
+    await deleteAllRecords();
+    
+    // Get all SQL files from demo directory
+    const demoDir = path.join(__dirname, '../demo');
+    const sqlFiles = await getSqlFiles(demoDir);
+    
+    if (sqlFiles.length === 0) {
+      console.log('No SQL files found in demo directory');
+      process.exit(0);
+    }
+    
+    // Execute each SQL file in sequence
+    for (const sqlFile of sqlFiles) {
+      console.log(`Executing SQL file: ${path.basename(sqlFile)}`);
+      await executeSqlFile(sqlFile);
+      // Add 100ms delay after each SQL file execution
+      await sleep(100);
+      console.log('Waiting 100ms before next execution...');
+    }
+    
+    console.log('Process completed successfully');
+    process.exit(0);
+  } catch (error) {
+    console.error('Process failed:', error);
+    process.exit(1);
+  }
+}
+
+// Run the process
+runProcess();

@@ -11,20 +11,12 @@ module.exports = {
       quotation_item_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'quotation_items',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+      
       },
       tax_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'taxes',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+       
       },
       tax_name: {
         type: Sequelize.STRING(100),

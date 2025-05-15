@@ -243,6 +243,9 @@
             $("#quotationTable").DataTable().ajax.reload();
           },
           error: function(xhr, status, error) {
+            if(xhr.responseJSON.message){
+              error = xhr.responseJSON.message;
+            }
             Swal.fire({
               title: "Error!",
               text: "Error deleting quotation: " + error,

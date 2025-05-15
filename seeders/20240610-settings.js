@@ -6,11 +6,11 @@ module.exports = {
       "settings",
       [
         {
-          software_logo: "",
-          currency: "INR",
+          software_logo: "/uploads/logo/logo.png",
+          currency: "USD",
           number_format: "US",
-          date_format: "DD-MM-YYYY",
-          application_name: "Invoice Manager",
+          date_format: "YYYY-MM-DD",
+          application_name: "BizInvoicer: Business Invoice Manager",
         },
       ],
       {}

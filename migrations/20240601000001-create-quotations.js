@@ -11,29 +11,17 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+       
       },
       client_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'clients',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+       
       },
       firm_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'firms',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+      
       },
       quotation_number: {
         type: Sequelize.STRING(50),
