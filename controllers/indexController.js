@@ -93,6 +93,7 @@ const getHome = async (req, res) => {
     applicationName,
     softwareLogo,
     currency,
+    BASE_URL: process.env.BASE_URL,
     numberFormat,
     dateFormat,
   });

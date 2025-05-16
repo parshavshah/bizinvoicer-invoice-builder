@@ -32,7 +32,6 @@ router.get("/static-dropdown", getStaticDropdown);
 
 // Public routes
 router.get("/", getHome);
-router.get("/home", getHome);
 router.get("/login", getLogin);
 router.get("/register", getRegister);
 
