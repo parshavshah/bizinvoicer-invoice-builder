@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "database-init": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "start:dev": "nodemon ./bin/www",
+    "dev": "nodemon ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
