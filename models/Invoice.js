@@ -7,15 +7,6 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'user_id',
-      references: {
-        model: 'users',
-        key: 'id'
-      }
-    },
     clientId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -93,7 +84,6 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
   });
 
   Invoice.associate = (models) => {
-    Invoice.belongsTo(models.User, { foreignKey: 'userId' });
     Invoice.belongsTo(models.Client, { foreignKey: 'clientId' });
     Invoice.belongsTo(models.Firm, { foreignKey: 'firmId' });
     Invoice.hasMany(models.InvoiceItem, { foreignKey: 'invoiceId' });

@@ -19,19 +19,17 @@
 
   <div class="content">
     <div class="container-fluid">
+
+      <% if(permissions[`${user.role}_FIRM_CREATE`]){ %>
       <!-- Add New Firm Button -->
-      <div class="row mb-4 addNewFirm" >
+      <div class="row mb-4 addNewFirm">
         <div class="col-12">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#addFirmModal"
-          >
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFirmModal">
             <i class="fas fa-plus"></i> Add New Firm
           </button>
         </div>
       </div>
+      <% } %>
 
       <!-- Firms Grid -->
       <div class="row" id="firms-container">
@@ -42,24 +40,12 @@
 </div>
 
 <!-- Add Firm Modal -->
-<div
-  class="modal fade"
-  id="addFirmModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="addFirmModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="addFirmModal" tabindex="-1" role="dialog" aria-labelledby="addFirmModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="addFirmModalLabel">Add New Firm</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -68,131 +54,59 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="firmName"
-                  >Firm Name <span class="text-danger">*</span></label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firmName"
-                  name="name"
-                  required
-                  maxlength="255"
-                />
+                <label for="firmName">Firm Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="firmName" name="name" required maxlength="255" />
               </div>
               <div class="form-group">
                 <label for="firmEmail">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="firmEmail"
-                  name="email"
-                  maxlength="255"
-                />
+                <input type="email" class="form-control" id="firmEmail" name="email" maxlength="255" />
               </div>
               <div class="form-group">
                 <label for="firmPhone">Phone</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="firmPhone"
-                  name="phone"
-                  maxlength="50"
-                />
+                <input type="tel" class="form-control" id="firmPhone" name="phone" maxlength="50" />
               </div>
               <div class="form-group">
                 <label for="firmWebsite">Website</label>
-                <input
-                  type="url"
-                  class="form-control"
-                  id="firmWebsite"
-                  name="website"
-                  maxlength="255"
-                />
+                <input type="url" class="form-control" id="firmWebsite" name="website" maxlength="255" />
               </div>
               <div class="form-group">
                 <label for="firmTaxNumber">Tax Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firmTaxNumber"
-                  name="taxNumber"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="firmTaxNumber" name="taxNumber" maxlength="100" />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="firmAddress">Address</label>
-                <textarea
-                  class="form-control"
-                  id="firmAddress"
-                  name="address"
-                  rows="2"
-                ></textarea>
+                <textarea class="form-control" id="firmAddress" name="address" rows="2"></textarea>
               </div>
               <div class="form-group">
                 <label for="firmCity">City</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firmCity"
-                  name="city"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="firmCity" name="city" maxlength="100" />
               </div>
               <div class="form-group">
                 <label for="firmState">State</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firmState"
-                  name="state"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="firmState" name="state" maxlength="100" />
               </div>
               <div class="form-group">
                 <label for="firmPostalCode">Postal Code</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firmPostalCode"
-                  name="postalCode"
-                  maxlength="20"
-                />
+                <input type="text" class="form-control" id="firmPostalCode" name="postalCode" maxlength="20" />
               </div>
               <div class="form-group">
                 <label for="firmCountry">Country</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firmCountry"
-                  name="country"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="firmCountry" name="country" maxlength="100" />
               </div>
             </div>
           </div>
           <div class="row">
-            
+
             <div class="col-md-6">
               <div class="form-group">
                 <label for="firmLogo">Logo</label>
                 <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="firmLogo"
-                    name="logo"
-                    accept="image/*"
-                  />
-                  <label class="custom-file-label" for="firmLogo"
-                    >Choose file</label
-                  >
+                  <input type="file" class="custom-file-input" id="firmLogo" name="logo" accept="image/*" />
+                  <label class="custom-file-label" for="firmLogo">Choose file</label>
                 </div>
-                <small class="form-text text-muted"
-                  >Recommended size: 200x200 pixels. Max file size: 2MB</small
-                >
+                <small class="form-text text-muted">Recommended size: 200x200 pixels. Max file size: 2MB</small>
               </div>
             </div>
           </div>
@@ -211,24 +125,12 @@
 </div>
 
 <!-- View Firm Details Modal -->
-<div
-  class="modal fade"
-  id="viewFirmModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewFirmModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="viewFirmModal" tabindex="-1" role="dialog" aria-labelledby="viewFirmModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="viewFirmModalLabel">Firm Details</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -236,13 +138,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="firm-logo mb-4 ">
-              <img
-                id="modal-firmLogo"
-                src=""
-                alt="Firm Logo"
-                class="img-fluid"
-                style="max-width: 200px; display: none"
-              />
+              <img id="modal-firmLogo" src="" alt="Firm Logo" class="img-fluid" style="max-width: 200px; display: none" />
             </div>
             <div class="firm-info">
               <h4 id="modal-firmName" class="mb-3"></h4>
@@ -298,7 +194,7 @@
               <i class="fas fa-file-invoice mr-2"></i>
               <span id="modal-firmTaxNumber"></span>
             </div>
-            
+
             <div class="info-item mb-2">
               <i class="fas fa-calendar-alt mr-2"></i>
               <span id="modal-firmCreatedAt"></span>
@@ -316,24 +212,12 @@
 </div>
 
 <!-- Edit Firm Modal -->
-<div
-  class="modal fade"
-  id="editFirmModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="editFirmModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="editFirmModal" tabindex="-1" role="dialog" aria-labelledby="editFirmModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editFirmModalLabel">Edit Firm</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -343,108 +227,46 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-firmName"
-                  >Firm Name <span class="text-danger">*</span></label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-firmName"
-                  name="name"
-                  required
-                  maxlength="255"
-                />
+                <label for="edit-firmName">Firm Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="edit-firmName" name="name" required maxlength="255" />
               </div>
               <div class="form-group">
                 <label for="edit-firmEmail">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="edit-firmEmail"
-                  name="email"
-                  maxlength="255"
-                />
+                <input type="email" class="form-control" id="edit-firmEmail" name="email" maxlength="255" />
               </div>
               <div class="form-group">
                 <label for="edit-firmPhone">Phone</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="edit-firmPhone"
-                  name="phone"
-                  maxlength="50"
-                />
+                <input type="tel" class="form-control" id="edit-firmPhone" name="phone" maxlength="50" />
               </div>
               <div class="form-group">
                 <label for="edit-firmWebsite">Website</label>
-                <input
-                  type="url"
-                  class="form-control"
-                  id="edit-firmWebsite"
-                  name="website"
-                  maxlength="255"
-                />
+                <input type="url" class="form-control" id="edit-firmWebsite" name="website" maxlength="255" />
               </div>
               <div class="form-group">
                 <label for="edit-firmTaxNumber">Tax Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-firmTaxNumber"
-                  name="taxNumber"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="edit-firmTaxNumber" name="taxNumber" maxlength="100" />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="edit-firmAddress">Address</label>
-                <textarea
-                  class="form-control"
-                  id="edit-firmAddress"
-                  name="address"
-                  rows="2"
-                ></textarea>
+                <textarea class="form-control" id="edit-firmAddress" name="address" rows="2"></textarea>
               </div>
               <div class="form-group">
                 <label for="edit-firmCity">City</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-firmCity"
-                  name="city"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="edit-firmCity" name="city" maxlength="100" />
               </div>
               <div class="form-group">
                 <label for="edit-firmState">State</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-firmState"
-                  name="state"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="edit-firmState" name="state" maxlength="100" />
               </div>
               <div class="form-group">
                 <label for="edit-firmPostalCode">Postal Code</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-firmPostalCode"
-                  name="postalCode"
-                  maxlength="20"
-                />
+                <input type="text" class="form-control" id="edit-firmPostalCode" name="postalCode" maxlength="20" />
               </div>
               <div class="form-group">
                 <label for="edit-firmCountry">Country</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-firmCountry"
-                  name="country"
-                  maxlength="100"
-                />
+                <input type="text" class="form-control" id="edit-firmCountry" name="country" maxlength="100" />
               </div>
             </div>
           </div>
@@ -453,32 +275,13 @@
               <div class="form-group">
                 <label for="edit-firmLogo">Logo</label>
                 <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="edit-firmLogo"
-                    name="logo"
-                    accept="image/*"
-                  />
-                  <label class="custom-file-label" for="edit-firmLogo"
-                    >Choose file</label
-                  >
+                  <input type="file" class="custom-file-input" id="edit-firmLogo" name="logo" accept="image/*" />
+                  <label class="custom-file-label" for="edit-firmLogo">Choose file</label>
                 </div>
-                <small class="form-text text-muted"
-                  >Recommended size: 200x200 pixels. Max file size: 2MB</small
-                >
+                <small class="form-text text-muted">Recommended size: 200x200 pixels. Max file size: 2MB</small>
                 <div id="edit-currentLogo" class="mt-2" style="display: none">
-                  <img
-                    src=""
-                    alt="Current Logo"
-                    class="img-thumbnail"
-                    style="max-height: 100px"
-                  />
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-danger ml-2"
-                    id="removeLogoBtn"
-                  >
+                  <img src="" alt="Current Logo" class="img-thumbnail" style="max-height: 100px" />
+                  <button type="button" class="btn btn-sm btn-danger ml-2" id="removeLogoBtn">
                     Remove Logo
                   </button>
                 </div>
@@ -500,9 +303,10 @@
 </div>
 
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Function to render a single firm card
     function renderFirmCard(firm) {
+
       return `
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100 shadow-sm">
@@ -514,18 +318,24 @@
                   <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu">
+                  <% if(permissions[`${user.role}_FIRM_VIEW_SINGLE`]){ %>
                   <a class="dropdown-item view-firm-details" href="#" data-firm-id="${
                     firm.id
                   }">
                     <i class="fas fa-eye mr-2"></i>View
                   </a>
+                   <% } %>
+                  <% if(permissions[`${user.role}_FIRM_UPDATE`]){ %>
                   <a class="dropdown-item edit-firm" href="#" data-firm-id="${
                     firm.id
                   }">
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_FIRM_DELETE`]){ %>
                   <div class="dropdown-divider"></div>
                   <a class="delete-firm dropdown-item text-danger" href="#" data-id="${firm.id}"><i class="fas fa-trash mr-2"></i>Delete</a>
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -548,11 +358,13 @@
             </div>
           </div>
           <div class="card-footer bg-transparent">
+            <% if(permissions[`${user.role}_FIRM_VIEW_SINGLE`]){ %>
             <button class="btn btn-primary btn-sm btn-block view-firm-details" data-firm-id="${
               firm.id
             }">
               View Details
             </button>
+            <% } %>
           </div>
         </div>
       </div>
@@ -565,7 +377,7 @@
       $.ajax({
         url: `/api/firms`,
         method: "GET",
-        success: function (firms) {
+        success: function(firms) {
           let firm = firms.filter((e) => e.id == firmId)[0];
           console.log(firm);
           // Update modal content
@@ -601,7 +413,7 @@
           // Show modal
           $("#viewFirmModal").modal("show");
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           Swal.fire({
             title: "Error!",
             text: "Error loading firm details: " + error,
@@ -612,7 +424,7 @@
     }
 
     // Handle view details click
-    $(document).on("click", ".view-firm-details", function (e) {
+    $(document).on("click", ".view-firm-details", function(e) {
       e.preventDefault();
       const firmId = $(this).data("firm-id");
       showFirmDetails(firmId);
@@ -623,7 +435,7 @@
       $.ajax({
         url: "/api/firms",
         method: "GET",
-        success: function (response) {
+        success: function(response) {
           const firmsContainer = $("#firms-container");
           firmsContainer.empty();
 
@@ -641,7 +453,7 @@
           `);
           }
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           $("#firms-container").html(`
           <div class="col-12">
             <div class="alert alert-danger">
@@ -654,7 +466,7 @@
     }
 
     // Handle Add Firm Form Submission
-    $("#saveFirmBtn").click(function () {
+    $("#saveFirmBtn").click(function() {
       const formData = new FormData($("#addFirmForm")[0]);
 
       $.ajax({
@@ -663,7 +475,7 @@
         data: formData,
         processData: false,
         contentType: false,
-        success: function (response) {
+        success: function(response) {
           $("#addFirmModal").modal("hide");
           $("#addFirmForm")[0].reset();
           $(".custom-file-label").text("Choose file");
@@ -676,12 +488,12 @@
             location.reload();
           });
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           let message = error;
-          if(xhr.status==400){
+          if (xhr.status == 400) {
             console.log(xhr.responseJSON.errors)
-            if(xhr.responseJSON.errors && xhr.responseJSON.errors.length > 0){
-              message = xhr.responseJSON.errors.map(e=>{
+            if (xhr.responseJSON.errors && xhr.responseJSON.errors.length > 0) {
+              message = xhr.responseJSON.errors.map(e => {
                 return e.msg;
               });
             }
@@ -696,7 +508,7 @@
     });
 
     // Update custom file input label
-    $(".custom-file-input").on("change", function () {
+    $(".custom-file-input").on("change", function() {
       const fileName = $(this).val().split("\\").pop();
       $(this)
         .siblings(".custom-file-label")
@@ -705,7 +517,7 @@
 
     // Function to delete firm
 
-    $(document).on('click',".delete-firm",function(e){
+    $(document).on('click', ".delete-firm", function(e) {
       e.preventDefault();
       let firmId = $(this).data('id')
       Swal.fire({
@@ -721,7 +533,7 @@
           $.ajax({
             url: `/api/firms/${firmId}`,
             method: "DELETE",
-            success: function (response) {
+            success: function(response) {
               loadFirms();
               Swal.fire({
                 title: "Success!",
@@ -731,7 +543,10 @@
                 location.reload();
               });
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
+              if(xhr.responseJSON.message){
+                error = xhr.responseJSON.message;
+              }
               Swal.fire({
                 title: "Error!",
                 text: "Error deleting firm: " + error,
@@ -748,7 +563,7 @@
       $.ajax({
         url: `/api/firms`,
         method: "GET",
-        success: function (firms) {
+        success: function(firms) {
           let firm = firms.filter((e) => e.id == firmId)[0];
 
           // Set firm ID
@@ -785,7 +600,7 @@
           // Show modal
           $("#editFirmModal").modal("show");
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           Swal.fire({
             title: "Error!",
             text: "Error loading firm details: " + error,
@@ -796,7 +611,7 @@
     }
 
     // Handle Update Firm Form Submission
-    $("#updateFirmBtn").click(function () {
+    $("#updateFirmBtn").click(function() {
       const formData = new FormData($("#editFirmForm")[0]);
       const firmId = $("#edit-firmId").val();
 
@@ -806,7 +621,7 @@
         data: formData,
         processData: false,
         contentType: false,
-        success: function (response) {
+        success: function(response) {
           $("#editFirmModal").modal("hide");
           loadFirms();
           Swal.fire({
@@ -817,7 +632,7 @@
             location.reload();
           });
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           Swal.fire({
             title: "Error!",
             text: "Error updating firm: " + error,
@@ -828,13 +643,13 @@
     });
 
     // Handle Remove Logo
-    $("#removeLogoBtn").click(function () {
+    $("#removeLogoBtn").click(function() {
       const firmId = $("#edit-firmId").val();
 
       $.ajax({
         url: `/api/firms/${firmId}/logo`,
         method: "DELETE",
-        success: function (response) {
+        success: function(response) {
           $("#edit-currentLogo").hide();
           Swal.fire({
             title: "Success!",
@@ -844,7 +659,7 @@
             location.reload();
           });
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           Swal.fire({
             title: "Error!",
             text: "Error removing logo: " + error,
@@ -855,7 +670,7 @@
     });
 
     // Handle edit firm click
-    $(document).on("click", ".edit-firm", function (e) {
+    $(document).on("click", ".edit-firm", function(e) {
       e.preventDefault();
       const firmId = $(this).data("firm-id");
       showEditFirmModal(firmId);

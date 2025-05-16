@@ -32,14 +32,13 @@ exports.createInvoice = async (req, res) => {
       items,
     } = req.body;
 
-    console.log(items)
+    console.log(items);
 
     // Start transaction
     const result = await sequelize.transaction(async (t) => {
       // Create invoice
       const invoice = await Invoice.create(
         {
-          userId: req.session.user.id,
           clientId,
           firmId,
           invoiceNumber,
@@ -149,7 +148,7 @@ exports.getInvoiceById = async (req, res) => {
     const { id } = req.params;
 
     const invoice = await Invoice.findOne({
-      where: { id: id, userId: req.session.user.id },
+      where: { id: id },
       include: [
         {
           model: InvoiceItem,
@@ -172,7 +171,7 @@ exports.getInvoiceById = async (req, res) => {
 exports.getInvoices = async (req, res) => {
   try {
     const invoices = await Invoice.findAll({
-      where: { userId: req.session.user.id },
+      where: {},
       include: [
         {
           model: InvoiceItem,
@@ -216,7 +215,6 @@ exports.updateInvoice = async (req, res) => {
     const invoice = await Invoice.findOne({
       where: {
         id,
-        userId: req.session.user.id,
       },
     });
 
@@ -244,7 +242,9 @@ exports.updateInvoice = async (req, res) => {
       await InvoiceItemTax.destroy({
         where: {
           invoiceItemId: {
-            [Op.in]: invoice.InvoiceItems ?  invoice.InvoiceItems.map((item) => item.id):[],
+            [Op.in]: invoice.InvoiceItems
+              ? invoice.InvoiceItems.map((item) => item.id)
+              : [],
           },
         },
         transaction: t,
@@ -359,7 +359,6 @@ exports.updateInvoiceStatus = async (req, res) => {
     const invoice = await Invoice.findOne({
       where: {
         id,
-        userId: req.session.user.id,
       },
     });
 
@@ -384,12 +383,9 @@ exports.updateInvoiceStatus = async (req, res) => {
 exports.deleteInvoice = async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Find invoice and check ownership
     const invoice = await Invoice.findOne({
       where: {
         id,
-        userId: req.session.user.id,
       },
     });
 

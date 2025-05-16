@@ -7,15 +7,7 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'user_id',
-      references: {
-        model: 'users',
-        key: 'id'
-      }
-    },
+    
     name: {
       type: DataTypes.STRING(100),
       allowNull: false
@@ -45,7 +37,6 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
   });
 
   Tax.associate = (models) => {
-    Tax.belongsTo(models.User, { foreignKey: 'userId' });
     Tax.hasMany(models.InvoiceItemTax, { foreignKey: 'taxId' });
   };
 

@@ -4,21 +4,23 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
+const cron = require('node-cron');
+const { spawn } = require('child_process');
 
 const dotenv = require("dotenv");
 dotenv.config();
 
 const { sequelize } = require("./models");
 
-const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 const firmRoutes = require("./routes/firmRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const productRoutes = require("./routes/productRoutes");
 const taxRoutes = require("./routes/taxRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
+const quotationRoutes = require("./routes/quotationRoutes");
 const settingRoutes = require("./routes/settingRoutes");
+const userRoutes = require("./routes/userRoutes");
 const indexRoutes = require("./routes/index");
 
 const app = express();
@@ -56,15 +58,35 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public"), { maxAge: 500000 }));
 
 // Routes
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", indexRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/users", authRoutes);
 app.use("/api/firms", firmRoutes);
 app.use("/api/clients", clientRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/taxes", taxRoutes);
 app.use("/api/invoices", invoiceRoutes);
+app.use("/api/quotations", quotationRoutes);
 app.use("/api/settings", settingRoutes);
+app.use("/api/users", userRoutes);
+
+// Configure cron job to run database cleanup every 3 hours
+cron.schedule('0 */1 * * *', () => {
+  console.log('Running database cleanup script...');
+  const scriptPath = path.join(__dirname, 'bin', 'demo');
+  
+  const child = spawn('node', [scriptPath], {
+    stdio: 'inherit',
+    shell: true
+  });
+
+  child.on('error', (error) => {
+    console.error('Failed to start database cleanup script:', error);
+  });
+
+  child.on('close', (code) => {
+    console.log(`Database cleanup script exited with code ${code}`);
+  });
+});
 
 // Error handler
 app.use((err, req, res, next) => {

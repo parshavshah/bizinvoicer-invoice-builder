@@ -25,7 +25,6 @@ exports.createClient = async (req, res) => {
     } = req.body;
 
     const client = await Client.create({
-      userId: req.session.user.id,
       name,
       contactPerson,
       email,
@@ -53,7 +52,7 @@ exports.createClient = async (req, res) => {
 exports.getClients = async (req, res) => {
   try {
     const clients = await Client.findAll({
-      where: { userId: req.session.user.id },
+      where: {},
       order: [["createdAt", "DESC"]],
     });
 
@@ -92,7 +91,6 @@ exports.updateClient = async (req, res) => {
     const client = await Client.findOne({
       where: {
         id,
-        userId: req.session.user.id,
       },
     });
 
@@ -134,7 +132,6 @@ exports.deleteClient = async (req, res) => {
     const client = await Client.findOne({
       where: {
         id,
-        userId: req.session.user.id,
       },
     });
 

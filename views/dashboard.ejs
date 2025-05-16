@@ -3,7 +3,13 @@
 <div class="content-wrapper">
   <div class="content-header">
     <div class="container-fluid">
+      
       <div class="row mb-2">
+        <div class="col-12">
+          <div class="alert alert-warning">
+            <i class="fas fa-info-circle mr-2"></i>This is a demo app. Data will be reset every hour.
+          </div>
+        </div>
         <div class="col-sm-6">
           <h1 class="m-0">Dashboard</h1>
         </div>
@@ -17,10 +23,15 @@
     </div>
   </div>
 
+  
+
   <div class="content">
     <div class="container-fluid">
       <!-- Module Counts Row -->
       <div class="row">
+        <div class="col-12">
+          
+        </div>
         <div class="col-lg-3 col-6">
           <div class="small-box bg-info">
             <div class="inner">
@@ -113,6 +124,53 @@
                       <div class="info-box-content">
                         <span class="info-box-text"><%= value %></span>
                         <span class="info-box-number"><%= invoiceStatusCounts[key] || 0 %></span>
+                      </div>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status-wise Invoice Amounts Row -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-money-bill-wave mr-1"></i>
+                Invoice Amounts by Status
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <% Object.entries(INVOICE_STATUS).forEach(([key, value]) => { %>
+                  <div class="col-md-3">
+                    <div class="info-box">
+                      <span class="info-box-icon bg-<%= 
+                        key === 'draft' ? 'secondary' :
+                        key === 'sent' ? 'primary' :
+                        key === 'paid' ? 'success' :
+                        key === 'overdue' ? 'danger' :
+                        key === 'cancelled' ? 'warning' : 'info'
+                      %>"><i class="fas fa-<%= 
+                        key === 'draft' ? 'file' :
+                        key === 'sent' ? 'paper-plane' :
+                        key === 'paid' ? 'check-circle' :
+                        key === 'overdue' ? 'exclamation-circle' :
+                        key === 'cancelled' ? 'ban' : 'file-invoice'
+                      %>"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text"><%= value %> Amount</span>
+                        <span class="info-box-number">
+                          <% 
+                            let symbol = (CURRENCY && CURRENCY[currency] && CURRENCY[currency][2]) ? CURRENCY[currency][2] : '$';
+                            let amount = invoiceStatusAmounts && invoiceStatusAmounts[key] ? invoiceStatusAmounts[key] : 0;
+                          %>
+                          <%= symbol %><%= formatNumberFn(amount,numberFormat) %>
+                        </span>
                       </div>
                     </div>
                   </div>

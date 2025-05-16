@@ -20,6 +20,7 @@
   <div class="content">
     <div class="container-fluid">
       <!-- Add New Client Button -->
+      <% if(permissions[`${user.role}_CLIENT_CREATE`]){ %>
       <div class="row mb-4">
         <div class="col-12">
           <button
@@ -32,6 +33,7 @@
           </button>
         </div>
       </div>
+      <% } %>
 
       <!-- Clients Grid -->
       <div class="row" id="clients-container">
@@ -475,21 +477,27 @@
                   <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu">
+                  <% if(permissions[`${user.role}_CLIENT_VIEW_SINGLE`]){ %>
                   <a class="dropdown-item view-client-details" href="#" data-client-id="${
                     client.id
                   }">
                     <i class="fas fa-eye mr-2"></i>View
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_CLIENT_UPDATE`]){ %>
                   <a class="dropdown-item edit-client" href="#" data-client-id="${
                     client.id
                   }">
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_CLIENT_DELETE`]){ %>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item text-danger delete-client" href="#" 
                   data-id="${client.id}">
                     <i class="fas fa-trash mr-2"></i>Delete
                   </a>
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -517,11 +525,13 @@
             </div>
           </div>
           <div class="card-footer bg-transparent">
+            <% if(permissions[`${user.role}_CLIENT_VIEW_SINGLE`]){ %>
             <button class="btn btn-primary btn-sm btn-block view-client-details" data-client-id="${
               client.id
             }">
               View Details
             </button>
+            <% } %>
           </div>
         </div>
       </div>
@@ -763,6 +773,9 @@
               });
             },
             error: function (xhr, status, error) {
+              if(xhr.responseJSON.message){
+                error = xhr.responseJSON.message;
+              }
               Swal.fire({
                 title: "Error!",
                 text: "Error deleting client: " + error,

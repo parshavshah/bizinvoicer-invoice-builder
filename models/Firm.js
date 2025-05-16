@@ -9,15 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        field: "user_id",
-        references: {
-          model: "users",
-          key: "id",
-        },
-      },
+      
       name: {
         type: DataTypes.STRING(255),
         allowNull: false,
@@ -78,7 +70,6 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Firm.associate = (models) => {
-    Firm.belongsTo(models.User, { foreignKey: "userId" });
     Firm.hasMany(models.Invoice, { foreignKey: "firmId" });
   };
 

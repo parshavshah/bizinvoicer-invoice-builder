@@ -1,3 +1,8 @@
+const USER_ROLES = {
+  ADMIN: "ADMIN",
+  MANAGER: "MANAGER",
+};
+
 const DATE_FORMATS = {
   "MM/DD/YYYY": "MM/DD/YYYY",
   "MM/DD/YYYY": "MM/DD/YYYY",
@@ -33,4 +38,42 @@ const NUMBER_FORMAT = {
   SPACE: "1 234.56 (Space)",
 };
 
-module.exports = {NUMBER_FORMAT, DATE_FORMATS, INVOICE_STATUS, CURRENCY };
+const PERMISSIONS = [
+  {
+    name: "CLIENT",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "FIRM",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "INVOICE",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "QUOTATION",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "PRODUCT",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "TAX",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
+  {
+    name: "USER",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST"],
+  },
+];
+
+module.exports = {
+  USER_ROLES,
+  NUMBER_FORMAT,
+  DATE_FORMATS,
+  INVOICE_STATUS,
+  CURRENCY,
+  PERMISSIONS,
+};

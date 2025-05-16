@@ -11,19 +11,11 @@ module.exports = {
       invoice_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'invoices',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+      
       },
       product_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: 'products',
-          key: 'id'
-        },
-        onDelete: 'SET NULL'
+       
       },
       description: {
         type: Sequelize.TEXT,
@@ -55,8 +47,6 @@ module.exports = {
       }
     });
 
-    await queryInterface.addIndex('invoice_items', ['invoice_id']);
-    await queryInterface.addIndex('invoice_items', ['product_id']);
   },
 
   down: async (queryInterface, Sequelize) => {

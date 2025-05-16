@@ -14,7 +14,9 @@
           <img src="<%= BASE_URL+softwareLogo %>" alt="" class="img-fluid" />
         </div>
         <div class="card-body">
-          <p class="login-box-msg">Register a new membership</p>
+          <p class="login-box-msg">
+            Sign in to start your session
+          </p>
 
           <form id="loginForm">
             <div class="input-group mb-3">
@@ -48,13 +50,28 @@
             <div class="row">
               <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-block">
-                  Register
+                  Login
                 </button>
               </div>
               <div class="col-12 text-center mt-2">
                 <a href="/register" class="text-center"
                   >Register for a membership</a
                 >
+              </div>
+              <div class="col-12 mt-2">
+                <table class="table table-sm">
+                  <tr>
+                    <td>Admin</td>
+                    <td>admin@gmail.com</td>
+                    <td>admin123</td>
+                  </tr>
+                  <tr>
+                    <td>Manager</td>
+                    <td>manager@gmail.com</td>
+                    <td>admin123</td>
+                  </tr>
+                </table>
+
               </div>
             </div>
           </form>
@@ -63,7 +80,22 @@
     </div>
 
     <script>
+
+      // Check for syssetup query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('syssetup') === 'done') {
+          Swal.fire({
+            title: 'System Setup Completed',
+            text: 'Initial system setup is completed. Only admin can create new users now.',
+            icon: 'info',
+            confirmButtonText: 'Ok'
+          });
+        }
+        
       $(document).ready(function () {
+
+        
+
         $("#loginForm").on("submit", function (e) {
           e.preventDefault();
           const formData = {

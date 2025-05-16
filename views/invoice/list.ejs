@@ -25,16 +25,15 @@
             <div class="card-header">
               <h3 class="card-title mt-1">Invoice List</h3>
               <div class="card-tools">
+                <% if(permissions[`${user.role}_INVOICE_CREATE`]){ %>
                 <a href="/invoice/create" class="btn btn-primary btn-sm">
                   <i class="fas fa-plus"></i> New Invoice
                 </a>
+                <% } %>
               </div>
             </div>
             <div class="card-body">
-              <table
-                id="invoiceTable"
-                class="table table-bordered table-striped"
-              >
+              <table id="invoiceTable" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>Invoice #</th>
@@ -92,7 +91,6 @@
 </div>
 
 <script>
-
   // Handle status change form submission
   $("#saveStatusBtn").click(function() {
     const invoiceId = $("#invoiceId").val();
@@ -100,14 +98,14 @@
 
     $.ajax({
       url: `/api/invoices/${invoiceId}/status`,
-      method: "PATCH", 
+      method: "PATCH",
       data: {
         status: status
       },
       success: function(response) {
         // Close modal
         $("#changeStatusModal").modal("hide");
-        
+
         // Refresh table to show updated status
         $("#invoiceTable").DataTable().ajax.reload();
 
@@ -130,14 +128,14 @@
     });
   });
 
-  $(document).on('click',".statusButton",function(e){
+  $(document).on('click', ".statusButton", function(e) {
     e.preventDefault();
     console.log($(this).data('id'))
     $("#invoiceId").val($(this).data('id'))
     $("#changeStatusModal").modal("show");
   })
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Initialize DataTable
     const table = $("#invoiceTable").DataTable({
       processing: true,
@@ -146,41 +144,42 @@
         url: "/api/invoices",
         dataSrc: "",
       },
-      columns: [
-        { data: "invoiceNumber" },
+      columns: [{
+          data: "invoiceNumber"
+        },
         {
           data: "Firm",
-          render: function (data) {
+          render: function(data) {
             return data ? data.name : "N/A";
           },
         },
         {
           data: "Client",
-          render: function (data) {
+          render: function(data) {
             return data ? data.name : "N/A";
           },
         },
         {
           data: "issueDate",
-          render: function (data) {
+          render: function(data) {
             return formatDate(data);
           },
         },
         {
           data: "dueDate",
-          render: function (data) {
+          render: function(data) {
             return formatDate(data);
           },
         },
         {
           data: "total",
-          render: function (data, type, row) {
-            return `<%= CURRENCY[currency][2] %> ${parseFloat(data).toFixed(2)}`;
+          render: function(data, type, row) {
+            return `<%= CURRENCY[currency][2] %> ${formatNumberFn(parseFloat(data),"<%= numberFormat %>")}`;
           },
         },
         {
           data: "status",
-          render: function (data, type, row) {
+          render: function(data, type, row) {
             const statusClasses = {
               draft: "badge badge-secondary",
               sent: "badge badge-info",
@@ -195,24 +194,32 @@
         },
         {
           data: "id",
-          render: function (data) {
+          render: function(data) {
             return `
             <div class="btn-group">
+              <% if(permissions[`${user.role}_INVOICE_VIEW_SINGLE`]){ %>
               <a href="/invoice/view/${data}" class="btn btn-info btn-sm">
                 <i class="fas fa-eye"></i>
               </a>
+              <% } %>
+              <% if(permissions[`${user.role}_INVOICE_UPDATE`]){ %>
               <a href="/invoice/update/${data}" class="btn btn-primary btn-sm">
                 <i class="fas fa-edit"></i>
               </a>
+              <% } %>
+              <% if(permissions[`${user.role}_INVOICE_DELETE`]){ %>
               <button type="button" class="btn btn-danger btn-sm" onclick="deleteInvoice(${data})">
                 <i class="fas fa-trash"></i>
               </button>
+              <% } %>
             </div>
           `;
           },
         },
       ],
-      order: [[2, "desc"]], // Sort by issue date by default
+      order: [
+        [2, "desc"]
+      ], // Sort by issue date by default
       pageLength: 10,
       language: {
         search: "Search invoices:",
@@ -235,10 +242,13 @@
         $.ajax({
           url: `/api/invoices/${id}`,
           method: "DELETE",
-          success: function (response) {
+          success: function(response) {
             $("#invoiceTable").DataTable().ajax.reload();
           },
-          error: function (xhr, status, error) {
+          error: function(xhr, status, error) {
+            if(xhr.responseJSON.message){
+              error = xhr.responseJSON.message;
+            }
             Swal.fire({
               title: "Error!",
               text: "Error deleting invoice: " + error,

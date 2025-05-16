@@ -1,8 +1,2 @@
-- add currency and number format in firm
-- apply number format at all places
-- apply currency at all places
-- show proper error in sweetalert
-
-
 
 npx sequelize-cli db:migrate

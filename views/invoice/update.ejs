@@ -112,21 +112,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="reference">Reference</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="reference"
-                        name="reference"
-                        maxlength="100"
-                        value="<%= invoice.reference || '' %>"
-                      />
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -327,7 +312,7 @@
       <% invoice.InvoiceItems.forEach(function(item) { %>
         addItem({
           productId: "<%= item.productId %>",
-          description: "<%= item.description %>",
+          description: `<%= item.description %>`,
           name: "<%= item.name %>",
           quantity: "<%= item.quantity %>",
           unitPrice: "<%= item.unitPrice %>",
@@ -441,9 +426,9 @@
 
       console.log(subtotal)
 
-      $("#subtotal").text(subtotal.toFixed(2));
-      $("#taxTotal").text(taxTotal.toFixed(2));
-      $("#total").text((subtotal + taxTotal).toFixed(2));
+      $("#subtotal").text(formatNumberFn(subtotal,"<%= numberFormat%>"));
+      $("#taxTotal").text(formatNumberFn(taxTotal,"<%= numberFormat%>"));
+      $("#total").text(formatNumberFn(subtotal + taxTotal,"<%= numberFormat%>"));
     }
 
     $("#addItem").click(function() {
@@ -482,7 +467,6 @@
         clientId: parseInt($("#clientId").val()),
         firmId: parseInt($("#firmId").val()),
         invoiceNumber: $("#invoiceNumber").val(),
-        reference: $("#reference").val(),
         issueDate: $("#issueDate").val(),
         dueDate: $("#dueDate").val(),
         notes: $("#notes").val(),

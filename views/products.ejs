@@ -1,4 +1,5 @@
 <%- include('partials/header'); %>
+<% const CURRENCY_ICON = CURRENCY[currency][2]; %>
 
 <div class="content-wrapper">
   <div class="content-header">
@@ -19,6 +20,7 @@
 
   <div class="content">
     <div class="container-fluid">
+      <% if(permissions[`${user.role}_PRODUCT_CREATE`]){ %>
       <!-- Add New Product Button -->
       <div class="row mb-4">
         <div class="col-12">
@@ -32,7 +34,7 @@
           </button>
         </div>
       </div>
-
+      <% } %>
       <!-- Products Grid -->
       <div class="row" id="products-container">
         <!-- Products will be rendered here -->
@@ -108,7 +110,7 @@
                 >
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text"><%= CURRENCY_ICON %></span>
                   </div>
                   <input
                     type="number"
@@ -182,7 +184,7 @@
                 <span id="modal-productUnit"></span>
               </div>
               <div class="info-item mb-2">
-                <i class="fas fa-dollar-sign mr-2"></i>
+                <i class="fas fa-money-bill-alt mr-2"></i>
                 <span id="modal-productRegularPrice"></span>
               </div>
             </div>
@@ -278,7 +280,7 @@
                 >
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text"><%= CURRENCY_ICON %></span>
                   </div>
                   <input
                     type="number"
@@ -320,7 +322,7 @@
   $(document).ready(function () {
     // Function to render a single product card
     function renderProductCard(product) {
-      product.regularPrice = parseFloat(product.regularPrice);
+      product.regularPrice = formatNumberFn(parseFloat(product.regularPrice),"<%= numberFormat %>");
 
       return `
       <div class="col-lg-4 col-md-6 mb-4">
@@ -335,22 +337,28 @@
                   <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu">
+                  <% if(permissions[`${user.role}_PRODUCT_VIEW_SINGLE`]){ %>
                   <a class="dropdown-item view-product-details" href="#" data-product-id="${
                     product.id
                   }">
                     <i class="fas fa-eye mr-2"></i>View
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_PRODUCT_UPDATE`]){ %>
                   <a class="dropdown-item edit-product" href="#" data-product-id="${
                     product.id
                   }">
                     <i class="fas fa-edit mr-2"></i>Edit
                   </a>
+                  <% } %>
+                  <% if(permissions[`${user.role}_PRODUCT_DELETE`]){ %>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item text-danger delete-product" 
                   data-id="${product.id}"
                   href="#">
                     <i class="fas fa-trash mr-2"></i>Delete
                   </a>
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -365,9 +373,7 @@
                   ? `<p class="mb-1"><i class="fas fa-box mr-2"></i>${product.unit}</p>`
                   : ""
               }
-              <p class="mb-1"><i class="fas fa-dollar-sign mr-2"></i>${product.regularPrice.toFixed(
-                2
-              )}</p>
+              <p class="mb-1"><i class="fas fa-money-bill-alt mr-2"></i>${product.regularPrice}</p>
               ${
                 product.description
                   ? `<p class="mb-1 text-muted">${product.description.substring(
@@ -379,11 +385,13 @@
             </div>
           </div>
           <div class="card-footer bg-transparent">
+            <% if(permissions[`${user.role}_PRODUCT_VIEW_SINGLE`]){ %>
             <button class="btn btn-primary btn-sm btn-block view-product-details" data-product-id="${
               product.id
             }">
               View Details
             </button>
+            <% } %>
           </div>
         </div>
       </div>
@@ -399,14 +407,14 @@
         success: function (products) {
           let product = products.filter((e) => e.id == productId)[0];
 
-          product.regularPrice = parseFloat(product.regularPrice);
+          product.regularPrice = formatNumberFn(parseFloat(product.regularPrice),"<%= numberFormat %>");
 
           // Update modal content
           $("#modal-productName").text(product.name);
           $("#modal-productSku").text(product.sku || "N/A");
           $("#modal-productUnit").text(product.unit || "N/A");
           $("#modal-productRegularPrice").text(
-            `$${product.regularPrice.toFixed(2)}`
+            `$${product.regularPrice}`
           );
           $("#modal-productDescription").text(product.description || "N/A");
           $("#modal-productCreatedAt").text(formatDate(product.createdAt));
@@ -611,6 +619,9 @@
               });
             },
             error: function (xhr, status, error) {
+              if(xhr.responseJSON.message){
+                error = xhr.responseJSON.message;
+              }
               Swal.fire({
                 title: "Error!",
                 text: "Error deleting product: " + error,

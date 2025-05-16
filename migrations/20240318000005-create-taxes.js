@@ -11,11 +11,7 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+      
       },
       name: {
         type: Sequelize.STRING(100),
@@ -38,7 +34,6 @@ module.exports = {
       }
     });
 
-    await queryInterface.addIndex('taxes', ['user_id']);
   },
 
   down: async (queryInterface, Sequelize) => {
