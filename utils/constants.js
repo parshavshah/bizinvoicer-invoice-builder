@@ -13,6 +13,14 @@ const DATE_FORMATS = {
   "MM-DD-YYYY": "MM-DD-YYYY",
 };
 
+const PAYMENT_STATUS = {
+  pending: "Pending",
+  completed: "Completed",
+  failed: "Failed",
+  cancelled: "Cancelled",
+  refunded: "Refunded",
+};
+
 const INVOICE_STATUS = {
   draft: "Draft",
   sent: "Sent",
@@ -67,6 +75,10 @@ const PERMISSIONS = [
     name: "USER",
     actions: ["CREATE", "UPDATE", "DELETE", "LIST"],
   },
+  {
+    name: "PAYMENT_METHOD",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
 ];
 
 module.exports = {
@@ -76,4 +88,5 @@ module.exports = {
   INVOICE_STATUS,
   CURRENCY,
   PERMISSIONS,
+  PAYMENT_STATUS,
 };

@@ -120,6 +120,15 @@
             </li>
             <% } %>
 
+            <% if(permissions[`${user.role}_PAYMENT_METHOD_LIST`]){ %>
+              <li class="nav-item">
+                <a href="/payment-methods" class="nav-link">
+                  <i class="nav-icon fas fa-percentage"></i>
+                  <p>Payment Method</p>
+                </a>
+              </li>
+            <% } %>
+
             <% if(permissions[`${user.role}_USER_LIST`]){ %>
             <li class="nav-item">
               <a href="/users" class="nav-link">
