@@ -42,6 +42,9 @@ router.get("/dashboard", isAuthenticated, getDashboard);
 router.get("/firms", isAuthenticated, (req, res) =>
   getResourceView(req, res, "firms")
 );
+router.get("/payment-methods", isAuthenticated, (req, res) =>
+  getResourceView(req, res, "payment-methods")
+);
 router.get("/clients", isAuthenticated, (req, res) =>
   getResourceView(req, res, "clients")
 );

@@ -21,6 +21,7 @@ const invoiceRoutes = require("./routes/invoiceRoutes");
 const quotationRoutes = require("./routes/quotationRoutes");
 const settingRoutes = require("./routes/settingRoutes");
 const userRoutes = require("./routes/userRoutes");
+const paymentMethodRoutes = require("./routes/paymentMethodRoutes");
 const indexRoutes = require("./routes/index");
 
 const app = express();
@@ -68,6 +69,7 @@ app.use("/api/taxes", taxRoutes);
 app.use("/api/invoices", invoiceRoutes);
 app.use("/api/quotations", quotationRoutes);
 app.use("/api/settings", settingRoutes);
+app.use("/api/payment-methods", paymentMethodRoutes);
 app.use("/api/users", userRoutes);
 
 // Configure cron job to run database cleanup every 3 hours
