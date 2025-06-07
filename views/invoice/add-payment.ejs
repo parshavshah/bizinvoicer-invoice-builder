@@ -1,0 +1,105 @@
+<!-- Add Payment Modal -->
+<div class="modal fade" id="addPaymentModal" tabindex="-1" role="dialog" aria-labelledby="addPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPaymentModalLabel">Add Payment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addPaymentForm">
+          <input type="hidden" id="paymentInvoiceId" name="invoiceId">
+          <div class="form-group">
+            <label for="paymentMethodId">Payment Method</label>
+            <select class="form-control" id="paymentMethodId" name="paymentMethodId" required>
+              <!-- Will be populated dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="paymentDate">Payment Date</label>
+            <input type="date" class="form-control" id="paymentDate" name="paymentDate" required>
+          </div>
+          <div class="form-group">
+            <label for="referenceNumber">Reference Number</label>
+            <input type="text" class="form-control" id="referenceNumber" name="referenceNumber">
+          </div>
+          <div class="form-group">
+            <label for="transactionId">Transaction ID</label>
+            <input type="text" class="form-control" id="transactionId" name="transactionId">
+          </div>
+          <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="savePaymentBtn">Save Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // Function to open payment modal
+  function openPaymentModal(invoiceId) {
+    $("#paymentInvoiceId").val(invoiceId);
+    // Load payment methods
+    $.get("/api/payment-methods", function(methods) {
+      const select = $("#paymentMethodId");
+      select.empty();
+      methods.forEach(method => {
+        select.append(`<option value="${method.id}">${method.name}</option>`);
+      });
+    });
+    $("#addPaymentModal").modal("show");
+  }
+
+
+  // Handle payment form submission
+  $("#savePaymentBtn").click(function() {
+    const formData = {
+      invoiceId: $("#paymentInvoiceId").val(),
+      paymentMethodId: $("#paymentMethodId").val(),
+      amount: $("#amount").val(),
+      paymentDate: $("#paymentDate").val(),
+      referenceNumber: $("#referenceNumber").val(),
+      transactionId: $("#transactionId").val(),
+      notes: $("#notes").val()
+    };
+
+    $.ajax({
+      url: `/api/invoices/${formData.invoiceId}/payments`,
+      method: "POST",
+      data: formData,
+      success: function(response) {
+        $("#addPaymentModal").modal("hide");
+        $("#invoiceTable").DataTable().ajax.reload();
+        Swal.fire({
+          title: "Success!",
+          text: "Payment added successfully",
+          icon: "success"
+        }).then((result) => {
+          window.location.reload();
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
+      error: function(xhr, status, error) {
+        Swal.fire({
+          title: "Error!",
+          text: "Error adding payment: " + (xhr.responseJSON?.message || error),
+          icon: "error"
+        });
+      }
+    });
+  });
+</script>

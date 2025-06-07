@@ -1,6 +1,10 @@
 <%- include('../partials/header'); %> 
 <% const CURRENCY_ICON = CURRENCY[currency][2]; %>
 
+
+<!-- Add Payment Modal -->
+<%- include('./add-payment'); %>
+
 <div class="content-wrapper">
   <div class="content-header">
     <div class="container-fluid">
@@ -30,6 +34,11 @@
               <div class="d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Invoice Details</h3>
                 <div>
+                  <% if(permissions[`${user.role}_PAYMENT_CREATE`]){ %>
+                    <button type="button" class="btn btn-primary" onclick="openPaymentModal(<%= invoice.id %>)">
+                      <i class="fas fa-plus"></i> Add Payment
+                    </button>
+                  <% } %>
                   <button
                     type="button"
                     class="btn btn-primary"
