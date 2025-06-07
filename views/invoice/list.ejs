@@ -197,7 +197,12 @@
         },
         {
           data: "id",
-          render: function(data) {
+          render: function(data, type, row) {
+
+            const paymentButton = ["paid", "cancelled"].indexOf(row.status) < 0 ? `<button type="button" class="btn btn-success btn-sm" onclick="openPaymentModal(${data})">
+                <i class="fas fa-money-bill"></i>
+              </button>` : "";
+
             return `
             <div class="btn-group">
               <% if(permissions[`${user.role}_INVOICE_VIEW_SINGLE`]){ %>
@@ -216,9 +221,7 @@
               </button>
               <% } %>
               <% if(permissions[`${user.role}_PAYMENT_CREATE`]){ %>
-              <button type="button" class="btn btn-success btn-sm" onclick="openPaymentModal(${data})">
-                <i class="fas fa-money-bill"></i>
-              </button>
+              ${paymentButton}
               <% } %>
             </div>
           `;
@@ -254,7 +257,7 @@
             $("#invoiceTable").DataTable().ajax.reload();
           },
           error: function(xhr, status, error) {
-            if(xhr.responseJSON.message){
+            if (xhr.responseJSON.message) {
               error = xhr.responseJSON.message;
             }
             Swal.fire({
@@ -267,7 +270,6 @@
       }
     });
   }
-  
 </script>
 
 <%- include('../partials/footer'); %>
