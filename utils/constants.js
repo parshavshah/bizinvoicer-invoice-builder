@@ -79,6 +79,10 @@ const PERMISSIONS = [
     name: "PAYMENT_METHOD",
     actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
   },
+  {
+    name: "PAYMENT",
+    actions: ["CREATE", "UPDATE", "DELETE", "LIST", "VIEW_SINGLE"],
+  },
 ];
 
 module.exports = {

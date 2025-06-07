@@ -98,6 +98,37 @@ const statusValidation = [
     .withMessage('Invalid status')
 ];
 
+const paymentValidation = [
+  body('paymentMethodId')
+    .notEmpty()
+    .withMessage('Payment method is required')
+    .isInt()
+    .withMessage('Invalid payment method ID'),
+  body('amount')
+    .notEmpty()
+    .withMessage('Amount is required')
+    .isFloat({ min: 0 })
+    .withMessage('Amount must be a positive number'),
+  body('paymentDate')
+    .notEmpty()
+    .withMessage('Payment date is required')
+    .isDate()
+    .withMessage('Invalid payment date'),
+  body('referenceNumber')
+    .optional()
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Reference number must be less than 100 characters'),
+  body('transactionId')
+    .optional()
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Transaction ID must be less than 100 characters'),
+  body('notes')
+    .optional()
+    .trim()
+];
+
 // Routes
 router.post('/', isAuthenticated, invoiceValidation, invoiceController.createInvoice);
 router.get('/', isAuthenticated, invoiceController.getInvoices);
@@ -105,5 +136,10 @@ router.get('/:id', isAuthenticated, invoiceController.getInvoiceById);
 router.put('/:id', isAuthenticated, invoiceValidation, invoiceController.updateInvoice);
 router.patch('/:id/status', isAuthenticated, statusValidation, invoiceController.updateInvoiceStatus);
 router.delete('/:id', isAuthenticated, invoiceController.deleteInvoice);
+
+// Payment routes
+router.post('/:id/payments', isAuthenticated, paymentValidation, invoiceController.addPayment);
+router.get('/:id/payments', isAuthenticated, invoiceController.getInvoicePayments);
+router.delete('/:id/payments/:paymentId', isAuthenticated, invoiceController.deletePayment);
 
 module.exports = router; 

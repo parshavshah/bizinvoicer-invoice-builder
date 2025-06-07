@@ -8,6 +8,8 @@ const {
   Firm,
   Product,
   Tax,
+  Payment,
+  PaymentMethod,
   sequelize,
 } = require("../models");
 const { Op } = require("sequelize");
@@ -421,5 +423,132 @@ exports.deleteInvoice = async (req, res) => {
   } catch (error) {
     console.error("Delete invoice error:", error);
     res.status(500).json({ message: "Error deleting invoice" });
+  }
+};
+
+// Add payment to invoice
+exports.addPayment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      paymentMethodId,
+      amount,
+      paymentDate,
+      referenceNumber,
+      transactionId,
+      notes,
+    } = req.body;
+
+    // Find invoice
+    const invoice = await Invoice.findOne({
+      where: { id },
+    });
+
+    if (!invoice) {
+      return res.status(404).json({ message: "Invoice not found" });
+    }
+
+    // Start transaction
+    const result = await sequelize.transaction(async (t) => {
+      // Create payment
+      const payment = await Payment.create(
+        {
+          invoiceId: id,
+          paymentMethodId,
+          amount,
+          paymentDate,
+          referenceNumber,
+          transactionId,
+          notes,
+          status: "completed",
+          createdBy: req.session.user.id,
+        },
+        { transaction: t }
+      );
+
+      // Update invoice status to paid if total amount matches
+      const totalPayments = await Payment.sum("amount", {
+        where: { invoiceId: id },
+        transaction: t,
+      });
+
+      if (totalPayments >= invoice.total) {
+        await invoice.update({ status: "paid" }, { transaction: t });
+      }
+
+      return payment;
+    });
+
+    res.status(201).json({
+      message: "Payment added successfully",
+      payment: result,
+    });
+  } catch (error) {
+    console.error("Add payment error:", error);
+    res.status(500).json({ message: "Error adding payment" });
+  }
+};
+
+// Get payments for an invoice
+exports.getInvoicePayments = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const payments = await Payment.findAll({
+      where: { invoiceId: id },
+      include: [
+        {
+          model: PaymentMethod,
+          as: "paymentMethod",
+        },
+      ],
+      order: [["paymentDate", "DESC"]],
+    });
+
+    res.json(payments);
+  } catch (error) {
+    console.error("Get invoice payments error:", error);
+    res.status(500).json({ message: "Error fetching invoice payments" });
+  }
+};
+
+// Delete a payment
+exports.deletePayment = async (req, res) => {
+  try {
+    const { id, paymentId } = req.params;
+
+    // Find payment
+    const payment = await Payment.findOne({
+      where: {
+        id: paymentId,
+        invoiceId: id,
+      },
+    });
+
+    if (!payment) {
+      return res.status(404).json({ message: "Payment not found" });
+    }
+
+    // Start transaction
+    await sequelize.transaction(async (t) => {
+      // Delete payment
+      await payment.destroy({ transaction: t });
+
+      // Update invoice status if needed
+      const invoice = await Invoice.findByPk(id, { transaction: t });
+      const totalPayments = await Payment.sum("amount", {
+        where: { invoiceId: id },
+        transaction: t,
+      });
+
+      if (totalPayments < invoice.total) {
+        await invoice.update({ status: "sent" }, { transaction: t });
+      }
+    });
+
+    res.json({ message: "Payment deleted successfully" });
+  } catch (error) {
+    console.error("Delete payment error:", error);
+    res.status(500).json({ message: "Error deleting payment" });
   }
 };
