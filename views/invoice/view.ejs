@@ -243,6 +243,7 @@
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th>#</th>
                         <th>Date</th>
                         <th>Method</th>
                         <th>Reference</th>
@@ -255,6 +256,11 @@
                     <tbody>
                       <% invoice.Payments.forEach(payment => { %>
                         <tr>
+                          <td><% if(permissions[`${user.role}_PAYMENT_DELETE`]){ %>
+                            <button class="btn btn-danger  delete-payment btn-xs" data-payment-id="<%= payment.id %>">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          <% } %></td>
                           <td><%= formatDate(payment.paymentDate) %></td>
                           <td><%= payment.PaymentMethod ? payment.PaymentMethod.name : 'N/A' %></td>
                           <td><%= payment.referenceNumber || 'N/A' %></td>
@@ -277,7 +283,7 @@
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th colspan="6" class="text-right">Total Paid:</th>
+                        <th colspan="7" class="text-right">Total Paid:</th>
                         <th colspan="1">
                           <%= CURRENCY_ICON %> <%= formatNumberFn(invoice.Payments.reduce((sum, payment) => 
                             sum + (payment.status === 'completed' ? parseFloat(payment.amount) : 0), 0), numberFormat) %>
@@ -300,6 +306,38 @@
   </div>
 </div>
 <script>
+
+  $(".delete-payment").click(function() {
+    const paymentId = $(this).data("payment-id");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(paymentId);
+        $.ajax({
+          url: `/api/invoices/<%= invoice.id %>/payments/${paymentId}`,
+          method: "DELETE",
+          success: function(response) {
+            console.log(response);
+            Swal.fire({
+              title: "Success!",
+              text: "Payment deleted successfully",
+              icon: "success"
+            }).then((result) => {
+              window.location.reload();
+            })
+          }
+        });
+      }
+    });
+  });
+
   $(document).ready(function () {
     $("#downloadPdf").click(function () {
       const element = document.getElementById("invoiceContent");
