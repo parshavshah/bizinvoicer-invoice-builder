@@ -87,6 +87,7 @@ const { Model } = require("sequelize"); module.exports = (sequelize, DataTypes) 
     Invoice.belongsTo(models.Client, { foreignKey: 'clientId' });
     Invoice.belongsTo(models.Firm, { foreignKey: 'firmId' });
     Invoice.hasMany(models.InvoiceItem, { foreignKey: 'invoiceId' });
+    Invoice.hasMany(models.Payment, { foreignKey: 'invoiceId' });
   };
 
   return Invoice;

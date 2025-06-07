@@ -73,7 +73,7 @@ app.use("/api/payment-methods", paymentMethodRoutes);
 app.use("/api/users", userRoutes);
 
 // Configure cron job to run database cleanup every 3 hours
-cron.schedule("0 */1 * * *", () => {
+cron.schedule("0 */6 * * *", () => {
   console.log("Running database cleanup script...");
   const scriptPath = path.join(__dirname, "bin", "demo");
 

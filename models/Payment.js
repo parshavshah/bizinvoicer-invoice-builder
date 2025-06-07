@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Payment extends Model {}
@@ -53,7 +53,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       status: {
-        type: DataTypes.ENUM("pending", "completed", "failed", "cancelled", "refunded"),
+        type: DataTypes.ENUM(
+          "pending",
+          "completed",
+          "failed",
+          "cancelled",
+          "refunded"
+        ),
         defaultValue: "completed",
       },
       createdBy: {
@@ -87,19 +93,16 @@ module.exports = (sequelize, DataTypes) => {
   Payment.associate = (models) => {
     Payment.belongsTo(models.Invoice, {
       foreignKey: "invoice_id",
-      as: "invoice",
     });
-    
+
     Payment.belongsTo(models.PaymentMethod, {
       foreignKey: "payment_method_id",
-      as: "paymentMethod",
     });
-    
+
     Payment.belongsTo(models.User, {
       foreignKey: "created_by",
-      as: "creator",
     });
   };
 
   return Payment;
-}; 
+};

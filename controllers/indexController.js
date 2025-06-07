@@ -1,7 +1,9 @@
 const {
+  PaymentMethod,
   Invoice,
   InvoiceItem,
   Setting,
+  Payment,
   InvoiceItemTax,
   QuotationItem,
   QuotationItemTax,
@@ -593,6 +595,10 @@ const getInvoiceView = async (req, res) => {
       {
         model: InvoiceItem,
         include: [InvoiceItemTax],
+      },
+      {
+        model: Payment,
+        include: [PaymentMethod],
       },
       Client,
       Firm,

@@ -13,18 +13,10 @@ module.exports = {
       invoice_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "invoices",
-          key: "id",
-        },
       },
       payment_method_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "payment_methods",
-          key: "id",
-        },
       },
       amount: {
         type: Sequelize.DECIMAL(15, 2),
@@ -59,10 +51,6 @@ module.exports = {
       created_by: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        references: {
-          model: "users",
-          key: "id",
-        },
       },
       created_at: {
         type: Sequelize.DATE,

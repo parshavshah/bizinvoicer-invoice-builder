@@ -223,6 +223,68 @@
               
             </div>
           </div>
+          <!-- Payments -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Payments</h3>
+            </div>
+            <div class="card-body">
+              <% if (invoice.Payments && invoice.Payments.length > 0) { %>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Method</th>
+                        <th>Reference</th>
+                        <th>Transaction ID</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% invoice.Payments.forEach(payment => { %>
+                        <tr>
+                          <td><%= formatDate(payment.paymentDate) %></td>
+                          <td><%= payment.PaymentMethod ? payment.PaymentMethod.name : 'N/A' %></td>
+                          <td><%= payment.referenceNumber || 'N/A' %></td>
+                          <td><%= payment.transactionId || 'N/A' %></td>
+                          <td>
+                            <span class="badge badge-<%= 
+                              payment.status === 'completed' ? 'success' : 
+                              payment.status === 'pending' ? 'warning' : 
+                              payment.status === 'failed' ? 'danger' : 
+                              payment.status === 'cancelled' ? 'secondary' : 
+                              payment.status === 'refunded' ? 'info' : 'primary' 
+                            %>">
+                              <%= payment.status.charAt(0).toUpperCase() + payment.status.slice(1) %>
+                            </span>
+                          </td>
+                          <td><%= payment.notes || 'N/A' %></td>
+                          <td><%= CURRENCY_ICON %> <%= formatNumberFn(parseFloat(payment.amount), numberFormat) %></td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="6" class="text-right">Total Paid:</th>
+                        <th colspan="1">
+                          <%= CURRENCY_ICON %> <%= formatNumberFn(invoice.Payments.reduce((sum, payment) => 
+                            sum + (payment.status === 'completed' ? parseFloat(payment.amount) : 0), 0), numberFormat) %>
+                          
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              <% } else { %>
+                <div class="alert alert-info">
+                  No payments have been recorded for this invoice.
+                </div>
+              <% } %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
