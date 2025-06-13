@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![GitHub stars](https://img.shields.io/github/stars/parshavshah/BizInvoicer?style=social)](https://github.com/parshavshah/invoicebuilder/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/parshavshah/bizinvoicer-invoice-builder?style=social)](https://github.com/parshavshah/invoicebuilder/stargazers)
 [![GitHub followers](https://img.shields.io/github/followers/parshavshah?style=social)](https://github.com/parshavshah?tab=followers)
 
 A powerful, modern, and feature-rich invoice management system built with Node.js, Express, and MySQL.
@@ -103,7 +103,12 @@ A powerful, modern, and feature-rich invoice management system built with Node.j
    npm run database-init
    ```
 
-5. **Start the application**
+5. **Add demo data (optional)**
+   ```bash
+   node ./bin/demo
+   ```
+
+6. **Start the application**
    ```bash
    npm start
    ```
