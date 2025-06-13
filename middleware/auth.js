@@ -1,3 +1,7 @@
+// MIT License
+// Copyright (c) 2025 Parshav Shah
+// See LICENSE file in the project root for full license information.
+
 /**
  * Middleware to check if user is authenticated
  */

@@ -1,3 +1,8 @@
+// MIT License
+// Copyright (c) 2025 Parshav Shah
+// See LICENSE file in the project root for full license information.
+
+
 const express = require("express");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);

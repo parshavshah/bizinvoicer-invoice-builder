@@ -2,6 +2,7 @@
   "name": "invoicebuilder",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "database-init": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "dev": "nodemon ./bin/www",

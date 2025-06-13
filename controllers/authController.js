@@ -1,3 +1,8 @@
+// MIT License
+// Copyright (c) 2025 Parshav Shah
+// See LICENSE file in the project root for full license information.
+
+
 // User controller for handling user-related operations
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");

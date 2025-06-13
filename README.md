@@ -6,8 +6,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/invoicebuilder?style=social)](https://github.com/yourusername/invoicebuilder/stargazers)
-[![GitHub followers](https://img.shields.io/github/followers/yourusername?style=social)](https://github.com/yourusername?tab=followers)
+[![GitHub stars](https://img.shields.io/github/stars/parshavshah/invoicebuilder?style=social)](https://github.com/parshavshah/invoicebuilder/stargazers)
+[![GitHub followers](https://img.shields.io/github/followers/parshavshah?style=social)](https://github.com/parshavshah?tab=followers)
 
 A powerful, modern, and feature-rich invoice management system built with Node.js, Express, and MySQL.
 
@@ -52,11 +52,39 @@ A powerful, modern, and feature-rich invoice management system built with Node.j
   - Automated tax calculations
   - Tax reporting
 
+## 📸 Screenshots
+
+<div align="center">
+  <h3>Dashboard</h3>
+  <img src="./screenshots/dashboard.png" alt="Dashboard" width="800"/>
+  
+  <h3>Firm Management</h3>
+  <img src="./screenshots/firms.png" alt="Firm Management" width="800"/>
+  
+  <h3>Client Management</h3>
+  <img src="./screenshots/clients.png" alt="Client Management" width="800"/>
+  
+  <h3>Product Management</h3>
+  <img src="./screenshots/products.png" alt="Product Management" width="800"/>
+  
+  <h3>Quotations</h3>
+  <img src="./screenshots/quotaitions.png" alt="Quotations" width="800"/>
+  <img src="./screenshots/quotation-1.png" alt="Quotation Details" width="800"/>
+  
+  <h3>Invoices</h3>
+  <img src="./screenshots/invoices.png" alt="Invoices" width="800"/>
+  <img src="./screenshots/invoice-1.png" alt="Invoice Details" width="800"/>
+  <img src="./screenshots/invoice-pdf.png" alt="Invoice PDF" width="800"/>
+  
+  <h3>Settings</h3>
+  <img src="./screenshots/settings.png" alt="Settings" width="800"/>
+</div>
+
 ## 🛠️ Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/invoicebuilder.git
+   git clone https://github.com/parshavshah/invoicebuilder.git
    cd invoicebuilder
    ```
 
@@ -79,10 +107,6 @@ A powerful, modern, and feature-rich invoice management system built with Node.j
    ```bash
    npm start
    ```
-
-## 📚 Documentation
-
-For detailed documentation, visit our [Documentation Page](./documentation/index.html)
 
 ## 🚀 Quick Start
 
@@ -108,20 +132,6 @@ For detailed documentation, visit our [Documentation Page](./documentation/index
 - XSS protection
 - CSRF protection
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📞 Support
-
-- Email: foreversolutions23@gmail.com
-- Support Hours: Monday to Friday, 11:00 AM to 6:00 PM (IST)
 
 ## ⭐ Show your support
 
@@ -129,15 +139,29 @@ Give a ⭐️ if this project helped you!
 
 ## 👥 Follow Me
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourusername)
+- GitHub: [@parshavshah](https://github.com/parshavshah)
+- LinkedIn: [Parshav Shah](https://linkedin.com/in/parshavshah)
+
+## 🙏 Credits
+
+This project is built using several amazing open-source libraries and frameworks:
+
+- [AdminLTE](https://adminlte.io/) - Admin dashboard template & UI framework
+- [SweetAlert2](https://sweetalert2.github.io/) - Beautiful, responsive, customizable replacement for JavaScript's popup boxes
+- [Sequelize](https://sequelize.org/) - Promise-based Node.js ORM
+- [Express.js](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
+- [MySQL](https://www.mysql.com/) - Open-source relational database management system
+- [Node.js](https://nodejs.org/) - JavaScript runtime built on Chrome's V8 JavaScript engine
+
+Special thanks to all the contributors and maintainers of these amazing projects!
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details.
+
 
 ---
 
 <div align="center">
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [Parshav Shah](https://github.com/parshavshah)
 </div>

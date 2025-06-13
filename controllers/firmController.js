@@ -1,3 +1,8 @@
+// MIT License
+// Copyright (c) 2025 Parshav Shah
+// See LICENSE file in the project root for full license information.
+
+
 // Firm controller for handling company/firm-related operations
 const { validationResult } = require("express-validator");
 const { Firm, Invoice } = require("../models");

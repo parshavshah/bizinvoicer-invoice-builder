@@ -1,3 +1,8 @@
+// MIT License
+// Copyright (c) 2025 Parshav Shah
+// See LICENSE file in the project root for full license information.
+
+
 // Invoice controller for handling invoice-related operations
 const { validationResult } = require("express-validator");
 const {

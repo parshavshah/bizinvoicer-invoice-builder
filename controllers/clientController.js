@@ -1,3 +1,8 @@
+// MIT License
+// Copyright (c) 2025 Parshav Shah
+// See LICENSE file in the project root for full license information.
+
+
 const { validationResult } = require("express-validator");
 const { Client, Invoice } = require("../models");
 
