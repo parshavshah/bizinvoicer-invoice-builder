@@ -1,3 +1,6 @@
 node_modules
-public
+public/**/*.*map
+public/**/*.*svg
+public/**/*.*woff
+public/**/*.*txt
 .env
