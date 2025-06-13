@@ -18,31 +18,37 @@ A powerful, modern, and feature-rich invoice management system built with Node.j
 ## ✨ Features
 
 - 🔐 **Secure Authentication & Authorization**
+
   - Role-based access control
   - Session management
   - Secure login system
 
 - 🏢 **Firm Management**
+
   - Multiple business profiles
   - Custom branding options
   - Professional business details
 
 - 👥 **Client Management**
+
   - Comprehensive client database
   - Client history tracking
   - Interaction management
 
 - 📦 **Product Management**
+
   - Product catalog
   - Dynamic pricing
   - Inventory tracking
 
 - 📄 **Invoice Generation**
+
   - Professional PDF invoices
   - Customizable templates
   - Real-time status tracking
 
 - 💰 **Quotation System**
+
   - Create detailed quotations
   - Convert to invoices
   - Track quotation status
@@ -83,27 +89,32 @@ A powerful, modern, and feature-rich invoice management system built with Node.j
 ## 🛠️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/parshavshah/invoicebuilder.git
    cd invoicebuilder
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Configure environment**
+
    - Copy `.env.example` to `.env`
    - Update database credentials
    - Set your session secret
 
 4. **Initialize database**
+
    ```bash
    npm run database-init
    ```
 
 5. **Add demo data (optional)**
+
    ```bash
    node ./bin/demo
    ```
@@ -137,7 +148,6 @@ A powerful, modern, and feature-rich invoice management system built with Node.j
 - XSS protection
 - CSRF protection
 
-
 ## ⭐ Show your support
 
 Give a ⭐️ if this project helped you!
@@ -163,7 +173,6 @@ Special thanks to all the contributors and maintainers of these amazing projects
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details.
-
 
 ---
 
