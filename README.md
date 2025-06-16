@@ -155,7 +155,7 @@ Give a ⭐️ if this project helped you!
 ## 👥 Follow Me
 
 - GitHub: [@parshavshah](https://github.com/parshavshah)
-- LinkedIn: [Parshav Shah](https://linkedin.com/in/parshavshah)
+- LinkedIn: [Parshav Shah](https://linkedin.com/in/parshav-shah-serverless)
 
 ## 🙏 Credits
 
